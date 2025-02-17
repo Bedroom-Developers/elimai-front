@@ -2,8 +2,7 @@
 import { AuthProtectedButton } from '@/features';
 import { Link as IntlLink, usePathname, useRouter } from '@/i18n/routing';
 import { useAuth } from '@/shared/context';
-import { AuthStatusView } from '@/widgets/AuthStatusView';
-import { LocaleSwitcher } from '@/widgets/LocaleSwitcher';
+import { AuthStatusView, LocaleSwitcher } from '@/widgets';
 import { AppShell, Box, Burger, Flex, Group, Image, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { clsx } from 'clsx';
@@ -92,7 +91,7 @@ const links =
     ]
 
 const Links = () => {
-    return <Flex wrap={'wrap'} gap={{ xs: 5, sm: 10 }} justify={'center'} align={'center'} py={40} >
+    return <Flex wrap={'wrap'} gap={{ xs: 5, sm: 10 }} justify={'center'} align={'center'} pb={10} >
         {links.map(link =>
             <Link key={link.href} style={{
                 position: 'relative',

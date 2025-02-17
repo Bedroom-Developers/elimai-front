@@ -32,8 +32,6 @@ export const EditGameForm = ({ game, close }: { game: Game, close: () => void })
 
     });
     const onSubmit: SubmitHandler<Game> = (data) => {
-        console.log(data)
-        console.log(dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"))
         mutate({ ...data, event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss") })
     };
 

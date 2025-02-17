@@ -1,4 +1,4 @@
-import { QRScanner } from "@/features/QRScanner";
+import { QRScanner } from "@/features";
 import { Image, Stack } from "@mantine/core";
 
 export default function Page() {

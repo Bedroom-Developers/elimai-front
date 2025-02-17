@@ -1,5 +1,5 @@
 'use client'
-import { AuthProtectedButton } from "@/features/AuthProtectedBtn";
+import { AuthProtectedButton } from "@/features";
 import { Alert, Button, ButtonProps, Modal, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { AlertTriangle } from "lucide-react";

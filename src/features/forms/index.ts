@@ -1,4 +1,4 @@
-
+export { BuyTicketForm } from './BuyTicketForm';
 
 export { AddGameForm } from './AddGameForm';
 export { AdminLoginForm } from './AdminLoginForm';

@@ -7,7 +7,6 @@ import { showErrorNotification } from "@/shared/notifications";
 import { Box, Button, Group, LoadingOverlay, Stack, Table, Title } from "@mantine/core";
 import { deleteCookie } from "cookies-next";
 import dayjs from "dayjs";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
 export const AdminGamesTable = () => {
@@ -36,10 +35,6 @@ export const AdminGamesTable = () => {
             <Table.Td ta={'center'}>
                 {element.status}
             </Table.Td>
-            <Table.Td ta={'center'}>
-                <Button href={`/admin/qr/${element.id}`} variant="outline" component={Link}>QR</Button>
-            </Table.Td>
-
             <Table.Td ta={'center'}>
                 <CreateAdminTicketBtn game={element} />
             </Table.Td>
@@ -74,7 +69,6 @@ export const AdminGamesTable = () => {
                             <Table.Th ta={'center'}>Противник RU</Table.Th>
                             <Table.Th ta={'center'}>Противник KZ</Table.Th>
                             <Table.Th ta={'center'}>Статус</Table.Th>
-                            <Table.Th ta={'center'}>QR сканер</Table.Th>
                             <Table.Th ta={'center'}>Создать билет</Table.Th>
                             <Table.Th ta={'center'}>Изменить</Table.Th>
                             <Table.Th ta={'center'}>Удалить</Table.Th>
@@ -99,7 +93,7 @@ const CreateAdminTicketBtn = ({ game }: { game: Game }) => {
         }
     })
 
-    return <Button loading={isLoading} onClick={() => create({ data: { order: '000001', event: game.id, email: 'admin', telephone: 'admin', will_deactivate_at: dayjs(game.event_date).format("YYYY-MM-DD"), status: 'Active', psign: 'none', code: Date.now() } })}>
+    return <Button loading={isLoading} onClick={() => create({ data: { order: '000001', event: game.id, email: 'admin', telephone: 'admin', will_deactivate_at: dayjs(game.event_date).format("YYYY-MM-DD"), status: 'Active', psign: 'none', code: 'ticket-' + Date.now() } })}>
         Создать билет
     </Button>
 
@@ -108,7 +102,6 @@ const CreateAdminTicketBtn = ({ game }: { game: Game }) => {
 const GetExcelTicketBtn = ({ game }: { game: Game }) => {
     const { mutate: getExcel, isLoading, isError } = useMutation({
         mutationKey: [`excel ${game.id}`], mutationFn: rGetGameExcel, onSuccess: (data) => {
-            console.log(data)
             const url = window.URL.createObjectURL(data);
             const a = document.createElement("a");
             a.href = url;
@@ -132,7 +125,6 @@ const GetExcelTicketBtn = ({ game }: { game: Game }) => {
 const GetExcelSubBtn = () => {
     const { mutate: getExcel, isLoading, isError } = useMutation({
         mutationKey: [`excel sub`], mutationFn: rGetSubExcel, onSuccess: (data) => {
-            console.log(data)
             const url = window.URL.createObjectURL(data);
             const a = document.createElement("a");
             a.href = url;
@@ -164,7 +156,7 @@ const CreateAdminSubBtn = () => {
         }
     })
 
-    return <Button variant="alert" loading={isLoading} onClick={() => create({ data: { order: '000001', event: '0', email: 'admin', telephone: 'admin', will_deactivate_at: dayjs(new Date()).format("YYYY-MM-DD"), status: 'Active', psign: 'none', code: Date.now() } })}>
+    return <Button variant="alert" loading={isLoading} onClick={() => create({ data: { order: '000001', event: '0', email: 'admin', telephone: 'admin', will_deactivate_at: dayjs(new Date()).format("YYYY-MM-DD"), status: 'Active', psign: 'none', code: 'aboniment-' + Date.now() } })}>
         Создать Абонемент
     </Button>
 

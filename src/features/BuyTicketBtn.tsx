@@ -1,6 +1,6 @@
 'use client'
-import { AuthProtectedButton } from "@/features/AuthProtectedBtn";
-import { BuyTicketForm } from "@/features/forms/BuyTicketForm";
+import { AuthProtectedButton } from "@/features";
+import { BuyTicketForm } from "@/features/forms";
 import { rGetTicketsCount } from "@/shared/api/games";
 import { ButtonProps, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";

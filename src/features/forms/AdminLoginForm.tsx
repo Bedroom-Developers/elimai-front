@@ -16,7 +16,6 @@ export const AdminLoginForm = () => {
         mutationKey: ["login"],
         mutationFn: rLogin,
         onSuccess: (data) => {
-            console.log(data)
             setCookie('access', data.access)
             setCookie('refresh', data.refresh)
             router.replace('/admin')
@@ -28,7 +27,6 @@ export const AdminLoginForm = () => {
     });
 
     const onSubmit = (data: { email: string; password: string }) => {
-        console.log(data)
         mutate(data);
         deleteCookie("token");
     };

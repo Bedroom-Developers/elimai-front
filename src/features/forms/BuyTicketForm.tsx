@@ -1,5 +1,5 @@
 'use client'
-import { SelectTicketCount } from "@/features/SelectTicketCount";
+import { SelectTicketCount } from "@/features";
 import { rBuyTicket, rGetTicketsCount } from "@/shared/api/games";
 import { showErrorNotification } from "@/shared/notifications";
 import { Box, Button, Input, Stack, Text } from "@mantine/core";
@@ -26,7 +26,6 @@ export const BuyTicketForm = ({ gameId, count }: { gameId: number, count: number
         mutationFn: rBuyTicket,
         onSuccess: (data) => {
             const { url } = JSON.parse(data)
-            console.log(data)
             router.push(url)
         },
         onError: (e) => {

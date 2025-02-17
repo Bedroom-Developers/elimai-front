@@ -11,10 +11,7 @@ async function adminMiddleware(req: NextRequest) {
     if (!token) {
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
-    const isAdmin = await rIsAdmin(token.value).catch(e => {
-        console.log(e.status, "STATUS")
-        return NextResponse.redirect(new URL(`/ru/login`, req.url))
-    })
+    const isAdmin = await rIsAdmin(token.value)
     if (!isAdmin && pathname == '/admin') {
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }

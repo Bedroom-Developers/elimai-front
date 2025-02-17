@@ -68,11 +68,9 @@ const Form = () => {
         mutationFn: rBuyTicket,
         onSuccess: (data) => {
             const { url } = JSON.parse(data)
-            console.log(data)
             router.push(url)
         },
         onError: (e: { message: string, status: number }) => {
-            console.log(e.status, "STATUS")
             switch (e.status) {
                 case 409:
                     showErrorNotification({ title: t('errors.sub.409.title'), message: t('errors.sub.409.description') })

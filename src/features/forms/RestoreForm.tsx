@@ -35,7 +35,6 @@ export const RestoreForm = () => {
     });
 
     const onRestoreFormSubmit = (data: RestoreDto) => {
-        console.log(data)
         sendCode({ email: data.email, type: 'restore' });
     };
     const {

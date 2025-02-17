@@ -1,6 +1,6 @@
 'use client'
 import { Ticket } from "@/shared/types";
-import { Center, Loader } from "@mantine/core";
+import { Box, Skeleton } from "@mantine/core";
 import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import QrCode from "qrcode";
@@ -110,8 +110,8 @@ export const TicketsView = ({ type, tickets }: TicketsViewProps) => {
                             ctx.fillText(timeStr, width / 2, idx * height + height / 2 + 170);
                         };
 
-                        setLoading(false)
                         image.src = '/4.PNG';
+                        setLoading(false)
                     };
                 });
             })
@@ -119,20 +119,20 @@ export const TicketsView = ({ type, tickets }: TicketsViewProps) => {
         }
         type == 'ticket' ? showTickets() : showSub()
     }, []);
-    console.log(loading, type)
-
-    return <>
-        {loading && <Center mih={200}> <Loader /></Center>}
+    return <Box style={{ position: 'relative' }} mb={350 * tickets.length * RATIO}>
+        <Skeleton style={{ position: 'absolute', inset: 0, zIndex: loading ? 1 : -1 }} width={350} height={350 * tickets.length * RATIO} mx={'auto'} />
         <canvas
             ref={canvasRef}
             width={350}
             height={350 * tickets.length * RATIO}
             style={{
                 width: 350,
-                opacity: loading ? 0 : 1,
-                margin: '0 auto'
+                zIndex: loading ? -1 : 1,
+                margin: '0 auto',
+                position: 'absolute',
+                inset: 0
             }}
         />
-    </>
+    </Box>
 
 }

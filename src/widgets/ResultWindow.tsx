@@ -7,11 +7,10 @@ import { useTranslations } from "next-intl"
 import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import { DownloadBtn } from "@/features"
-import { BuyTicketBtn } from "@/features/BuyTicketBtn"
+import { BuyTicketBtn, DownloadBtn } from "@/features"
 import { rGetSub, rGetTickets } from "@/shared/api/games"
 import { Ticket } from "@/shared/types"
-import { TicketsView } from "@/widgets/TicketsView"
+import { TicketsView } from "@/widgets"
 import { useQuery } from "react-query"
 
 export const ResultWindow = () => {

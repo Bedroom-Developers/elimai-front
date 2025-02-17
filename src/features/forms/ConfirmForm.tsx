@@ -42,7 +42,6 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
 
 
     const verify = () => {
-        console.log(mode, "MODE")
         switch (mode) {
             case 'register': register({ ...userData, code: otp })
                 break;
@@ -56,9 +55,9 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
             value={otp}
             onChange={setOtp}
             numInputs={6}
-            inputStyle={{ width: '100%', height: 45, }}
-            containerStyle={{ width: '100%', height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            renderSeparator={<span style={{ width: 20, height: 10 }} />}
+            inputStyle={{ width: '100%', height: 40, }}
+            containerStyle={{ width: '100%', height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 5px' }}
+            renderSeparator={<span style={{ width: 10, height: 10 }} />}
             renderInput={(props) => <input  {...props} />}
         />
         <OtpTimer mode={mode} email={userData.email} />
