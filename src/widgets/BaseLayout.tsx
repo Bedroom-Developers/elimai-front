@@ -44,7 +44,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
                         </Group>
                         <Group>
                             <LocaleSwitcher />
-                            <AuthStatusView visibleFrom='lg' />
+                            <AuthStatusView />
                         </Group>
                     </Group>
                 </Group>
@@ -61,7 +61,6 @@ export function BaseLayout({ children }: { children: ReactNode }) {
                         <Link href={'/admin'} className={clsx(classes.control)}>Админ-панель</Link>}
 
                 </Box>
-                <AuthStatusView />
             </AppShell.Navbar>
 
 

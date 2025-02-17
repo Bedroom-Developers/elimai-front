@@ -1,54 +1,38 @@
 'use client';
 
-import { usePathname, useRouter } from '@/i18n/routing';
-import { Select } from '@mantine/core';
-import { useParams } from 'next/navigation';
-import { useTransition } from 'react';
+import { Select } from "@mantine/core";
+import { useLocale } from "next-intl";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
-type Props = {
-    defaultValue: string;
-    locales: readonly ["kz", "ru"]
-};
 
-export default function LocaleSwitcherSelect({
-    defaultValue,
-    locales,
-}: Props) {
+export default function LocaleSwitcherSelect() {
     const router = useRouter();
-    const [isPending, startTransition] = useTransition();
     const pathname = usePathname();
     const params = useParams();
+    const locale = useLocale()
 
-    function onSelectChange(value: string) {
-        const nextLocale = value
-        startTransition(() => {
-            router.replace(
-                // @ts-expect-error -- TypeScript will validate that only known `params`
-                // are used in combination with a given `pathname`. Since the two will
-                // always match for the current route, we can skip runtime checks.
-                { pathname, params },
-                { locale: nextLocale }
-            );
-        });
+    function onSelectChange(value: string | null) {
+        const nextLocale = value == 'Рус' ? 'ru' : 'kz'
+        const nextPath = pathname.replace(`/${nextLocale == 'ru' ? 'kz' : 'ru'}`, nextLocale)
+        console.log(nextPath)
+        router.replace(nextPath);
     }
-
     return (
         <Select
-            w={100}
+            w={80}
             checkIconPosition='right'
             styles={{
                 input: {
-                    fontSize: '18px', // Change font size of the input field
+                    fontSize: '16px', // Change font size of the input field
                 },
                 option: {
-                    fontSize: "18px"
+                    fontSize: "16px"
                 }
             }}
-            data={locales}
-            defaultValue={defaultValue}
+            data={['Рус', 'Каз']}
+            defaultValue={locale == 'ru' ? 'Рус' : "Каз"}
             comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
-            disabled={isPending}
-            onChange={(value) => onSelectChange(value as string)}
+            onChange={(value) => onSelectChange(value)}
 
         />
     );
