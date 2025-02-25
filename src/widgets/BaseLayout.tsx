@@ -4,7 +4,7 @@ import { Link as IntlLink, usePathname, useRouter } from '@/i18n/routing';
 import { useAuth } from '@/shared/context';
 import { AuthStatusView, LocaleSwitcher } from '@/widgets';
 import { AppShell, Box, Burger, Flex, Group, Image, Stack, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -21,16 +21,18 @@ export function BaseLayout({ children }: { children: ReactNode }) {
         close()
 
     }, [path])
+
+    const matches = useMediaQuery('(min-width: 21.875em)')
     return (
         <AppShell
             header={{ height: 60 }}
             navbar={{ width: 300, breakpoint: 'lg', collapsed: { desktop: true, mobile: !opened } }}
         >
             <AppShell.Header >
-                <Group w={'100vw'} h="100%" pl={10} pr={20} >
+                <Group w={'100vw'} h="100%" gap={4} pl={10} pr={{ xs: 4, lg: 20 }} wrap='nowrap'  >
                     <Burger opened={opened} onClick={toggle} hiddenFrom="lg" size="sm" />
-                    <Group justify="space-between" style={{ flex: 1 }}>
-                        <Image src='/logonew.png' width={50} height={50} alt='e-logo' />
+                    <Group justify={matches ? 'space-between' : 'center'} style={{ flex: 1 }}>
+                        <Image visibleFrom='sm' src='/logonew.png' width={50} height={50} alt='e-logo' />
                         <Group ml="xl" gap={0} visibleFrom="lg" align='flex-end'>
                             <IntlLink href={'https://fcelimai.kz'} target='_blank' className={classes.control}>{t('header.fcelimai')}</IntlLink>
                             <IntlLink href={'/'} className={clsx(classes.control, path == '/' && classes.active)}>{t('header.main')}</IntlLink>
