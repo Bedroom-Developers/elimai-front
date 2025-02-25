@@ -13,8 +13,7 @@ export default function LocaleSwitcherSelect() {
 
     function onSelectChange(value: string | null) {
         const nextLocale = value == 'Рус' ? 'ru' : 'kz'
-        const nextPath = pathname.replace(`/${nextLocale == 'ru' ? 'kz' : 'ru'}`, nextLocale)
-        console.log(nextPath)
+        const nextPath = pathname.replace(`/${nextLocale == 'ru' ? 'kz' : 'ru'}`, '/' + nextLocale)
         router.replace(nextPath);
     }
     return (

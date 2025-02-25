@@ -119,7 +119,8 @@ const Form = () => {
             <Button
                 loading={mutateLoading || isLoading}
                 variant="base"
-                disabled={mutateLoading || isLoading || count == 0}
+                disabled
+                // disabled={mutateLoading || isLoading || count == 0}
                 type="submit" >{t('buy.form.btn')}</Button>
         </Stack>
     </form>
