@@ -18,3 +18,13 @@
     text-decoration-thickness: 2px;
 
 }
+
+.nav {
+    justify-content: space-between;
+}
+
+@media(max-width:21.875em) {
+    .nav {
+        justify-content: center;
+    }
+}

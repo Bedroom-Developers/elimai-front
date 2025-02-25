@@ -3,7 +3,7 @@ import { AuthProtectedButton, BuyTicketBtn } from "@/features";
 import { useRouter } from "@/i18n/routing";
 import { rGetGames } from "@/shared/api/games";
 import { Game, GameStatus } from "@/shared/consts";
-import { SoldInfoView } from "@/widgets";
+import { SoldInfoView } from "@/widgets/SoldInfoView";
 import { Alert, Box, ButtonProps, Center, Group, LoadingOverlay, Stack, Table, Tabs, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 import { AlertTriangle, CircleX } from "lucide-react";
@@ -32,14 +32,14 @@ export const GamesTable = () => {
         return <Box w={'100%'} h={250} pos='relative'><LoadingOverlay loaderProps={{ color: 'elimai.6' }} visible={isLoading} zIndex={1} /></Box>
     }
     if (!games) {
-        return <Center px={{ xs: 10, md: 0 }} h={250} maw={1200} mx={'auto'}><Alert
+        return <Center px={{ xs: 10, lg: 0 }} h={250} maw={1200} mx={'auto'}><Alert
             icon={<CircleX />}
             variant="filled" color="red.4" my={20} title={t('gamesTable.error.title')}
         >
             {t('gamesTable.error.desc')}
         </Alert></Center>
     }
-    if (games.length == 0) return <Center px={{ xs: 10, md: 0 }} h={250} maw={1200} mx={'auto'}><Alert
+    if (games.length == 0) return <Center px={{ xs: 10, lg: 0 }} h={250} maw={1200} mx={'auto'}><Alert
         icon={<AlertTriangle />} variant="filled" color="elimai.4" my={20} title={t('gamesTable.notFound.title')}
     >
         {t('gamesTable.notFound.desc')}
@@ -51,7 +51,7 @@ export const GamesTable = () => {
                 <AuthProtectedButton<ButtonProps>
                     label={t('buy.subBtn')}
                     variant="alert"
-                    btnProps={{ w: { sm: '100%', md: 'auto' } }}
+                    btnProps={{ w: { xs: '100%', md: 'auto' } }}
                     action={() => {
                         router.push('/subscription')
                     }}
