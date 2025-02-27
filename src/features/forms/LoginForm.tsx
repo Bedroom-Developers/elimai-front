@@ -3,11 +3,11 @@
 import { Link } from "@/i18n/routing";
 import { rLogin } from "@/shared/api/auth";
 import { rGetGames } from "@/shared/api/games";
-import { GameStatus } from "@/shared/consts";
 import { useAuth } from "@/shared/context";
 import { showErrorNotification } from "@/shared/notifications";
 import { Button, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
 import { deleteCookie, setCookie } from "cookies-next/client";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -37,7 +37,12 @@ export const LoginForm = () => {
                 case 'volunteer':
                     setGetLoading(true)
                     rGetGames().then(games => {
-                        const active = games.find(game => game.status == GameStatus[0])
+                        const active = games.find(game => {
+                            if (dayjs(game.event_date).get('date') == dayjs().get('date') && dayjs(game.event_date).get('month') == dayjs().get('month')) {
+                                return true
+                            }
+                            return false
+                        })
                         if (active) {
                             router.replace(`/admin/qr/${active.id}`)
                         } else {
