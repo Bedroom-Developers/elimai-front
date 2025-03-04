@@ -1,5 +1,5 @@
 import { revalidateToken } from "@/shared/api/auth";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 export const backendUrl = process.env.NEXT_PUBLIC_BACKENDURL;
 interface CRequest {
     path: string;
@@ -84,6 +84,9 @@ export async function customFetch<T>({ returnType = "json", ...params }: CReques
             return handleResponse(response);
         } else {
             console.log("Refresh Failed")
+            deleteCookie('access')
+            deleteCookie('email')
+            deleteCookie('refresh')
             throw {
                 message: response.statusText,
                 status: response.status,
