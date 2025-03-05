@@ -4,6 +4,7 @@ import { rBuyTicket, rGetSubscriptionCount } from "@/shared/api/games"
 import { useAuth } from "@/shared/context"
 import { showErrorNotification } from "@/shared/notifications"
 import { Alert, Box, Button, Group, Input, Skeleton, Stack, Text } from "@mantine/core"
+import { getCookie } from "cookies-next"
 import { AlertTriangle } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useParams } from "next/navigation"
@@ -90,7 +91,7 @@ const Form = () => {
         <Text c="slate.6">{t('buy.subCount', { count })} </Text>
 
     const onSubmit: SubmitHandler<{ tel: string }> = (data) => {
-        // mutate({ data: { TELEPHONE: data.tel.replace(/[()\s-]/g, ""), EMAIL: getCookie('email'), COUNT: 1, EVENT_ID: 1, LOCALE: locale as string, TYPE: 'Aboniment' } })
+        mutate({ data: { TELEPHONE: data.tel.replace(/[()\s-]/g, ""), EMAIL: getCookie('email'), COUNT: 1, EVENT_ID: 1, LOCALE: locale as string, TYPE: 'Aboniment' } })
 
     };
     return <form onSubmit={handleSubmit(onSubmit)}>
@@ -118,8 +119,7 @@ const Form = () => {
             <Button
                 loading={mutateLoading || isLoading}
                 variant="base"
-                disabled
-                // disabled={mutateLoading || isLoading || count == 0}
+                disabled={mutateLoading || isLoading || count == 0}
                 type="submit" >{t('buy.form.btn')}</Button>
         </Stack>
     </form>
