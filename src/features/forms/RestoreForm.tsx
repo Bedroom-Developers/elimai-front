@@ -22,15 +22,10 @@ export const RestoreForm = () => {
         mutationFn: rSendCode,
         onSuccess: (data) => {
             setShowConfirm(true)
-            // setCookie('token', data.token, { maxAge: 60 * 60 })
-            // router.replace('/admin')
         },
         onError: (e: { status: number }) => {
-            if (e.status >= 400 && e.status < 500) {
-                showErrorNotification({ title: t('errors.auth.alreadyExists.title'), message: t('errors.auth.alreadyExists.message') });
-            } else {
-                showErrorNotification({ title: t('errors.auth.code.title'), message: t('errors.auth.code.message') });
-            }
+            showErrorNotification({ title: t('errors.auth.code.title'), message: t('errors.auth.code.message') });
+
         }
     });
 

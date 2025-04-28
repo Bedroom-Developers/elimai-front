@@ -41,7 +41,7 @@ export const rIsAdmin = async (token: string) => {
     }
 }
 export const rSendCode = (body: { email: string, type: string }) => {
-    return customFetch({ method: "POST", path: 'send-code/', body: { json: body } })
+    return customFetch({ method: "POST", path: 'send-code/', body: { json: body }, query: { type: body.type } })
 }
 export const rVerifyCode = (data: {
     email: string,
