@@ -1,5 +1,4 @@
-import {withSentryConfig} from '@sentry/nextjs';
-import createNextIntlPlugin from 'next-intl/plugin'
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin()
 
@@ -8,15 +7,5 @@ const nextConfig = {
     reactStrictMode: false,
     output: 'standalone'
 }
-export default withSentryConfig(withNextIntl(nextConfig), {
-    org: "bedroom-developers",
-    project: process.env.SENTRY_PROJECT,
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    reactComponentAnnotation: {
-        enabled: true,
-    },
-    disableLogger: true,
+export default withNextIntl(nextConfig)
 
-    automaticVercelMonitors: true,
-});
