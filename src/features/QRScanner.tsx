@@ -78,7 +78,6 @@ export const QRScanner = () => {
     }
     const code = result[0].rawValue;
     const type = code.split("-")[0];
-    setCode(code);
 
     try {
       switch (type) {
@@ -113,7 +112,7 @@ export const QRScanner = () => {
         <Stack align="center">
           <Scanner
             allowMultiple
-            scanDelay={5000}
+            scanDelay={2000}
             onScan={onScan}
             paused={paused}
           />

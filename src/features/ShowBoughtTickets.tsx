@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useQuery } from "react-query";
 import { AuthProtectedButton } from "./AuthProtectedBtn";
 export const ShowBoughtTickets = () => {
+  const [opened, { open, close }] = useDisclosure(false);
   const {
     data: tickets,
     isLoading,
@@ -22,8 +23,8 @@ export const ShowBoughtTickets = () => {
     queryFn: async () => {
       return rGetTicketsByUser();
     },
+    enabled: opened,
   });
-  const [opened, { open, close }] = useDisclosure(false);
   const t = useTranslations("gamesTable");
   return (
     <>
@@ -32,15 +33,15 @@ export const ShowBoughtTickets = () => {
         size={"lg"}
         opened={opened}
         onClose={close}
-        title={t("buyedTickets")}
+        title={t("myTickets")}
       >
         {tickets && <TicketsView type="ticket" tickets={tickets} mb={0} />}
       </Modal>
       <AuthProtectedButton
-        btnProps={{ ["data-id"]: "showBtn" }}
+        btnProps={{ w: { xs: "100%", md: "auto" } }}
         disabled={false}
         variant={"base"}
-        label={t("tickets")}
+        label={t("myTickets")}
         action={open}
       />
     </>

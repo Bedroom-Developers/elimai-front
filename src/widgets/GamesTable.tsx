@@ -1,5 +1,6 @@
 "use client";
 import { AuthProtectedButton, BuyTicketBtn } from "@/features";
+import { ShowBoughtTickets } from "@/features/ShowBoughtTickets";
 import { useRouter } from "@/i18n/routing";
 import { rGetGames } from "@/shared/api/games";
 import { Game, GameStatus } from "@/shared/consts";
@@ -9,6 +10,7 @@ import {
   Box,
   ButtonProps,
   Center,
+  Flex,
   Group,
   LoadingOverlay,
   Stack,
@@ -95,14 +97,21 @@ export const GamesTable = () => {
         <Title visibleFrom="md" order={2}>
           {t("gamesTable.title")}
         </Title>
-        <AuthProtectedButton<ButtonProps>
-          label={t("buy.subBtn")}
-          variant="alert"
-          btnProps={{ w: { xs: "100%", md: "auto" } }}
-          action={() => {
-            router.push("/subscription");
-          }}
-        />
+        <Flex
+          flex={{ xs: 1, md: 0 }}
+          direction={{ xs: "column", md: "row" }}
+          gap={5}
+        >
+          <ShowBoughtTickets />
+          <AuthProtectedButton<ButtonProps>
+            label={t("buy.subBtn")}
+            variant="alert"
+            btnProps={{ w: { xs: "100%", md: "auto" } }}
+            action={() => {
+              router.push("/subscription");
+            }}
+          />
+        </Flex>
       </Group>
       <Tabs
         mx={"auto"}
