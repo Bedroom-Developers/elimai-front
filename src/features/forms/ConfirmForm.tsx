@@ -9,7 +9,6 @@ import { showErrorNotification } from "@/shared/notifications";
 import { Button, PinInput, Stack, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import OTPInput from "react-otp-input";
 import { useMutation } from "react-query";
 
 interface ConfirmFormProps {
