@@ -17,7 +17,7 @@ export const allowedDomainsForRegister = [
   "outlook.com",
   "hotmail.com",
   "icloud.com",
-  "protom.me",
+  "proton.me",
   "pm.me",
 ];
 export const allowedDomainsForRestore = [
