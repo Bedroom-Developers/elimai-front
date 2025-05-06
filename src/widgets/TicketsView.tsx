@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import QrCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
-
+const GAP = 20;
 interface TicketsViewProps extends BoxProps {
   tickets: Ticket[];
   type: "ticket" | "sub";
@@ -74,10 +74,12 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
 
       const width = canvas.width;
       const height = width * RATIO;
+      canvas.height = tickets.length * height + (tickets.length - 1) * GAP;
       const qrDim = width / 2.5;
       const elimai = locale == "ru" ? "Елимай" : "Елімай";
 
       tickets.forEach((ticket, idx) => {
+        const yOffset = idx * (height + GAP);
         const enemy = locale == "ru" ? tickets[0].name_ru : tickets[0].name_kz;
         const dateStr = dayjs(ticket.date).format("DD.MM.YYYY");
         const timeStr = dayjs(ticket.date).format("HH:mm");
@@ -94,12 +96,12 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
 
           qrImage.onload = () => {
             image.onload = () => {
-              ctx.drawImage(image, 0, idx * height, width, height);
+              ctx.drawImage(image, 0, yOffset, width, height);
 
               ctx.drawImage(
                 qrImage,
                 width / 2 - qrDim / 2,
-                idx * height + height / 2.8,
+                yOffset + height / 2.8,
                 qrDim,
                 qrDim,
               );
@@ -108,24 +110,20 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
               ctx.font = "bold 16px Nunito";
               ctx.fillStyle = "#697BD3";
 
-              ctx.fillText(
-                enemy,
-                width / 2 / 1.6,
-                idx * height + height / 2 + 110,
-              );
+              ctx.fillText(enemy, width / 2 / 1.6, yOffset + height / 2 + 110);
               ctx.fillText(
                 elimai,
                 width / 2 + width / 2 / 2.8,
-                idx * height + height / 2 + 110,
+                yOffset + height / 2 + 110,
               );
 
               ctx.font = "bold 16px Nunito";
               ctx.fillStyle = "#fff";
-              ctx.fillText(dateStr, width / 2, idx * height + height / 2 + 142);
+              ctx.fillText(dateStr, width / 2, yOffset + height / 2 + 142);
 
               ctx.font = "bold 22px Nunito";
               ctx.fillStyle = "#ECE720";
-              ctx.fillText(timeStr, width / 2, idx * height + height / 2 + 170);
+              ctx.fillText(timeStr, width / 2, yOffset + height / 2 + 170);
             };
 
             image.src = "/4.png";
@@ -140,6 +138,7 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
     <Box
       style={{ position: "relative" }}
       mb={350 * tickets.length * RATIO}
+      h={tickets.length * 350 * RATIO + tickets.length * GAP}
       {...props}
     >
       <Skeleton
@@ -151,13 +150,13 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
       <canvas
         ref={canvasRef}
         width={350}
-        height={350 * tickets.length * RATIO}
         style={{
           width: 350,
           zIndex: loading ? -1 : 1,
-          margin: "0 auto",
+          margin: "0 auto ",
           position: "absolute",
           inset: 0,
+          background: "white",
         }}
       />
     </Box>

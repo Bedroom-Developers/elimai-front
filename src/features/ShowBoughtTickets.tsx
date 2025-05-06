@@ -2,7 +2,7 @@
 import { rGetTicketsByUser } from "@/shared/api/games";
 import { Ticket } from "@/shared/types";
 import { TicketsView } from "@/widgets";
-import { Modal } from "@mantine/core";
+import { Modal, Skeleton, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 import { useQuery } from "react-query";
@@ -26,6 +26,7 @@ export const ShowBoughtTickets = () => {
     enabled: opened,
   });
   const t = useTranslations("gamesTable");
+  const tG = useTranslations();
   return (
     <>
       <Modal
@@ -34,8 +35,15 @@ export const ShowBoughtTickets = () => {
         opened={opened}
         onClose={close}
         title={t("myTickets")}
+        pb={20}
       >
-        {tickets && <TicketsView type="ticket" tickets={tickets} mb={0} />}
+        {isLoading ? (
+          <Skeleton w={"100%"} h={"500"} />
+        ) : error ? (
+          <Text c={"gray.6"}>{tG("profile.errors.notFoundTickets.desc")}</Text>
+        ) : (
+          tickets && <TicketsView type="ticket" tickets={tickets} mb={0} />
+        )}
       </Modal>
       <AuthProtectedButton
         btnProps={{ w: { xs: "100%", md: "auto" } }}
