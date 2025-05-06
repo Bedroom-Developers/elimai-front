@@ -8,19 +8,24 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ConfirmForm } from "./ConfirmForm";
+import { setCookie } from "cookies-next/client";
 
 type RestoreDto = {
   email: string;
   newPassword: string;
   confirmNewPassword: string;
 };
-export const RestoreForm = () => {
-  const [showConfirm, setShowConfirm] = useState(false);
+interface RestoreFormProps {
+  hasCode?: boolean;
+}
+export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
+  const [showConfirm, setShowConfirm] = useState(hasCode ?? false);
   const t = useTranslations();
   const { mutate: sendCode, isLoading } = useMutation({
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
+      setCookie("code-restore", "true", { maxAge: 60 * 15, path: "/" });
       setShowConfirm(true);
     },
     onError: (e: { status: number }) => {

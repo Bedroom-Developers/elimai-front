@@ -6,7 +6,6 @@ import Image from "next/image";
 
 export default async function RegisterPage() {
   const hasCode = await getCookie("code", { cookies: cookies });
-  console.log("RegisterPage hasCode:", hasCode);
 
   return (
     <Stack align="center" justify="center" mih={"100vh"}>
