@@ -17,19 +17,24 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ConfirmForm } from "./ConfirmForm";
+import { getCookies, setCookie } from "cookies-next/client";
 type RegisterDto = {
   email: string;
   password: string;
   confirmPassword: string;
 };
-
-export const RegisterForm = () => {
-  const [showConfirm, setShowConfirm] = useState(false);
+interface RegisterFormProps {
+  hasCode?: boolean;
+}
+export const RegisterForm = ({ hasCode }: RegisterFormProps) => {
+  console.log("RegisterForm hasCode:", hasCode);
+  const [showConfirm, setShowConfirm] = useState(hasCode ?? false);
   const t = useTranslations();
   const { mutate: sendCode, isLoading } = useMutation({
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
+      setCookie("code", "true", { maxAge: 60 * 15, path: "/" });
       setShowConfirm(true);
     },
     onError: (e: { status: number }) => {
@@ -119,7 +124,12 @@ export const RegisterForm = () => {
             ),
           })}
         </Text>
-        <Button variant="base" type="submit">
+        <Button
+          variant="base"
+          type="submit"
+          loading={isLoading}
+          disabled={isLoading}
+        >
           {t("auth.register.btn")}
         </Button>
       </Stack>
