@@ -36,8 +36,11 @@ export const RegisterForm = () => {
           email: getValues().email,
           password: getValues().password,
         }),
+      }).then((res) => {
+        if (res.ok) {
+          router.push("/verify/register");
+        }
       });
-      router.push("/verify/register");
     },
     onError: (e: { status: number }) => {
       if (e.status >= 400 && e.status < 500) {

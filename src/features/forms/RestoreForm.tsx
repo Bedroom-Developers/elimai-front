@@ -32,9 +32,11 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
           email: getValues().email,
           password: getValues().newPassword,
         }),
+      }).then((res) => {
+        if (res.ok) {
+          router.push("/verify/restore");
+        }
       });
-
-      router.push("/verify/restore");
     },
     onError: (e: { status: number }) => {
       if (e.status >= 400 && e.status < 500) {
