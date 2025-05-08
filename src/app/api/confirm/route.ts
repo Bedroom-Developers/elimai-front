@@ -55,11 +55,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const s = req.nextUrl.searchParams;
   const id = s.get("id");
   if (!id) {
-    return NextResponse.json({ message: "No id specified" });
+    return NextResponse.json({ message: "No id specified" }, { status: 400 });
   }
   const cookie = await cookies().get(id == "register" ? "rg-body" : "rs-body");
   if (!cookie) {
-    return NextResponse.error();
+    return NextResponse.json({ message: "No cookie found" }, { status: 404 });
   }
   const decrypted = decrypt(cookie.value);
   const parsed = JSON.parse(decrypted);
