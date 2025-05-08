@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ConfirmForm } from "./ConfirmForm";
 import { setCookie } from "cookies-next/client";
+import { useRouter } from "@/i18n/routing";
 
 type RestoreDto = {
   email: string;
@@ -19,20 +20,34 @@ interface RestoreFormProps {
   hasCode?: boolean;
 }
 export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
-  const [showConfirm, setShowConfirm] = useState(hasCode ?? false);
   const t = useTranslations();
+  const router = useRouter();
   const { mutate: sendCode, isLoading } = useMutation({
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      setCookie("code-restore", "true", { maxAge: 60 * 15, path: "/" });
-      setShowConfirm(true);
+      fetch("/api/confirm?id=restore", {
+        method: "POST",
+        body: JSON.stringify({
+          email: getValues().email,
+          password: getValues().newPassword,
+        }),
+      });
+
+      router.push("/verify/restore");
     },
     onError: (e: { status: number }) => {
-      showErrorNotification({
-        title: t("errors.auth.code.title"),
-        message: t("errors.auth.code.message"),
-      });
+      if (e.status >= 400 && e.status < 500) {
+        showErrorNotification({
+          title: t("errors.auth.notFound.title"),
+          message: t("errors.auth.notFound.message"),
+        });
+      } else {
+        showErrorNotification({
+          title: t("errors.auth.code.title"),
+          message: t("errors.auth.code.message"),
+        });
+      }
     },
   });
 
@@ -48,7 +63,7 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
   } = useForm<RestoreDto>({ mode: "onChange" });
 
   const password = watch("newPassword", "");
-  return !showConfirm ? (
+  return (
     <form onSubmit={handleSubmit(onRestoreFormSubmit)}>
       <Stack px={20} py={10} miw={350} w={"100%"} gap={10}>
         <Title order={3}>{t("auth.restore.title")}</Title>
@@ -109,10 +124,5 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
         </Button>
       </Stack>
     </form>
-  ) : (
-    <ConfirmForm
-      mode="restore"
-      userData={{ email: getValues().email, password: getValues().newPassword }}
-    />
   );
 };

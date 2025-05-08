@@ -6,7 +6,8 @@ import {
   rVerifyCode,
 } from "@/shared/api/auth";
 import { showErrorNotification } from "@/shared/notifications";
-import { Button, PinInput, Stack, Title } from "@mantine/core";
+import { Button, PinInput, Stack, Text, Title } from "@mantine/core";
+import { deleteCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
@@ -24,6 +25,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
     mutationKey: ["register"],
     mutationFn: rVerifyCode,
     onSuccess: (data) => {
+      fetch("/api/confirm?id=register", { method: "DELETE" });
       router.replace("/login");
     },
     onError: (e) => {
@@ -38,6 +40,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
     mutationKey: ["restore"],
     mutationFn: rRestorePassword,
     onSuccess: (data) => {
+      fetch("/api/confirm?id=restore", { method: "DELETE" });
       router.replace("/login");
     },
     onError: (e) => {
@@ -50,6 +53,10 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
   });
 
   const verify = () => {
+    if (!userData) {
+      console.error("No data");
+      return;
+    }
     switch (mode) {
       case "register":
         register({ ...userData, code: otp });
@@ -63,9 +70,14 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
         break;
     }
   };
+  const handleBack = () => {
+    router.push("/login");
+    fetch(`/api/confirm?id=${mode}`, { method: "DELETE" });
+  };
   return (
     <Stack w={"100%"} maw={600} px={10} gap={20}>
       <Title order={2}>{t("auth.confirm.title")}</Title>
+      <Text c={"slate.5"}>Email: {userData.email}</Text>
       <PinInput
         styles={{
           root: { width: "100%" },
@@ -88,11 +100,14 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
       >
         {t("auth.confirm.btn")}
       </Button>
+      <Button onClick={handleBack} variant="outline">
+        {t("header.back")}
+      </Button>
     </Stack>
   );
 };
 interface OtpTimerProps {
-  email: string;
+  email: string | null;
   mode: "register" | "restore";
 }
 const OtpTimer = ({ email, mode }: OtpTimerProps) => {
@@ -125,9 +140,13 @@ const OtpTimer = ({ email, mode }: OtpTimerProps) => {
     <Button
       loading={isLoading}
       variant="outline"
-      onClick={() =>
-        resendCode({ email, type: mode == "register" ? "Registr" : "restore" })
-      }
+      onClick={() => {
+        if (!email) {
+          console.error("ConfirmForm: No email");
+          return;
+        }
+        resendCode({ email, type: mode == "register" ? "Registr" : "restore" });
+      }}
       disabled={timer > 0 || isLoading}
     >
       {t("auth.confirm.timer")} {timer > 0 && t("timer", { timer })}

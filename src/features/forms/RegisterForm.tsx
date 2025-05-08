@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { rSendCode } from "@/shared/api/auth";
 import { allowedDomainsForRegister } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
@@ -23,19 +23,21 @@ type RegisterDto = {
   password: string;
   confirmPassword: string;
 };
-interface RegisterFormProps {
-  hasCode?: boolean;
-}
-export const RegisterForm = ({ hasCode }: RegisterFormProps) => {
-  console.log("RegisterForm hasCode:", hasCode);
-  const [showConfirm, setShowConfirm] = useState(hasCode ?? false);
+export const RegisterForm = () => {
   const t = useTranslations();
+  const router = useRouter();
   const { mutate: sendCode, isLoading } = useMutation({
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      setCookie("code", "true", { maxAge: 60 * 15, path: "/" });
-      setShowConfirm(true);
+      fetch("/api/confirm?id=register", {
+        method: "POST",
+        body: JSON.stringify({
+          email: getValues().email,
+          password: getValues().password,
+        }),
+      });
+      router.push("/verify/register");
     },
     onError: (e: { status: number }) => {
       if (e.status >= 400 && e.status < 500) {
@@ -64,7 +66,7 @@ export const RegisterForm = ({ hasCode }: RegisterFormProps) => {
   } = useForm<RegisterDto>({ mode: "onChange" });
 
   const password = watch("password", "");
-  return !showConfirm ? (
+  return (
     <form onSubmit={handleSubmit(onRegisterFormSubmit)}>
       <Stack px={20} py={10} miw={350} w={"100%"} gap={10}>
         <Title order={3}>{t("auth.register.title")}</Title>
@@ -134,10 +136,5 @@ export const RegisterForm = ({ hasCode }: RegisterFormProps) => {
         </Button>
       </Stack>
     </form>
-  ) : (
-    <ConfirmForm
-      mode="register"
-      userData={{ email: getValues().email, password: getValues().password }}
-    />
   );
 };

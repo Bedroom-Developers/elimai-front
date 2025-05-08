@@ -19,6 +19,7 @@ export const allowedDomainsForRegister = [
   "icloud.com",
   "proton.me",
   "pm.me",
+  "ispark.kz",
 ];
 export const allowedDomainsForRestore = [
   ...allowedDomainsForRegister,
