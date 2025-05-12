@@ -4,6 +4,7 @@ import { Link, useRouter } from "@/i18n/routing";
 import { rSendCode } from "@/shared/api/auth";
 import { allowedDomainsForRegister } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
+import { saveToCookie } from "@/shared/utils";
 import {
   Button,
   PasswordInput,
@@ -27,17 +28,10 @@ export const RegisterForm = () => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=register", {
-        method: "POST",
-        body: JSON.stringify({
-          email: getValues().email,
-          password: getValues().password,
-        }),
-      }).then((res) => {
-        if (res.ok) {
-          router.push("/verify/register");
-        }
+      saveToCookie("rg-body", {
+        password: getValues().password,
       });
+      router.push("/verify/register");
     },
     onError: (e: { status: number }) => {
       if (e.status >= 400 && e.status < 500) {

@@ -1,28 +1,28 @@
 import { ConfirmForm } from "@/features/forms/ConfirmForm";
 import { Stack } from "@mantine/core";
+import { getCookie } from "cookies-next/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 async function getData(mode: string) {
   try {
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_FRONT_URL + `/api/confirm?id=${mode}`,
-      {
-        headers: {
-          Cookie: cookies().toString(),
-        },
-        cache: "no-store",
-      },
-    );
-
-    if (res.ok) {
-      return res.json();
+    const res = await getCookie(mode == "register" ? "rg-body" : "rs-body", {
+      cookies: cookies,
+    });
+    try {
+      if (!res) {
+        throw new Error("No cookie");
+      }
+      const parsed = JSON.parse(res);
+      return parsed;
+    } catch (e) {
+      throw new Error("parse failed");
     }
+    return res;
   } catch (e) {
     console.log(e);
+    return null;
   }
-
-  return null;
 }
 export default async function VerifyPage({
   params: { action, locale },

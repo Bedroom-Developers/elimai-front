@@ -1,26 +1,28 @@
 import { RegisterForm } from "@/features/forms";
 import { Stack } from "@mantine/core";
+import { getCookie } from "cookies-next/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 async function getData() {
   try {
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_FRONT_URL + "/api/confirm?id=register",
-      {
-        headers: {
-          Cookie: cookies().toString(),
-        },
-        cache: "no-store",
-      },
-    );
-
-    if (res.ok) {
-      return res.json();
+    const res = await getCookie("rg-body", {
+      cookies: cookies,
+    });
+    try {
+      if (!res) {
+        throw new Error("No cookie");
+      }
+      const parsed = JSON.parse(res);
+      return parsed;
+    } catch (e) {
+      throw new Error("parse failed");
     }
-  } catch (e) {}
-
-  return null;
+    return res;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 }
 export default async function RegisterPage({
   params: { locale },
@@ -28,6 +30,7 @@ export default async function RegisterPage({
   params: { locale: string };
 }) {
   const data = await getData();
+  console.log(data);
   if (data) return redirect(`/${locale}/verify/register`);
   return (
     <Stack align="center" justify="center" mih={"100vh"}>

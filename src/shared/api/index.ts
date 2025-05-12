@@ -14,7 +14,7 @@ export async function customFetch<T>({
   returnType = "json",
   ...params
 }: CRequest): Promise<T> {
-  const url = new URL(`/api/v1/${params.path}`, backendUrl);
+  const url = new URL(`/api/${params.path}`, backendUrl);
 
   if (params.query) {
     url.search =
