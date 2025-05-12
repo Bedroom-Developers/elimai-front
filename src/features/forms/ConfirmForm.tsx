@@ -7,7 +7,6 @@ import {
 } from "@/shared/api/auth";
 import { showErrorNotification } from "@/shared/notifications";
 import { Button, PinInput, Stack, Text, Title } from "@mantine/core";
-import { deleteCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
@@ -25,7 +24,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
     mutationKey: ["register"],
     mutationFn: rVerifyCode,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=register", { method: "DELETE" });
+      fetch("/nextapi/confirm?id=register", { method: "DELETE" });
       router.replace("/login");
     },
     onError: (e) => {
@@ -40,7 +39,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
     mutationKey: ["restore"],
     mutationFn: rRestorePassword,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=restore", { method: "DELETE" });
+      fetch("/nextapi/confirm?id=restore", { method: "DELETE" });
       router.replace("/login");
     },
     onError: (e) => {
@@ -72,7 +71,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
   };
   const handleBack = () => {
     router.push("/login");
-    fetch(`/api/confirm?id=${mode}`, { method: "DELETE" });
+    fetch(`/nextapi/confirm?id=${mode}`, { method: "DELETE" });
   };
   return (
     <Stack w={"100%"} maw={600} px={10} gap={20}>

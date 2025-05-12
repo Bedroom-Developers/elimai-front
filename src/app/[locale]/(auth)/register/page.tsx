@@ -1,13 +1,12 @@
 import { RegisterForm } from "@/features/forms";
 import { Stack } from "@mantine/core";
-import { getCookie } from "cookies-next/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 async function getData() {
   try {
     const res = await fetch(
-      process.env.NEXT_PUBLIC_FRONT_URL + "/api/confirm?id=register",
+      process.env.NEXT_PUBLIC_FRONT_URL + "/nextapi/confirm?id=register",
       {
         headers: {
           Cookie: cookies().toString(),

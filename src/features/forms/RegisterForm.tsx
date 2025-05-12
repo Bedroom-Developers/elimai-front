@@ -13,11 +13,8 @@ import {
   Title,
 } from "@mantine/core";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { ConfirmForm } from "./ConfirmForm";
-import { getCookies, setCookie } from "cookies-next/client";
 type RegisterDto = {
   email: string;
   password: string;
@@ -30,7 +27,7 @@ export const RegisterForm = () => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=register", {
+      fetch("/nextapi/confirm?id=register", {
         method: "POST",
         body: JSON.stringify({
           email: getValues().email,

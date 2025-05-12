@@ -1,15 +1,12 @@
 "use client";
+import { useRouter } from "@/i18n/routing";
 import { rSendCode } from "@/shared/api/auth";
 import { allowedDomainsForRestore } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
 import { Button, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { ConfirmForm } from "./ConfirmForm";
-import { setCookie } from "cookies-next/client";
-import { useRouter } from "@/i18n/routing";
 
 type RestoreDto = {
   email: string;
@@ -26,7 +23,7 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=restore", {
+      fetch("/nextapi/confirm?id=restore", {
         method: "POST",
         body: JSON.stringify({
           email: getValues().email,
