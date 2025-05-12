@@ -1,6 +1,4 @@
-import { log } from "console";
 import crypto from "crypto";
-import { NextApiRequest, NextApiResponse } from "next";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,7 +39,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const encrypted = encrypt(JSON.stringify(body));
 
-  (await cookies()).set(id == "register" ? "rg-body" : "rs-body", encrypted, {
+  cookies().set(id == "register" ? "rg-body" : "rs-body", encrypted, {
     httpOnly: true,
     path: "/",
     sameSite: "strict",
@@ -57,7 +55,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   if (!id) {
     return NextResponse.json({ message: "No id specified" }, { status: 400 });
   }
-  const cookie = await cookies().get(id == "register" ? "rg-body" : "rs-body");
+  const cookie = cookies().get(id == "register" ? "rg-body" : "rs-body");
   if (!cookie) {
     return NextResponse.json({ message: "No cookie found" }, { status: 404 });
   }
@@ -73,7 +71,7 @@ export async function DELETE(req: NextRequest) {
   if (!id) {
     return NextResponse.json({ message: "No id specified" });
   }
-  await cookies().delete(id == "register" ? "rg-body" : "rs-body");
+  cookies().delete(id == "register" ? "rg-body" : "rs-body");
 
   return NextResponse.json({});
 }
