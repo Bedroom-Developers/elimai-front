@@ -29,6 +29,7 @@ export const RegisterForm = () => {
     mutationFn: rSendCode,
     onSuccess: (data) => {
       saveToCookie("rg-body", {
+        email: getValues().email,
         password: getValues().password,
       });
       router.push("/verify/register");
