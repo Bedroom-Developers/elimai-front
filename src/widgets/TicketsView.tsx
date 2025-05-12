@@ -80,7 +80,8 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
 
       tickets.forEach((ticket, idx) => {
         const yOffset = idx * (height + GAP);
-        const enemy = locale == "ru" ? tickets[0].name_ru : tickets[0].name_kz;
+        const enemy =
+          locale == "ru" ? tickets[idx].name_ru : tickets[idx].name_kz;
         const dateStr = dayjs(ticket.date).format("DD.MM.YYYY");
         const timeStr = dayjs(ticket.date).format("HH:mm");
 
