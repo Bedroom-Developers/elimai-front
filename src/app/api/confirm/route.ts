@@ -71,7 +71,7 @@ export async function DELETE(req: NextRequest) {
   if (!id) {
     return NextResponse.json({ message: "No id specified" });
   }
-  (await cookies)().delete(id == "register" ? "rg-body" : "rs-body");
+  (await cookies()).delete(id == "register" ? "rg-body" : "rs-body");
 
   return NextResponse.json({});
 }
