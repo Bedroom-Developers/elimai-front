@@ -3,6 +3,7 @@ import { useRouter } from "@/i18n/routing";
 import { rSendCode } from "@/shared/api/auth";
 import { allowedDomainsForRestore } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
+import { saveToCookie } from "@/shared/utils";
 import { Button, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -23,17 +24,11 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/api/confirm?id=restore", {
-        method: "POST",
-        body: JSON.stringify({
-          email: getValues().email,
-          password: getValues().newPassword,
-        }),
-      }).then((res) => {
-        if (res.ok) {
-          router.push("/verify/restore");
-        }
+      saveToCookie("rs-body", {
+        email: getValues().email,
+        password: getValues().newPassword,
       });
+      router.push("/verify/restore");
     },
     onError: (e: { status: number }) => {
       if (e.status >= 400 && e.status < 500) {

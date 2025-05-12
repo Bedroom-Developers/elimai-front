@@ -43,7 +43,7 @@ export const rDeleteVolunteer = async (
 };
 
 export const rIsAdmin = async (token: string) => {
-  const url = `${backendUrl}/api/v1/is-admin/`;
+  const url = `${backendUrl}/api/is-admin/`;
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -100,7 +100,7 @@ export const rResetPassword = (data: {
 export const rRefreshToken = async (
   refresh: string,
 ): Promise<{ access: string } | undefined> => {
-  const url = `${backendUrl}/api/v1/token/refresh/`;
+  const url = `${backendUrl}/api/token/refresh/`;
   try {
     const response = await fetch(url, {
       method: "POST",
