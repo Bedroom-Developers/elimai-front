@@ -27,7 +27,7 @@ export const RegisterForm = () => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/nextapi/confirm?id=register", {
+      fetch("/api/confirm?id=register", {
         method: "POST",
         body: JSON.stringify({
           email: getValues().email,

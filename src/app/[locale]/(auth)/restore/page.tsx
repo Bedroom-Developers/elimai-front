@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 async function getData() {
   try {
     const res = await fetch(
-      process.env.NEXT_PUBLIC_FRONT_URL + "/nextapi/confirm?id=restore",
+      process.env.NEXT_PUBLIC_FRONT_URL + "/api/confirm?id=restore",
       {
         headers: {
           Cookie: cookies().toString(),
