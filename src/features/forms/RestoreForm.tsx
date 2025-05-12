@@ -23,7 +23,7 @@ export const RestoreForm = ({ hasCode }: RestoreFormProps) => {
     mutationKey: ["send-code"],
     mutationFn: rSendCode,
     onSuccess: (data) => {
-      fetch("/nextapi/confirm?id=restore", {
+      fetch("/api/confirm?id=restore", {
         method: "POST",
         body: JSON.stringify({
           email: getValues().email,
