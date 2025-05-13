@@ -111,9 +111,9 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
               ctx.font = "bold 16px Nunito";
               ctx.fillStyle = "#697BD3";
 
-              ctx.fillText(enemy, width / 2 / 1.6, yOffset + height / 2 + 110);
+              ctx.fillText(elimai, width / 2 / 1.6, yOffset + height / 2 + 110);
               ctx.fillText(
-                elimai,
+                enemy,
                 width / 2 + width / 2 / 2.8,
                 yOffset + height / 2 + 110,
               );
