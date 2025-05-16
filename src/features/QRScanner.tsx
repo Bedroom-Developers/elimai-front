@@ -1,6 +1,6 @@
 "use client";
 import { rScanSub, rScanTicket } from "@/shared/api/games";
-import { Button, Loader, Modal, Notification, Stack } from "@mantine/core";
+import { Box, Button, Loader, Modal, Notification, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import dayjs from "dayjs";
@@ -116,13 +116,18 @@ export const QRScanner = () => {
                 title={"QR Сканнер"}
             >
                 <Stack align="center">
-                    <Scanner
-                        allowMultiple
-                        scanDelay={2000}
-                        onScan={onScan}
-                        paused={paused}
-                    />
-                    <ResultView loading={isLoadingTicket || isLoadingSub} result={res} />
+                    <Box w={358} h={358} >
+                        <Scanner
+                            allowMultiple
+                            scanDelay={2000}
+                            onScan={onScan}
+                            paused={paused}
+                        />
+                    </Box>
+
+                    <Box mt={20}>
+                        <ResultView loading={isLoadingTicket || isLoadingSub} result={res} />
+                    </Box>
                 </Stack>
             </Modal>
             <Button w={"100%"} variant="base" onClick={open}>
