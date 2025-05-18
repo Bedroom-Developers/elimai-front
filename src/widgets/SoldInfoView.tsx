@@ -1,3 +1,4 @@
+import { rGetTicketsCount } from "@/shared/api/games"
 import { Game, GameStatus } from "@/shared/consts"
 import { Alert } from "@mantine/core"
 import { AlertTriangle, InfoIcon } from "lucide-react"
