@@ -1,5 +1,3 @@
-'use client'
-import { rGetTicketsCount } from "@/shared/api/games"
 import { Game, GameStatus } from "@/shared/consts"
 import { Alert } from "@mantine/core"
 import { AlertTriangle, InfoIcon } from "lucide-react"
@@ -18,7 +16,7 @@ export const SoldInfoView = ({ game }: SoldInfoViewProps) => {
             {t('alert.near.message')}
         </Alert>
     }
-    return game.status == GameStatus[0] && ticketsCount?.message == '0' && <Alert
+    return game.status == GameStatus[0] && ticketsCount?.message >= '0' && <Alert
         icon={<AlertTriangle />}
         variant="filled" color="red.4" my={20} title={t('alert.soldout.title')}
     >
