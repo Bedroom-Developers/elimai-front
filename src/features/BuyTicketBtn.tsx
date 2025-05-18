@@ -20,7 +20,7 @@ export const BuyTicketBtn = ({ again = false, variant, gameId, disabled, ...prop
             <Modal centered size={'lg'} opened={opened} onClose={close} title={t('buy.ticketModal')}>
                 {ticketsCount && <BuyTicketForm count={parseInt(ticketsCount.message)} gameId={gameId} />}
             </Modal>
-            <AuthProtectedButton btnProps={{ ['data-id']: "buyBtn" }} disabled={disabled || isLoading || parseInt(ticketsCount?.message ?? '0') == 0} variant={variant} label={
+            <AuthProtectedButton btnProps={{ ['data-id']: "buyBtn" }} disabled={disabled || isLoading || parseInt(ticketsCount?.message ?? '0') <= 0} variant={variant} label={
                 again ? t('buy.again') : t('buy.btn')
             } action={open} />
         </>
