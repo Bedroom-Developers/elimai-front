@@ -171,7 +171,7 @@ const ResultView = ({
             </Notification>
         );
     } else {
-        <Notification
+        return <Notification
             withCloseButton={false}
             icon={<XIcon size={20} />}
             color="red"
