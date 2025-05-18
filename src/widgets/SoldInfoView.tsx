@@ -8,21 +8,49 @@ import { useQuery } from "react-query"
 interface SoldInfoViewProps {
     game: Game
 }
+
 export const SoldInfoView = ({ game }: SoldInfoViewProps) => {
-    const t = useTranslations()
-    const { data: ticketsCount, isLoading } = useQuery({ queryKey: [`tickets count ${game?.id}`], queryFn: () => rGetTicketsCount(game.id) })
-    if (!game) return null
-    if (game.status == GameStatus[1]) {
-        return <Alert my={20} variant="filled" color="elimai.6" title={t('alert.near.title')} icon={<InfoIcon />}>
-            {t('alert.near.message')}
-        </Alert>
+    const t = useTranslations();
+
+    const { data: ticketsCount, isLoading } = useQuery({
+        queryKey: [`tickets count ${game?.id}`],
+        queryFn: () => rGetTicketsCount(game.id),
+        enabled: !!game?.id,
+    });
+
+    if (!game) return null;
+
+    if (game.status === GameStatus[1]) {
+        return (
+            <Alert
+                my={20}
+                variant="filled"
+                color="elimai.6"
+                title={t('alert.near.title')}
+                icon={<InfoIcon />}
+            >
+                {t('alert.near.message')}
+            </Alert>
+        );
     }
-    return game.status == GameStatus[0] && ticketsCount?.message ? ticketsCount.message : '0' <= '0' && <Alert
-        icon={<AlertTriangle />}
-        variant="filled" color="red.4" my={20} title={t('alert.soldout.title')}
-    >
-        {t('alert.soldout.message')}
-    </Alert>
 
+    if (
+        game.status === GameStatus[0] &&
+        (!ticketsCount?.message || Number(ticketsCount.message) <= 0)
+    ) {
+        return (
+            <Alert
+                icon={<AlertTriangle />}
+                variant="filled"
+                color="red.4"
+                my={20}
+                title={t('alert.soldout.title')}
+            >
+                {t('alert.soldout.message')}
+            </Alert>
+        );
+    }
 
-}
+    return null;
+};
+
