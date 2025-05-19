@@ -60,7 +60,7 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
                         };
 
                         setLoading(false);
-                        image.src = "/2.png";
+                        image.src = "/aboniment-template.jpg";
                     };
                 });
             });
@@ -127,7 +127,7 @@ export const TicketsView = ({ type, tickets, ...props }: TicketsViewProps) => {
                             ctx.fillText(timeStr, width / 2, yOffset + height / 2 + 170);
                         };
 
-                        image.src = "/4.png";
+                        image.src = "/ticket-template.jpg";
                         setLoading(false);
                     };
                 });
