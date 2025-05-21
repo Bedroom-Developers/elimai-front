@@ -39,16 +39,17 @@ export const useCreatePdf = () => {
 
         try {
             const [templateImage, qrUrl] = await Promise.all([
-                loadImage("/2.PNG"),
+                loadImage("/aboniment-template.jpg"),
                 generateQrDataUrl(code),
             ]);
 
             const qrImage = await loadImage(qrUrl);
 
-            doc.addImage(templateImage, "JPG", 0, 0, pageWidth, pageHeight);
+            //err
+            doc.addImage(templateImage, "JPEG", 0, 0, pageWidth, pageHeight);
             doc.addImage(
                 qrImage,
-                "PNG",
+                "JPEG",
                 (pageWidth - qrDim) / 2,
                 pageHeight / 2 - qrDim / 2,
                 qrDim,
@@ -100,11 +101,11 @@ export const useCreatePdf = () => {
             const ctx = canvas.getContext("2d");
             if (!ctx) throw new Error("Canvas context is null");
             ctx.drawImage(img, 0, 0);
-            return canvas.toDataURL("image/png");
+            return canvas.toDataURL("image/jpeg");
         };
 
         // Загрузить шаблонное изображение один раз
-        const templateImg = await loadImage("/4.png");
+        const templateImg = await loadImage("/ticket-template.jpg");
         const templateDataUrl = getImageDataUrl(templateImg);
 
         for (let idx = 0; idx < tickets.length; idx++) {
@@ -117,12 +118,12 @@ export const useCreatePdf = () => {
             const qrImage = await loadImage(qrUrl);
 
             // Добавляем шаблон для текущей страницы, используя data URL
-            doc.addImage(templateDataUrl, "PNG", 0, 0, pageWidth, pageHeight);
+            doc.addImage(templateDataUrl, "JPEG", 0, 0, pageWidth, pageHeight);
 
             // Добавляем QR-код
             doc.addImage(
                 qrImage,
-                "PNG",
+                "JPEG",
                 (pageWidth - qrDim) / 2,
                 (pageHeight - qrDim - 12) / 2,
                 qrDim,
