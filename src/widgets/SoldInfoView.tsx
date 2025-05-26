@@ -36,6 +36,7 @@ export const SoldInfoView = ({ game }: SoldInfoViewProps) => {
     }
 
     if (
+        !isLoading &&
         game.status === GameStatus[0] &&
         (!ticketsCount?.message || Number(ticketsCount.message) <= 0)
     ) {
