@@ -128,7 +128,7 @@ export const GamesTable = () => {
                 <Tabs.Panel value="first">
                     <SoldInfoView
                         game={
-                            games.filter(
+                            games?.filter(
                                 (game) =>
                                     game.status == GameStatus[0] || game.status == GameStatus[1],
                             )[0]
@@ -196,7 +196,7 @@ const GameRows = ({
             <Table.Td ta="center">{formatEventDate(game.event_date)}</Table.Td>
             <Table.Td ta="center">{getTeamName(game)}</Table.Td>
             <Table.Td ta="center">
-                {dayjs(new Date()).isBefore(game.event_date) && (
+                {dayjs(new Date()).startOf('day').isBefore(dayjs(game.event_date).startOf('day')) && (
                     <BuyTicketBtn
                         variant="base"
                         gameId={game.id}

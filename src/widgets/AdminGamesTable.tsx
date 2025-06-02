@@ -86,7 +86,7 @@ const CreateAdminTicketBtn = ({ game }: { game: Game }) => {
     const { createTicket } = useCreatePdf()
     const { mutate: create, isLoading, isError } = useMutation({
         mutationKey: [`admin-ticket ${game.id}`], mutationFn: rCreateAdminTicket, onSuccess: (data) => {
-            createTicket([{ code: data.code, date: dayjs(game.event_date).format("YYYY-MM-DD"), name_ru: game.name_ru, name_kz: game.name_kz, status: data.status }])
+            createTicket([{ code: data.code, date: dayjs(game.event_date).format("YYYY-MM-DD HH:mm"), name_ru: game.name_ru, name_kz: game.name_kz, status: data.status }])
         }, onError: (e) => {
             console.log(e)
             showErrorNotification(notificationErrors.create)
