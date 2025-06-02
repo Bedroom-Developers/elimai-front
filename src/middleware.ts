@@ -11,11 +11,16 @@ async function adminMiddleware(req: NextRequest) {
     if (!token) {
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
-    const isAdmin = await rIsAdmin(token.value)
-    if (!isAdmin && pathname == '/admin') {
+    try {
+        const isAdmin = await rIsAdmin(token.value)
+        if (!isAdmin && pathname == '/admin') {
+            return NextResponse.redirect(new URL(`/ru/login`, req.url))
+        }
+        return NextResponse.next()
+    } catch (e) {
+        console.error(e)
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
-    return NextResponse.next()
 }
 const publicRoutes = ['register', 'login']
 const privateRoutes = ['profile']
