@@ -196,7 +196,7 @@ const GameRows = ({
             <Table.Td ta="center">{formatEventDate(game.event_date)}</Table.Td>
             <Table.Td ta="center">{getTeamName(game)}</Table.Td>
             <Table.Td ta="center">
-                {dayjs(new Date()).startOf('day').isBefore(dayjs(game.event_date).startOf('day')) && (
+                {dayjs().format('YYYY-MM-DD') < dayjs(game.event_date).format('YYYY-MM-DD') && (
                     <BuyTicketBtn
                         variant="base"
                         gameId={game.id}
