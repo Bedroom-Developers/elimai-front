@@ -6,15 +6,16 @@ import { NextRequest, NextResponse } from "next/server";
 const intlMiddleware = createMiddleware(routing);
 
 async function adminMiddleware(req: NextRequest) {
-    const token = req.cookies.get("access");
-    const { pathname } = req.nextUrl;
-    if (!token) {
-        return NextResponse.redirect(new URL(`/ru/login`, req.url))
-    }
     try {
+        const token = req.cookies.get("access");
+        const { pathname } = req.nextUrl;
+        if (!token) {
+            throw new Error("No token found")
+        }
+
         const isAdmin = await rIsAdmin(token.value)
         if (!isAdmin && pathname == '/admin') {
-            return NextResponse.redirect(new URL(`/ru/login`, req.url))
+            throw new Error("User is not admin")
         }
         return NextResponse.next()
     } catch (e) {
