@@ -62,7 +62,7 @@ export const useCreatePdf = () => {
         }
     };
 
-    const createTicket = async (tickets: Ticket[]) => {
+    const createTicket = async (tickets: Ticket[], isAdminTicket?: boolean) => {
         const elimai = locale == "ru" ? "Елимай" : "Елімай";
         const enemy = locale == "ru" ? tickets[0].name_ru : tickets[0].name_kz;
         const doc = new jsPDF();
@@ -111,7 +111,6 @@ export const useCreatePdf = () => {
         for (let idx = 0; idx < tickets.length; idx++) {
             const ticket = tickets[idx];
             const dateStr = dayjsTZ(ticket.date).format("DD.MM.YYYY");
-            const timeStr = dayjsTZ(ticket.date).tz(tz_5).format("HH:mm");
 
             // Генерация QR-кода и загрузка его в виде изображения
             const qrUrl = await generateQrDataUrl(ticket.code);
@@ -147,10 +146,12 @@ export const useCreatePdf = () => {
             doc.setFontSize(18);
             doc.setTextColor("#fff");
             doc.text(dateStr, pageHalf, pageHeight / 2 + 83, { align: "center" });
-
-            doc.setFontSize(26);
-            doc.setTextColor("#ECE720");
-            doc.text(timeStr, pageHalf, pageHeight / 2 + 103, { align: "center" });
+            if (!isAdminTicket) {
+                const timeStr = dayjsTZ(ticket.date).tz(tz_5).format("HH:mm");
+                doc.setFontSize(26);
+                doc.setTextColor("#ECE720");
+                doc.text(timeStr, pageHalf, pageHeight / 2 + 103, { align: "center" });
+            }
 
             // Если билет не последний – добавляем страницу
             if (idx < tickets.length - 1) {

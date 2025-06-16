@@ -20,13 +20,16 @@ import {
     Text,
     Title,
 } from "@mantine/core";
-import dayjs from "dayjs";
 import { AlertTriangle, CircleX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { ReactNode, useMemo } from "react";
 import { useQuery } from "react-query";
+const showBuyBtnState = (date: string) => {
 
+    return dayjsTZ().tz(tz_5).startOf('day') <= dayjsTZ(date).startOf('day')
+    // return dayjsTZ().tz(tz_5).startOf('day').isSame(dayjsTZ('2025-06-02T15:00:00+05:00').startOf('day')) || dayjsTZ().tz(tz_5).startOf('day').isBefore(dayjsTZ('2025-06-02T15:00:00+05:00').startOf('day'))
+}
 export const GamesTable = () => {
     const router = useRouter();
     const {
@@ -128,7 +131,7 @@ export const GamesTable = () => {
                 <Tabs.Panel value="first">
                     <SoldInfoView
                         game={
-                            games.filter(
+                            games?.filter(
                                 (game) =>
                                     game.status == GameStatus[0] || game.status == GameStatus[1],
                             )[0]
@@ -196,7 +199,7 @@ const GameRows = ({
             <Table.Td ta="center">{formatEventDate(game.event_date)}</Table.Td>
             <Table.Td ta="center">{getTeamName(game)}</Table.Td>
             <Table.Td ta="center">
-                {dayjs(new Date()).isBefore(game.event_date) && (
+                {showBuyBtnState(game.event_date as string) && (
                     <BuyTicketBtn
                         variant="base"
                         gameId={game.id}

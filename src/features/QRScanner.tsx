@@ -99,6 +99,7 @@ export const QRScanner = () => {
                         message:
                             "Неправильный формат билета! Пожалуйста, проверьте номер билета или свяжитесь с организаторами.",
                     });
+                    setPaused(false)
             }
         } catch (e) {
             console.error(e)
@@ -145,6 +146,7 @@ const ResultView = ({
     loading: boolean;
     result: { status: number; message: string } | null;
 }) => {
+    console.log(result)
     if (loading) {
         return <Loader />;
     }
@@ -170,7 +172,17 @@ const ResultView = ({
                 {result.message}
             </Notification>
         );
-    } else {
+    } else if (result === null) {
+        return <Notification
+            withCloseButton={false}
+            color="green"
+            icon={<CheckIcon size={20} />}
+            title="QR Сканнер готов"
+        >
+            Начните сканирование
+        </Notification>
+    }
+    else {
         return <Notification
             withCloseButton={false}
             icon={<XIcon size={20} />}

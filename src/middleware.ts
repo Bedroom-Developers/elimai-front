@@ -6,16 +6,22 @@ import { NextRequest, NextResponse } from "next/server";
 const intlMiddleware = createMiddleware(routing);
 
 async function adminMiddleware(req: NextRequest) {
-    const token = req.cookies.get("access");
-    const { pathname } = req.nextUrl;
-    if (!token) {
+    try {
+        const token = req.cookies.get("access");
+        const { pathname } = req.nextUrl;
+        if (!token) {
+            throw new Error("No token found")
+        }
+
+        const isAdmin = await rIsAdmin(token.value)
+        if (!isAdmin && pathname == '/admin') {
+            throw new Error("User is not admin")
+        }
+        return NextResponse.next()
+    } catch (e) {
+        console.error(e)
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
-    const isAdmin = await rIsAdmin(token.value)
-    if (!isAdmin && pathname == '/admin') {
-        return NextResponse.redirect(new URL(`/ru/login`, req.url))
-    }
-    return NextResponse.next()
 }
 const publicRoutes = ['register', 'login']
 const privateRoutes = ['profile']
