@@ -27,7 +27,7 @@ import { ReactNode, useMemo } from "react";
 import { useQuery } from "react-query";
 const showBuyBtnState = (date: string) => {
 
-    return dayjsTZ().tz(tz_5).startOf('day') <= dayjsTZ(date).startOf('day')
+    return dayjsTZ().tz(tz_5).startOf('day') <= dayjsTZ(date).tz(tz_5).startOf('day')
     // return dayjsTZ().tz(tz_5).startOf('day').isSame(dayjsTZ('2025-06-02T15:00:00+05:00').startOf('day')) || dayjsTZ().tz(tz_5).startOf('day').isBefore(dayjsTZ('2025-06-02T15:00:00+05:00').startOf('day'))
 }
 export const GamesTable = () => {
