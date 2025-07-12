@@ -9,6 +9,14 @@ const nextConfig = {
   output: "standalone",
 };
 export default withSentryConfig(withNextIntl(nextConfig), {
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "Document-Policy", value: "js-profiling" }],
+      },
+    ];
+  },
   org: "sentry",
   project: "fc-elimai-ui",
   sentryUrl: "https://sentry.ispark.kz/",
