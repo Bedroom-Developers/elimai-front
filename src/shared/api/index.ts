@@ -67,21 +67,24 @@ export async function customFetch<T>({
       return isJson
         ? response.json()
         : returnType == "blob"
-          ? response.blob()
-          : response.text();
+        ? response.blob()
+        : response.text();
     }
     let statusText = "";
     let time = "";
+    let bonusStatus = "";
     if (isJson) {
       const errBody = await response.json();
       statusText = errBody?.error ?? errBody?.detail;
       time = errBody?.time;
+      bonusStatus = errBody?.bonus_status;
     }
 
     throw {
       message: statusText,
       status: response.status,
       time,
+      bonusStatus,
     };
   };
 
