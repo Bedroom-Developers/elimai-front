@@ -1,5 +1,5 @@
 "use client";
-import { Ticket } from "@/shared/types";
+import { Shareholder, Ticket } from "@/shared/types";
 
 import { Button } from "@mantine/core";
 
@@ -11,17 +11,28 @@ import { useState } from "react";
 
 interface DownloadBtnProps {
   tickets: Ticket[];
-  type: "ticket" | "sub";
+  cert?: Shareholder;
+  type: "ticket" | "sub" | "cert";
 }
-export const DownloadBtn = ({ type, tickets }: DownloadBtnProps) => {
+export const DownloadBtn = ({ type, tickets, cert }: DownloadBtnProps) => {
   const [loading, setLoading] = useState(false);
-  const { createTicket, createSub } = useCreatePdf();
+  const { createTicket, createSub, createCert } = useCreatePdf();
   const download = async () => {
     if (tickets) {
       setLoading(true);
       try {
         if (type === "ticket") {
           await createTicket(tickets);
+        }
+        if (type === "cert") {
+          if (cert) {
+            await createCert(
+              cert.code,
+              cert.full_name,
+              cert.shareholder_level,
+              cert.bonus_status
+            );
+          }
         } else {
           await createSub(tickets[0].code);
         }
