@@ -293,14 +293,6 @@ const CertSection = () => {
         >
           {t("profile.errors.notFoundCert.desc")}
         </Alert>
-        <AuthProtectedButton<ButtonProps>
-          label={t("buy.subBtn")}
-          variant="alert"
-          btnProps={{ w: "100%" }}
-          action={() => {
-            router.push("/subscription");
-          }}
-        />
       </Box>
     );
   }
