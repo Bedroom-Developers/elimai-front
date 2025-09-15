@@ -21,9 +21,6 @@ export const DownloadBtn = ({ type, tickets, cert }: DownloadBtnProps) => {
     if (tickets) {
       setLoading(true);
       try {
-        if (type === "ticket") {
-          await createTicket(tickets);
-        }
         if (type === "cert") {
           if (cert) {
             await createCert(
@@ -33,6 +30,10 @@ export const DownloadBtn = ({ type, tickets, cert }: DownloadBtnProps) => {
               cert.bonus_status
             );
           }
+          return;
+        }
+        if (type === "ticket") {
+          await createTicket(tickets);
         } else {
           await createSub(tickets[0].code);
         }
