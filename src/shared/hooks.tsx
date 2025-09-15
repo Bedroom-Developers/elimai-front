@@ -111,6 +111,7 @@ export const useCreatePdf = () => {
       const lastName = full_name.split(" ")[0];
       const firstName = full_name.split(" ")[1];
       const middleName = full_name.split(" ")[2] || "";
+      const secondRow = middleName ? `${firstName} ${middleName}` : firstName;
       doc.setFont("Nunito-Bold", "normal");
       doc.setFontSize(26);
       doc.setTextColor("#007800");
@@ -118,14 +119,9 @@ export const useCreatePdf = () => {
       doc.text(lastName, pageWidth / 2, pageHeight / 2 - 45, {
         align: "center",
       });
-      doc.text(
-        firstName + " " + middleName,
-        pageWidth / 2,
-        pageHeight / 2 - 35,
-        {
-          align: "center",
-        }
-      );
+      doc.text(secondRow, pageWidth / 2, pageHeight / 2 - 35, {
+        align: "center",
+      });
 
       //level
       doc.setFontSize(32);
