@@ -88,13 +88,14 @@ export const QRScanner = () => {
     },
     onSuccess: (data) => {
       console.log(data);
+      const lvl = Number(data.shareholder_level.split("-")[0]);
       setRes({
         status: 200,
         message:
           resultMsg.scan +
           `\n${data.full_name}\nУровень: ${data.shareholder_level}\nБонусы: ${
             data.bonus_status ? "Активны" : "Не активны"
-          }\nСрок действия: ${data.expiry}`,
+          }\n ${lvl <= 2 ? "Срок действия: 31.12.2026" : ""}`,
       });
     },
     onError: (e: { message: string; time: string; bonusStatus: boolean }) => {
