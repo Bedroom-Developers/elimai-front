@@ -22,6 +22,7 @@ const resultMsg = {
   finally: "Ошибка:Что-то пошло не так",
   certUsedError: "Ошибка: Сертификат уже использован.",
   certBonusError: "Ошибка: Бонусы не активны.",
+  certNotFoundError: "Ошибка: Сертификат не найден.",
 };
 export const QRScanner = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -115,6 +116,11 @@ export const QRScanner = () => {
               ? `Время последнего сканирования: ${e.time.replace("+", " ")}
               `
               : ""),
+        });
+      } else if (e.message == "not-found") {
+        setRes({
+          status: 400,
+          message: resultMsg.certNotFoundError,
         });
       } else {
         setRes({
