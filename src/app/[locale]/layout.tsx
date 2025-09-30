@@ -11,6 +11,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { Nunito } from "next/font/google";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 const nunito = Nunito({
   subsets: ["cyrillic", "latin"],
   weight: ["300", "400", "700"],
@@ -98,6 +99,12 @@ export default async function RootLayout({
     <html lang={locale} className={nunito.className} {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
+
+        <Script
+          defer
+          src="https://stats.ispark.kz/script.js"
+          data-website-id="bc8a5915-2f7c-4289-a564-c2c3f9b728e7"
+        />
       </head>
       <body>
         <MantineProvider theme={theme}>
