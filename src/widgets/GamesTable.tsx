@@ -101,7 +101,7 @@ export const GamesTable = () => {
         <Alert
           icon={<CheckCircle />}
           variant="filled"
-          color="green.4"
+          color="elimai.4"
           my={20}
           title={t("gamesTable.endOfSeason.title")}
         ></Alert>
