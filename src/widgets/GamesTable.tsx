@@ -19,7 +19,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { AlertTriangle, CircleX } from "lucide-react";
+import { AlertTriangle, CheckCircle, CircleX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { ReactNode, useMemo } from "react";
@@ -95,6 +95,19 @@ export const GamesTable = () => {
         </Alert>
       </Center>
     );
+  if (games.every((game) => game.status == GameStatus[2])) {
+    return (
+      <Center px={{ xs: 10, lg: 0 }} h={250} maw={1200} mx={"auto"}>
+        <Alert
+          icon={<CheckCircle />}
+          variant="filled"
+          color="green.4"
+          my={20}
+          title={t("gamesTable.endOfSeason.title")}
+        ></Alert>
+      </Center>
+    );
+  }
   return (
     <Stack p={{ xs: 5, sm: 10, xl: 0 }} align="center" my={20}>
       <Group justify="space-between" w={"100%"} maw={1200}>
