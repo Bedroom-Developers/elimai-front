@@ -1,17 +1,12 @@
 "use client";
-import { AuthProtectedButton, DownloadBtn } from "@/features";
+import { DownloadBtn } from "@/features";
 import { Link, useRouter } from "@/i18n/routing";
-import {
-  rGetCertByUser,
-  rGetSubByUser,
-  rGetTicketsByUser,
-} from "@/shared/api/games";
+import { rGetCertByUser, rGetTicketsByUser } from "@/shared/api/games";
 import { Shareholder, Ticket } from "@/shared/types";
 import {
   Alert,
   Box,
   Button,
-  ButtonProps,
   Center,
   LoadingOverlay,
   Stack,
@@ -37,104 +32,19 @@ export const Profile = () => {
     >
       <Tabs.List grow justify="center">
         <Tabs.Tab value="first">{t("profile.first")}</Tabs.Tab>
-        <Tabs.Tab value="second">{t("profile.second")}</Tabs.Tab>
-        <Tabs.Tab value="third">{t("profile.third")}</Tabs.Tab>
+        {/* <Tabs.Tab value="third">{t("profile.third")}</Tabs.Tab> */}
       </Tabs.List>
       <Tabs.Panel w={"100%"} pt={10} px={{ sm: 5, lg: 0 }} value="first">
         <TicketsTable />
       </Tabs.Panel>
-      <Tabs.Panel w={"100%"} pt={10} px={{ sm: 5, lg: 0 }} value="second">
-        <SubSection />
-      </Tabs.Panel>
-      <Tabs.Panel w={"100%"} pt={10} px={{ sm: 5, lg: 0 }} value="third">
+
+      {/* <Tabs.Panel w={"100%"} pt={10} px={{ sm: 5, lg: 0 }} value="third">
         <CertSection />
-      </Tabs.Panel>
+      </Tabs.Panel> */}
     </Tabs>
   );
 };
-const SubSection = () => {
-  const t = useTranslations();
-  const router = useRouter();
-  const {
-    data: sub,
-    isLoading,
-    error,
-  } = useQuery<Ticket, { message: string; status: number }, Ticket, string[]>({
-    queryKey: ["sub user"],
-    queryFn: async () => {
-      return rGetSubByUser();
-    },
-  });
-  if (isLoading) {
-    return (
-      <Box w={"100%"} h={250} pos="relative">
-        <LoadingOverlay
-          loaderProps={{ color: "elimai.6" }}
-          visible={isLoading}
-          zIndex={1000}
-        />
-      </Box>
-    );
-  }
-  if (error?.status === 404) {
-    return (
-      <Box h={250} maw={1200}>
-        <Alert
-          w={"100%"}
-          icon={<AlertTriangle />}
-          variant="filled"
-          color="elimai.2"
-          my={20}
-          title={t("profile.errors.notFoundSub.title")}
-        >
-          {t("profile.errors.notFoundSub.desc")}
-        </Alert>
-        <AuthProtectedButton<ButtonProps>
-          label={t("buy.subBtn")}
-          variant="alert"
-          btnProps={{ w: "100%" }}
-          action={() => {
-            router.push("/subscription");
-          }}
-        />
-      </Box>
-    );
-  }
-  if (error) {
-    return (
-      <Center w={"100%"} h={250} maw={1200} mx={"auto"}>
-        <Alert
-          icon={<CircleX />}
-          variant="filled"
-          color="red.4"
-          my={20}
-          title={t("profile.errors.errorSub.title")}
-        >
-          {t("profile.errors.errorSub.desc")}
-        </Alert>
-      </Center>
-    );
-  }
-  return (
-    <Stack>
-      <Alert
-        icon={<AlertTriangle />}
-        p={10}
-        variant="filled"
-        color="elimai.2"
-        title={t("buy.subscriptionDetails.title")}
-      >
-        <ul>
-          <li>{t("buy.subscriptionDetails.description")}</li>
-          <li>{t("buy.subscriptionDetails.validity")}</li>
-          <li>{t("buy.subscriptionDetails.transferability")}</li>
-        </ul>
-      </Alert>
 
-      <DownloadBtn tickets={sub ? [sub] : []} type="sub" />
-    </Stack>
-  );
-};
 const TicketsTable = () => {
   const t = useTranslations();
   const {
