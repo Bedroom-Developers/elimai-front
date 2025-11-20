@@ -50,7 +50,7 @@ export const RegisterForm = () => {
   });
 
   const onRegisterFormSubmit = (data: RegisterDto) => {
-    sendCode({ email: data.email, type: "Registr" });
+    sendCode({ email: data.email, type: "register" });
   };
   const {
     handleSubmit,
