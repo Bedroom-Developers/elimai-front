@@ -10,7 +10,7 @@
     "cy:open": "cypress open"
   },
   "dependencies": {
-    "@mantine/core": "7.15.3",
+    "@mantine/core": "7.17.8",
     "@mantine/dates": "^7.15.3",
     "@mantine/hooks": "7.15.3",
     "@mantine/notifications": "^7.15.3",
