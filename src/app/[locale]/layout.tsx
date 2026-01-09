@@ -102,7 +102,7 @@ export default async function RootLayout({
 
         <Script
           defer
-          src="https://stats.ispark.kz/script.js"
+          src="https://dev.ispark.kz/analytics/script.js"
           data-website-id="bc8a5915-2f7c-4289-a564-c2c3f9b728e7"
         />
       </head>
