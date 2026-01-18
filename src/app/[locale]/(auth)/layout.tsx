@@ -10,6 +10,8 @@ export default async function RootLayout({ children }: { children: any }) {
         }}>
             <LocaleSwitcher />
         </Box>
+        <main className="bg-[url('/bg-item.png')]">
         {children}
+        </main>
     </>
 }

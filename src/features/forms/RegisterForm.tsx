@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, useRouter } from "@/i18n/routing";
-import { rSendCode } from "@/shared/api/auth";
+import { useSendCodeCreate } from "@/shared/api/generated";
 import { allowedDomainsForRegister } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
 import { saveToCookie } from "@/shared/utils";
@@ -15,7 +15,6 @@ import {
 } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 type RegisterDto = {
   email: string;
   password: string;
@@ -24,9 +23,8 @@ type RegisterDto = {
 export const RegisterForm = () => {
   const t = useTranslations();
   const router = useRouter();
-  const { mutate: sendCode, isLoading } = useMutation({
-    mutationKey: ["send-code"],
-    mutationFn: rSendCode,
+  const { mutate: sendCode, isPending} = useSendCodeCreate(
+    {mutation: {
     onSuccess: (data) => {
       saveToCookie("rg-body", {
         email: getValues().email,
@@ -47,10 +45,11 @@ export const RegisterForm = () => {
         });
       }
     },
-  });
+  }}
+  );
 
   const onRegisterFormSubmit = (data: RegisterDto) => {
-    sendCode({ email: data.email, type: "register" });
+    sendCode({ data: { email: data.email, type: "register", cabinet: 'resend'  } });
   };
   const {
     handleSubmit,
@@ -124,8 +123,7 @@ export const RegisterForm = () => {
         <Button
           variant="base"
           type="submit"
-          loading={isLoading}
-          disabled={isLoading}
+          disabled={isPending}
         >
           {t("auth.register.btn")}
         </Button>

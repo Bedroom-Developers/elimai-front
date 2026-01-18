@@ -7,10 +7,10 @@ import {
 } from "@/shared/api/auth";
 import { showErrorNotification } from "@/shared/notifications";
 import { Button, PinInput, Stack, Text, Title } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
 import { deleteCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
 
 interface ConfirmFormProps {
   userData: { email: string; password: string };

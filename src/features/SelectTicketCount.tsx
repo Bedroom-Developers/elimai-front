@@ -1,8 +1,8 @@
 "use client";
 import { rGetUserTicketLimit } from "@/shared/api/games";
 import { Select, Skeleton, Text } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useQuery } from "react-query";
 type valueType = { value: string; disabled: boolean };
 interface SelectTicketCountProps {
   gameId: number;

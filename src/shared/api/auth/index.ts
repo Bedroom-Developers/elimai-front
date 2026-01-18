@@ -33,7 +33,7 @@ export const rGetVolunteers = async (): Promise<
   return customFetch({ method: "GET", path: "volunteer/" });
 };
 export const rDeleteVolunteer = async (
-  email: string,
+  email: string
 ): Promise<{ message: string }> => {
   return customFetch({
     method: "DELETE",
@@ -66,7 +66,11 @@ export const rIsAdmin = async (token: string) => {
     throw e;
   }
 };
-export const rSendCode = (body: { email: string; type: string }) => {
+export const rSendCode = (body: {
+  email: string;
+  type: string;
+  cabinet: "resend" | "restore";
+}) => {
   return customFetch({
     method: "POST",
     path: "send-code/",
@@ -98,7 +102,7 @@ export const rResetPassword = (data: {
 };
 
 export const rRefreshToken = async (
-  refresh: string,
+  refresh: string
 ): Promise<{ access: string } | undefined> => {
   const url = `${backendUrl}/api/token/refresh/`;
   try {

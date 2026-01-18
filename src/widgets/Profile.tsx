@@ -13,11 +13,11 @@ import {
   Table,
   Tabs,
 } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, CircleX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
-import { useQuery } from "react-query";
 
 export const Profile = () => {
   const t = useTranslations();

@@ -3,12 +3,12 @@ import { SelectTicketCount } from "@/features";
 import { rBuyTicket, rGetTicketsCount } from "@/shared/api/games";
 import { showErrorNotification } from "@/shared/notifications";
 import { Box, Button, Input, Stack, Text, TextInput } from "@mantine/core";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
-import { useMutation, useQuery } from "react-query";
 
 export const BuyTicketForm = ({
   gameId,
@@ -51,7 +51,7 @@ export const BuyTicketForm = ({
     queryFn: () => rGetTicketsCount(gameId),
   });
   const onSubmit: SubmitHandler<{ tel: string; count: string; FIO: string }> = (
-    data,
+    data
   ) => {
     console.log(data);
     mutate({

@@ -2,12 +2,12 @@
 import { rScanCert, rScanSub, rScanTicket } from "@/shared/api/games";
 import { Box, Button, Loader, Modal, Notification, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useMutation } from "@tanstack/react-query";
 import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import dayjs from "dayjs";
 import { CheckIcon, XIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { useMutation } from "react-query";
 
 const resultMsg = {
   event:

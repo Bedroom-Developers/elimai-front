@@ -19,11 +19,11 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, CheckCircle, CircleX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { ReactNode, useMemo } from "react";
-import { useQuery } from "react-query";
 const showBuyBtnState = (date: string) => {
   return (
     dayjsTZ().tz(tz_5).startOf("day") <= dayjsTZ(date).tz(tz_5).startOf("day")

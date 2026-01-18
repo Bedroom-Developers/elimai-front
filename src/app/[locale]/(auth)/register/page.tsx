@@ -1,7 +1,5 @@
-import { RegisterForm } from "@/features/forms";
-import { Stack } from "@mantine/core";
+import { RegisterForm } from "@/modules/auth";
 import { cookies } from "next/headers";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 async function getData() {
@@ -33,15 +31,9 @@ export default async function RegisterPage({
   }
 
   return (
-    <Stack align="center" justify="center" mih="100vh">
-      <Image
-        src="/logonew.png"
-        width={100}
-        height={100}
-        priority={true}
-        alt="fcelimai logo"
-      />
+    <section className="flex flex-col items-center justify-center min-h-screen gap-3  ">
+      
       <RegisterForm />
-    </Stack>
+    </section>
   );
 }

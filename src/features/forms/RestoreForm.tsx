@@ -5,9 +5,9 @@ import { allowedDomainsForRestore } from "@/shared/consts";
 import { showErrorNotification } from "@/shared/notifications";
 import { saveToCookie } from "@/shared/utils";
 import { Button, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 
 type RestoreDto = {
   email: string;

@@ -13,13 +13,13 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next/client";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 type LoginDto = {
   email: string;
   password: string;

@@ -4,8 +4,8 @@ import { Ticket } from "@/shared/types";
 import { TicketsView } from "@/widgets";
 import { Modal, Skeleton, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useQuery } from "react-query";
 import { AuthProtectedButton } from "./AuthProtectedBtn";
 export const ShowBoughtTickets = () => {
   const [opened, { open, close }] = useDisclosure(false);
