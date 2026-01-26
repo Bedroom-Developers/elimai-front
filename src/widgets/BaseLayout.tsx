@@ -1,8 +1,9 @@
 'use client'
 import { AuthProtectedButton } from '@/features';
 import { Link as IntlLink, usePathname, useRouter } from '@/i18n/routing';
+import { AuthStatusButton } from '@/modules/auth';
 import { useAuth } from '@/shared/context';
-import { AuthStatusView, LocaleSwitcher } from '@/widgets';
+import { LocaleSwitcher } from '@/widgets';
 import { AppShell, Box, Burger, Flex, Group, Image, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { clsx } from 'clsx';
@@ -36,17 +37,17 @@ export function BaseLayout({ children }: { children: ReactNode }) {
                         <Group ml="xl" gap={0} visibleFrom="lg" align='flex-end'>
                             <IntlLink href={'https://fcelimai.kz'} target='_blank' className={classes.control}>{t('header.fcelimai')}</IntlLink>
                             <IntlLink href={'/'} className={clsx(classes.control, path == '/' && classes.active)}>{t('header.main')}</IntlLink>
-                            <AuthProtectedButton btnProps={{
+                            {/* <AuthProtectedButton btnProps={{
                                 ['data-id']: 'profile'
                             }} className={clsx(classes.control, path == '/profile' && classes.active)} label={t('header.profile')} action={() => {
                                 router.push('/profile')
-                            }} />
+                            }} /> */}
                             {isAdmin &&
                                 <Link href={'/admin'} className={clsx(classes.control)}>Админ-панель</Link>}
                         </Group>
                         <Group>
                             <LocaleSwitcher />
-                            <AuthStatusView />
+                            <AuthStatusButton />
                         </Group>
                     </Group>
                 </Group>

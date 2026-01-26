@@ -34,9 +34,6 @@ export const BuySubscriptionBtn = ({ disabled, ...props }: BuySubscriptionBtnPro
                     <Button variant="base">{t('buy.form.btn')}</Button>
                 </Stack>
             </Modal>
-            <AuthProtectedButton disabled={disabled} variant="alert" label={
-                t('buy.subBtn')
-            } action={open} />
-        </>
+            <AuthProtectedButton> {t('buy.subBtn')}</AuthProtectedButton> </>
     );
 };

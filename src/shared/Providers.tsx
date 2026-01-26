@@ -1,9 +1,10 @@
 "use client";
-import { AuthProvider } from "@/shared/context";
+import { AuthContext } from "@/modules/auth";
 import { DatesProvider } from "@mantine/dates";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "dayjs/locale/ru";
 import { ReactNode, useState } from "react";
+import { AuthProvider } from "./context";
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -20,10 +21,12 @@ const QueryProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
-    <AuthProvider>
-      <DatesProvider settings={{ locale: "ru" }}>
-        <QueryProvider>{children}</QueryProvider>
-      </DatesProvider>
-    </AuthProvider>
+    <AuthContext>
+      <AuthProvider>
+        <DatesProvider settings={{ locale: "ru" }}>
+          <QueryProvider>{children}</QueryProvider>
+        </DatesProvider>
+      </AuthProvider>
+    </AuthContext>
   );
 };

@@ -13,9 +13,13 @@ import { Label } from "@/shared/components/ui/label";
 import { ValidationError } from "@/shared/components/ui/validation-error";
 import { ErrorType } from "@/shared/lib/client/custom-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { setCookie } from "cookies-next/client";
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Role } from "../../constants";
+import { useAuthStore } from "../../model/auth.store";
 import { loginSchema, LoginSchema } from "../../schemas/login.schema";
 import { PasswordInput } from "../components/PasswordInput";
 
@@ -30,12 +34,17 @@ export const LoginForm = () => {
       password: "",
     },
   });
+  const { setIsLogged, setRole } = useAuthStore(state => state);
   const { mutate: login, isPending } = useLoginCreate({
     mutation: {
       onSuccess: (data) => {
+        setIsLogged(true);
+        setRole(data.role as Role);
+        setCookie("access", data.access);
+        setCookie("refresh", data.refresh);
         router.push("/");
       },
-      onError: (error:ErrorType<{ non_field_errors: string[] }>) => {
+      onError: (error: ErrorType<{ non_field_errors: string[] }>) => {
         if (error.response?.data.non_field_errors.includes("Invalid credentials")) {
           form.setError("password", {
             message: "errors.auth.login.message",
@@ -101,6 +110,7 @@ export const LoginForm = () => {
               className="w-full"
               disabled={form.formState.isSubmitting || isPending}
             >
+              {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
               {form.formState.isSubmitting
                 ? t("auth.login.btn") + "..."
                 : t("auth.login.btn")}

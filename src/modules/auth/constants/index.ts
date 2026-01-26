@@ -41,3 +41,11 @@ export const ALLOWED_DOMAINS_FOR_RESTORE = [
   "nu.edu.kz",
   "homecredit.kz",
 ];
+
+export const ROLES = {
+  ADMIN: "admin",
+  USER: "user",
+  VOLUNTEER: "volunteer",
+} as const;
+
+export type Role = typeof ROLES[keyof typeof ROLES];

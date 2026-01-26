@@ -1,20 +1,23 @@
 import { useRouter } from "@/i18n/routing"
-import { useAuth } from "@/shared/context"
-import { Button } from "@mantine/core"
+import { useAuthStore } from "@/modules/auth"
+import { Button } from "@/shared/components/ui/button"
 import { deleteCookie } from "cookies-next/client"
 import { LogOutIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 export const LogoutBtn = () => {
     const router = useRouter()
-    const { logout } = useAuth()
+    const logout = useAuthStore(state => state.logout);
     const handleLogout = () => {
         deleteCookie("access")
         deleteCookie("refresh")
         deleteCookie("email")
-        if (logout) logout()
+        logout()
         router.replace('/')
     }
     const t = useTranslations()
-    return <Button w={'100%'} data-id='logout' variant={'base'} rightSection={<LogOutIcon size={14} />} onClick={handleLogout}>{t('auth.logout')}</Button>
+    return <Button onClick={handleLogout}>
+        <LogOutIcon size={14} />
+        <span>{t('auth.logout')}</span>
+    </Button>
 }

@@ -46,12 +46,12 @@ export const ShowBoughtTickets = () => {
         )}
       </Modal>
       <AuthProtectedButton
-        btnProps={{ w: { xs: "100%", md: "auto" } }}
-        disabled={false}
-        variant={"base"}
-        label={t("myTickets")}
-        action={open}
-      />
+        variant={
+          'default'
+        }
+      >
+        {t("myTickets")}
+      </AuthProtectedButton>
     </>
   );
 };
