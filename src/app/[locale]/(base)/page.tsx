@@ -1,4 +1,5 @@
-import { GamesTable, HeroSection } from "@/widgets";
+import { EventsView } from "@/modules/events/ui/components/EventsView";
+import { HeroSection } from "@/widgets";
 import { Box } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 
@@ -13,7 +14,8 @@ export default async function HomePage() {
   return (
     <Box>
       <HeroSection />
-      <GamesTable />
+      {/* <GamesTable /> */}
+      <EventsView />
     </Box>
   );
 }
