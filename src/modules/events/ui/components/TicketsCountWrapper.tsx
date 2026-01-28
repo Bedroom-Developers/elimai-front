@@ -12,6 +12,7 @@ export const TicketsCountWrapper = ({ eventId, status, children }: TicketsCountW
             enabled: status === EventStatus.ACTIVE
         }
     })
+    if (isLoading) return null
 
     return children(Number(ticketsCount?.message ?? 0))
 }

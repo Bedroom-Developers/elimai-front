@@ -9,3 +9,6 @@ export const formatEventName = (event: Event, locale: string) => {
     const elimai = locale === "kz" ? "Елімай" : "Елимай"
     return locale === "kz" ? `${elimai} — ${event.name_kz}` : `${elimai} - ${event.name_ru}`
 }
+export const formatPhoneNumber = (phone: string) => {
+    return phone.replace(/[-+\s]/g, "")
+}

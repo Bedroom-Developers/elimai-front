@@ -1,5 +1,4 @@
 import { routing } from "@/i18n/routing";
-import { rIsAdmin } from "@/shared/api/auth";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,16 +6,16 @@ const intlMiddleware = createMiddleware(routing);
 
 async function adminMiddleware(req: NextRequest) {
     try {
-        const token = req.cookies.get("access");
-        const { pathname } = req.nextUrl;
-        if (!token) {
-            throw new Error("No token found")
-        }
+        // const token = req.cookies.get("access");
+        // const { pathname } = req.nextUrl;
+        // if (!token) {
+        //     throw new Error("No token found")
+        // }
 
-        const isAdmin = await rIsAdmin(token.value)
-        if (!isAdmin && pathname == '/admin') {
-            throw new Error("User is not admin")
-        }
+        // const isAdmin = await rIsAdmin(token.value)
+        // if (!isAdmin && pathname == '/admin') {
+        //     throw new Error("User is not admin")
+        // }
         return NextResponse.next()
     } catch (e) {
         console.error(e)

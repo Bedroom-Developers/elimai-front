@@ -1,9 +1,14 @@
-"use client";
-
-import * as React from "react";
+"use client"
 
 import { cn } from "@/lib/utils";
+import * as React from "react";
 
+interface ColumnDef<T, K> {
+  header: string | React.ReactNode;
+  accessorKey: K;
+  cell: (row: T) => React.ReactNode;
+  visible?: boolean;
+}
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -16,7 +21,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
@@ -26,7 +31,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
       className={cn("[&_tr]:border-b", className)}
       {...props}
     />
-  );
+  )
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
@@ -36,7 +41,7 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
       className={cn("[&_tr:last-child]:border-0", className)}
       {...props}
     />
-  );
+  )
 }
 
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
@@ -49,7 +54,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
@@ -62,7 +67,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
@@ -75,7 +80,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
@@ -88,7 +93,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function TableCaption({
@@ -101,16 +106,41 @@ function TableCaption({
       className={cn("text-muted-foreground mt-4 text-sm", className)}
       {...props}
     />
+  )
+}
+interface MappedTableProps<T, K> {
+  columns: ColumnDef<T, K>[];
+  data: T[];
+}
+function MappedTable<T, K extends string | number | symbol>({
+  columns,
+  data
+}: MappedTableProps<T, K>): React.JSX.Element {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {columns.map((col) => (
+            <TableHead key={String(col.accessorKey)}>{col.header}</TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((col) => (
+              <TableCell key={String(col.accessorKey)}>{col.cell(row)}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
 export {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
+  MappedTable,
+  Table, TableBody, TableCaption, TableCell, TableFooter,
+  TableHead, TableHeader, TableRow, type ColumnDef
 };
+

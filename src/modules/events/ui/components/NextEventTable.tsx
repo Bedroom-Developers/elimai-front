@@ -2,7 +2,7 @@ import { Event } from "@/shared/api/generated"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table"
 import { useLocale, useTranslations } from "next-intl"
 import { formatEventDate, formatEventName } from "../../utils"
-import { BuyTicketDialog } from "../dialogs/BuyTicketDialog"
+import { BuyTicketDialog } from "../dialogs/BuyTicketsDialog"
 
 interface NextEventTableProps {
     event: Event
