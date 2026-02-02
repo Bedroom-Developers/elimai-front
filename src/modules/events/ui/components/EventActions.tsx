@@ -1,7 +1,8 @@
 'use client'
+import { CreateTicketDialog, GetReportDialog } from "@/modules/tickets"
 import { Event } from "@/shared/api/generated"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/components/ui/dropdown-menu"
-import { EllipsisIcon, FileIcon, SquarePen, Trash } from "lucide-react"
+import { EllipsisIcon, FileIcon, PlusIcon, SquarePen, Trash } from "lucide-react"
 import { useState } from "react"
 import { DeleteEventDialog } from "../dialogs/DeleteEventDialog"
 import { EditEventDialog } from "../dialogs/EditEventDialog"
@@ -21,7 +22,16 @@ export const EventActions = ({ event }: EventActionsProps) => {
             <DropdownMenuGroup>
                 <DropdownMenuLabel>Управление событием</DropdownMenuLabel>
                 {event.id && <>
+                    <CreateTicketDialog closeDropdown={closeDropdown} >
+                        <DropdownMenuItem>
+                            <PlusIcon />
+                            Создать билет
+                        </DropdownMenuItem>
+
+
+                    </CreateTicketDialog>
                     <EditEventDialog eventId={event.id} defaultValues={event} closeDropdown={closeDropdown} >
+
                         <DropdownMenuItem >
                             <SquarePen />
                             Изменить
@@ -33,12 +43,15 @@ export const EventActions = ({ event }: EventActionsProps) => {
                             Удалить
                         </DropdownMenuItem>
                     </DeleteEventDialog>
+
                 </>}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuLabel>Отчеты</DropdownMenuLabel>
-                <DropdownMenuItem> <FileIcon />Скачать Excel</DropdownMenuItem>
+                <GetReportDialog event={event} closeDropdown={closeDropdown} >
+                    <DropdownMenuItem> <FileIcon />Скачать Excel</DropdownMenuItem>
+                </GetReportDialog>
             </DropdownMenuGroup>
         </DropdownMenuContent>
     </DropdownMenu>

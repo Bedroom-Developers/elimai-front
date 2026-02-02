@@ -59,7 +59,7 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <header className="flex h-14 py-2 items-center gap-2 border-b border-sidebar-border px-4">
+        <header className="flex h-12 items-center gap-2  px-4">
           <SidebarTrigger />
         </header>
         <main className="flex-1 overflow-auto p-4">{children}</main>
