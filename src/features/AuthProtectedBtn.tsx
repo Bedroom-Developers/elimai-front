@@ -21,7 +21,9 @@ export function AuthProtectedButton({ children, onClick, ...props }: AuthProtect
 
     const t = useTranslations()
     return <Dialog open={opened} onOpenChange={setOpened} >
-        <DialogTrigger render={() => <Button variant={'outline'}  {...props} onClick={e => handleClick(e)}>{children}</Button>}>Open</DialogTrigger>
+        <DialogTrigger asChild>
+            <Button variant={'outline'} onClick={e => handleClick(e)}>{children}</Button>
+        </DialogTrigger>
         <DialogContent >
             <DialogHeader>
                 <DialogTitle>{t('auth.protected.title')}</DialogTitle>

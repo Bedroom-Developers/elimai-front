@@ -1,5 +1,5 @@
 'use client'
-import { Select, SelectContent, SelectItem, SelectPositioner, SelectTrigger, SelectValue } from "@/shared/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select"
 import { useTranslations } from "next-intl"
 import { ComponentProps } from "react"
 
@@ -14,11 +14,9 @@ export const TicketsCountSelect = ({ limit, eventId, ticketsCount, ...props }: T
         <SelectTrigger className="w-full">
             <SelectValue placeholder={t("buy.form.select")} />
         </SelectTrigger>
-        <SelectPositioner>
-            <SelectContent>
-                {[1, 2, 3].map(c => <SelectItem value={c.toString()} key={c} disabled={c + limit >= 4 || c > ticketsCount}>{c}</SelectItem>)}
-            </SelectContent>
-        </SelectPositioner>
+        <SelectContent>
+            {[1, 2, 3].map(c => <SelectItem value={c.toString()} key={c} disabled={c + limit >= 4 || c > ticketsCount}>{c}</SelectItem>)}
+        </SelectContent>
     </Select>
 }
 

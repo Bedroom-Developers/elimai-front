@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 
 import QrCode from "qrcode";
 
-import "/public/Nunito-Bold-normal.js";
+import "@/shared/lib/Nunito-Bold-normal";
 
 import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 import { Ticket } from "@/shared/types";

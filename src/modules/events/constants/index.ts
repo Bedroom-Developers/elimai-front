@@ -1,6 +1,6 @@
 export const EVENT_QUERY_KEY = {
-    LIST: "events-list",
-}
+    LIST: ["events-list"],
+} as const
 export const EventStatus = {
     ACTIVE: "Активный",
     NEXT: "Ближайший",

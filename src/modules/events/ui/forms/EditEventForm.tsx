@@ -9,17 +9,19 @@ import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EventStatus } from "../../constants";
-import { createEventSchema, CreateEventSchema } from "../../schemas/event.schema";
+import { editEventSchema, EditEventSchema } from "../../schemas/event.schema";
 
-interface CreateEventFormProps {
-    onSubmit: (data: CreateEventSchema) => void;
+interface EditEventFormProps {
+    defaultValues: EditEventSchema;
+    onSubmit: (data: EditEventSchema) => void;
     isPending: boolean;
 }
-export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) => {
-    const form = useForm<CreateEventSchema>({
-        resolver: zodResolver(createEventSchema),
+export const EditEventForm = ({ defaultValues, isPending, onSubmit }: EditEventFormProps) => {
+    const form = useForm<EditEventSchema>({
+        resolver: zodResolver(editEventSchema),
+        defaultValues,
     })
-    const onSubmitHandler: SubmitHandler<CreateEventSchema> = (data) => {
+    const onSubmitHandler: SubmitHandler<EditEventSchema> = (data) => {
         onSubmit(data);
     }
     return <form onSubmit={form.handleSubmit(onSubmitHandler)} className="flex flex-col gap-2">
@@ -121,6 +123,6 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
 
         <Button className={'ml-auto'} type="submit" disabled={isPending}>
             {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
-            Создать</Button>
+            Обновить</Button>
     </form>
 }

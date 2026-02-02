@@ -8,6 +8,6 @@ export const createEventSchema = z.object({
     ticket_count: z.string().min(1, { error: "Количество билетов обязательно для заполнения" }),
 })
 
-export const editEventSchema = createEventSchema.partial();
+export const editEventSchema = createEventSchema;
 export type CreateEventSchema = z.infer<typeof createEventSchema>;
 export type EditEventSchema = z.infer<typeof editEventSchema>;

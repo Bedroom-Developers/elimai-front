@@ -3,7 +3,7 @@ import { Shareholder, Ticket } from "@/shared/types";
 
 import { Button } from "@mantine/core";
 
-import "/public/Nunito-Bold-normal.js";
+import "@/shared/lib/Nunito-Bold-normal";
 
 import { useCreatePdf } from "@/shared/hooks";
 import { useTranslations } from "next-intl";

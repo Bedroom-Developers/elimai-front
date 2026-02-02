@@ -1,11 +1,11 @@
 "use client"
 import { Event, useGetEventsList } from "@/shared/api/generated"
 import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPositioner, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/components/ui/dropdown-menu"
 import { ColumnDef, MappedTable } from "@/shared/components/ui/table"
 import { format } from "date-fns"
-import { AlertCircleIcon, AlertTriangleIcon, EllipsisIcon, FileIcon, SquarePen, Trash } from "lucide-react"
+import { AlertCircleIcon, AlertTriangleIcon } from "lucide-react"
 import { EVENT_QUERY_KEY, EventsAccesorKeys } from "../../constants"
+import { EventActions } from "./EventActions"
 import { EventManagementTableSkeleton } from "./EventManagementTable.skeleton"
 const columns: ColumnDef<Event, EventsAccesorKeys>[] = [
 
@@ -37,36 +37,14 @@ const columns: ColumnDef<Event, EventsAccesorKeys>[] = [
     {
         header: "Действия",
         accessorKey: "actions",
-        cell: (row) => <DropdownMenu>
-            <DropdownMenuTrigger><EllipsisIcon className="size-4" /></DropdownMenuTrigger>
-            <DropdownMenuPositioner>
-                <DropdownMenuContent>
-                    <DropdownMenuGroup>
-                        <DropdownMenuLabel>Управление событием</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                            <SquarePen />
-                            Изменить
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Trash />
-                            Удалить
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuLabel>Отчеты</DropdownMenuLabel>
-                        <DropdownMenuItem> <FileIcon />Скачать Excel</DropdownMenuItem>
-                    </DropdownMenuGroup>
-                </DropdownMenuContent>
-            </DropdownMenuPositioner>
-        </DropdownMenu>
+        cell: (row) => <EventActions event={row} />
     }
 ]
 
 export const EventsManagementTable = () => {
     const { data: events, isLoading, error } = useGetEventsList({
         query: {
-            queryKey: [EVENT_QUERY_KEY.LIST],
+            queryKey: EVENT_QUERY_KEY.LIST,
         }
     })
     if (isLoading) return <EventManagementTableSkeleton />
