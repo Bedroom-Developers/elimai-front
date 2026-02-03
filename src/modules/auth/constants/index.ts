@@ -43,7 +43,7 @@ export const ALLOWED_DOMAINS_FOR_RESTORE = [
 ];
 
 export const ROLES = {
-  ADMIN: "admin",
+  ADMIN: "superadmin",
   USER: "user",
   VOLUNTEER: "volunteer",
 } as const;

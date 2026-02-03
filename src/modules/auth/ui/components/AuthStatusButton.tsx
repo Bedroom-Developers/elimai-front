@@ -1,3 +1,4 @@
+'use client'
 
 import { LogoutBtn } from "@/features"
 import { Link } from "@/i18n/routing"
@@ -20,7 +21,9 @@ export const AuthStatusButton = () => {
             isLogged ?
                 <LogoutBtn />
                 :
-                <Button nativeButton={false} variant={'default'} render={(props) => <Link href={'/login'} {...props}><LogInIcon size={14} />{t('auth.login.btn')}</Link>}
-                />}
+                <Button variant={'default'} asChild><Link href={'/login'}>
+                    <LogInIcon size={14} />{t('auth.login.btn')}</Link>
+                </Button>
+        }
     </section>
 }

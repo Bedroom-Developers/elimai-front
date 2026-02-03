@@ -1,17 +1,10 @@
-import { LocaleSwitcher } from "@/widgets";
-import { Box } from "@mantine/core";
+import LocaleSwitcher from "../_components/LocaleSwitcher";
 
 export default async function RootLayout({ children }: { children: any }) {
     return <>
-        <Box style={{
-            position: 'absolute',
-            top: 20,
-            right: 20
-        }}>
-            <LocaleSwitcher />
-        </Box>
+        <LocaleSwitcher className="absolute top-4 right-4" />
         <main className="bg-[url('/bg-item.png')]">
-        {children}
+            {children}
         </main>
     </>
 }
