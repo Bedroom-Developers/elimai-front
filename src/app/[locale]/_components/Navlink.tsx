@@ -1,6 +1,6 @@
 'use client'
 import { Link as IntlLink } from "@/i18n/routing"
-import { cn } from "@/lib/utils"
+import { cn } from "@/shared/lib/utils"
 import { useLocale, useTranslations } from "next-intl"
 import Link from "next/link"
 import { usePathname } from "next/navigation"

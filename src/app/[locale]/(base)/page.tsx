@@ -1,10 +1,30 @@
 import { EventsView } from "@/modules/events/ui/components/EventsView";
-import { HeroSection } from "@/widgets";
+import { getTranslations } from "next-intl/server";
+import dayjs from "dayjs";
+import styles from "./page.module.css";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations();
   return (
     <section>
-      <HeroSection />
+      <div className={styles.image}>
+        <div className="absolute inset-0 z-1 bg-black/10" />
+        <div className="relative z-2 flex h-full max-w-[1200px] mx-auto flex-col justify-center gap-2.5 px-4 xl:px-0">
+          <div className="absolute bottom-2.5 bg-black/40 p-4 md:p-8 lg:p-12">
+            <div className="flex items-center gap-2.5">
+              <span className="mr-2.5 bg-[#ff8700] px-2.5 py-0.75 text-xs font-bold uppercase text-white md:text-[13px] xl:text-sm">
+                {t("hero.subtitle")}
+              </span>
+              <span className="text-xs font-bold text-white md:text-[13px] lg:text-sm">
+                {dayjs(new Date()).format("DD.MM.YYYY")}
+              </span>
+            </div>
+            <h1 className="text-xl font-bold text-white md:text-2xl lg:text-[28px]">
+              {t("hero.title")}
+            </h1>
+          </div>
+        </div>
+      </div>
       <EventsView />
     </section>
   );
