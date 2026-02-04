@@ -1,5 +1,5 @@
 import { useGetTicketsCountList } from "@/shared/api/generated"
-import { EventStatus } from "../../constants"
+import { EventStatus } from "../../../events/constants"
 
 interface TicketsCountWrapperProps {
     eventId: number

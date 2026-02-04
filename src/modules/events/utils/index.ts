@@ -4,8 +4,12 @@ import dayjsTZ from "@/shared/dayjs"
 export const formatEventDate = (date: string) => {
     return dayjsTZ(date).format("DD.MM.YYYY HH:mm")
 }
+export const formatEventName = (name: string, locale: string) => {
+    const elimai = locale === "kz" ? "Елімай" : "Елимай"
+    return locale === "kz" ? `${elimai} — ${name}` : `${elimai} - ${name}`
+}
 
-export const formatEventName = (event: Event, locale: string) => {
+export const formatEventNameFromEvent = (event: Event, locale: string) => {
     const elimai = locale === "kz" ? "Елімай" : "Елимай"
     return locale === "kz" ? `${elimai} — ${event.name_kz}` : `${elimai} - ${event.name_ru}`
 }

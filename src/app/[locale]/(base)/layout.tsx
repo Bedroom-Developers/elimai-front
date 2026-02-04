@@ -1,5 +1,5 @@
-import { getTranslations } from "next-intl/server"
 import { Link } from "@/i18n/routing"
+import { getTranslations } from "next-intl/server"
 import { Header } from "../_components/Header"
 import { PartnersSection } from "../_components/PartnersSection"
 
@@ -7,11 +7,11 @@ export default async function Layout({ params, children }: { params: { locale: s
     const t = await getTranslations()
     return <section>
         <Header />
-        <main>
+        <main className="px-2 md:px-0">
             {children}
         </main>
         <PartnersSection />
-          <footer>
+        <footer>
             <div className="mx-auto max-w-[1200px] p-2.5 sm:p-2.5 xl:p-0">
                 <Link
                     href="/policy"

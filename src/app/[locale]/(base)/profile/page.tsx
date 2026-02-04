@@ -1,9 +1,8 @@
-import { Profile } from "@/widgets";
-import { Box } from "@mantine/core";
+import { UserProfile } from "@/modules/users";
 
 export default function Page() {
-    return <Box mih={'60vh'}  >
-        <Profile />
-    </Box>
+    return <section className="min-h-[60vh]">
+        <UserProfile />
+    </section>
 
 }

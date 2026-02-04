@@ -4,8 +4,8 @@ import { ButtonProps } from "@/shared/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/components/ui/dialog"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
-import { BuyTicketsSchema } from "../../schemas/buy.schema"
-import { formatPhoneNumber } from "../../utils"
+import { BuyTicketsSchema } from "../../../events/schemas/buy.schema"
+import { formatPhoneNumber } from "../../../events/utils"
 import { BuyTicketsForm } from "../forms/BuyTicketsForm"
 type BuyTicketDialogProps = {
     eventId: number

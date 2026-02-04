@@ -1,13 +1,14 @@
 import { EventsView } from "@/modules/events/ui/components/EventsView";
-import { getTranslations } from "next-intl/server";
+import { cn } from "@/shared/lib/utils";
 import dayjs from "dayjs";
+import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
 
 export default async function HomePage() {
   const t = await getTranslations();
   return (
     <section>
-      <div className={styles.image}>
+      <div className={cn(styles.image, "w-screen -ml-2 md:ml-0 -mr-2 md:mr-0")}>
         <div className="absolute inset-0 z-1 bg-black/10" />
         <div className="relative z-2 flex h-full max-w-[1200px] mx-auto flex-col justify-center gap-2.5 px-4 xl:px-0">
           <div className="absolute bottom-2.5 bg-black/40 p-4 md:p-8 lg:p-12">

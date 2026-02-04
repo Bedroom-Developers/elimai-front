@@ -5,12 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui
 import { AlertCircleIcon, AlertTriangleIcon, CheckCircleIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"
+import { TicketsCountWrapper } from "../../../tickets/ui/components/TicketsCountWrapper"
 import { EventStatus } from "../../constants"
 import { EventCalendar } from "./EventCalendar"
 import { EventListSkeleton } from "./EventList.skeleton"
 import { NextEventInfoCard } from "./NextEventInfoCard"
 import { NextEventTable } from "./NextEventTable"
-import { TicketsCountWrapper } from "./TicketsCountWrapper"
 
 export const EventsView = () => {
     const t = useTranslations()
