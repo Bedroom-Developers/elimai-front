@@ -72,7 +72,7 @@ axiosApi.interceptors.response.use(
             "[Interceptor] No existing refreshPromise. Creating new one."
           );
           const promise = axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}token/refresh/`,
+            `${process.env.NEXT_PUBLIC_BACKENDURL}token/refresh/`,
             {
               refresh: refreshToken,
             }
