@@ -6,7 +6,6 @@ export const axiosApi = axios.create({
 });
 
 const publicRoutes: string[] = [
-  "create-shareholder-public/",
   "send-code",
   "verify-code",
   "reset-password",

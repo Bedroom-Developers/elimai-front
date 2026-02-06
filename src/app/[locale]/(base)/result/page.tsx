@@ -1,8 +1,7 @@
-import { ResultWindow } from "@/widgets";
-import { Center } from "@mantine/core";
+import { TicketsPurchaseResultView } from "@/modules/tickets";
 
 export default function Page() {
-    return <Center h={'100%'} w={'100%'} >
-        <ResultWindow />
-    </Center>
+    return <section className="min-h-screen flex items-center justify-center">
+        <TicketsPurchaseResultView />
+    </section>
 }
