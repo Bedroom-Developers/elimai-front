@@ -5,9 +5,9 @@ import { PartnersSection } from "../_components/PartnersSection"
 
 export default async function Layout({ params, children }: { params: { locale: string }, children: any }) {
     const t = await getTranslations()
-    return <section>
+    return <section >
         <Header />
-        <main className="px-2 md:px-0">
+        <main className="px-2 md:px-0 my-5">
             {children}
         </main>
         <PartnersSection />

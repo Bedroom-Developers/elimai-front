@@ -1,6 +1,9 @@
+'use client'
+
 import { UserBoughtTicketsTable } from "@/modules/tickets";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { useTranslations } from "next-intl";
+import { UserCertificate } from "./UserCertificate";
 
 export const UserProfile = () => {
 
@@ -14,7 +17,7 @@ export const UserProfile = () => {
             <TabsContent value="tickets" className="border p-2 rounded-md">
                 <UserBoughtTicketsTable />
             </TabsContent>
-            <TabsContent value="cert">cert</TabsContent>
+            <TabsContent value="cert"><UserCertificate /></TabsContent>
         </Tabs>
     </section>
 }
