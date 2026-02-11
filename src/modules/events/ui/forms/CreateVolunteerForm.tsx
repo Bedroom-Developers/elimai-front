@@ -20,7 +20,7 @@ export const CreateVolunteerForm = ({ onSubmit, isPending }: CreateVolunteerForm
         <FormField label="Введите email" name="email" error={form.formState.errors.email?.message}>
             <Input placeholder="Email" {...form.register("email")} />
         </FormField>
-        <FormField label="Password" name="password" error={form.formState.errors.password?.message}>
+        <FormField label="Введите пароль" name="password" error={form.formState.errors.password?.message}>
             <Input placeholder="Введите пароль" {...form.register("password")} />
         </FormField>
         <Button disabled={isPending} type="submit">Создать волонтера</Button>
