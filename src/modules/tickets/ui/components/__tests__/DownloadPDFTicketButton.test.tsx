@@ -1,3 +1,4 @@
+import { Ticket } from '@/modules/tickets/types'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { NextIntlClientProvider } from 'next-intl'
@@ -16,7 +17,7 @@ vi.mock('@/modules/tickets/hooks/use-pdf', () => ({
 describe('DownloadPDFTicketButton', () => {
     it('calls downloadTicketsPDF with tickets on click', async () => {
         const user = userEvent.setup()
-        const tickets = [{ id: 1, code: 'ABC', /* остальные поля Ticket */ } as any]
+        const tickets: Ticket[] = [{ code: 'ABC', name_ru: 'ABC', name_kz: 'ABC', date: new Date().toISOString(), status: 'active' }]
 
         render(
             <NextIntlClientProvider locale="ru" messages={messages}>

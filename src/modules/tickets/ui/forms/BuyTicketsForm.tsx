@@ -16,8 +16,9 @@ interface BuyTicketsFormProps {
     remaining: number
     isLoading: boolean
     onSubmit: (data: BuyTicketsSchema) => void
+    isPending: boolean
 }
-export const BuyTicketsForm = ({ isLoading, ticketsCount, remaining, onSubmit }: BuyTicketsFormProps) => {
+export const BuyTicketsForm = ({ isLoading, ticketsCount, remaining, onSubmit, isPending }: BuyTicketsFormProps) => {
     const t = useTranslations()
 
 
@@ -101,7 +102,7 @@ export const BuyTicketsForm = ({ isLoading, ticketsCount, remaining, onSubmit }:
                 type="submit"
                 className="w-full"
                 role="buy-tickets-form-submit-button"
-                disabled={form.formState.isSubmitting}
+                disabled={isPending}
             >
                 {form.formState.isSubmitting ? t("buy.form.btnPending") : t("buy.form.btn")}
             </Button>

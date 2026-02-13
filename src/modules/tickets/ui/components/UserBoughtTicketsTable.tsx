@@ -21,7 +21,6 @@ export const UserBoughtTicketsTable = () => {
         });
 
     }, [data])
-    console.log(data, groupedTickets)
 
     if (isLoading) {
         return (
