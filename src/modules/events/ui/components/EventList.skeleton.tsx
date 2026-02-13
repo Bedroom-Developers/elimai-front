@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs"
 export const EventListSkeleton = () => {
 
     return (
-        <section className="max-w-4xl mx-auto my-2">
+        <section className="max-w-4xl mx-auto my-2" data-testid="event-list-skeleton">
             <Tabs defaultValue="next">
                 <TabsList className="w-full gap-1">
                     <TabsTrigger value="next" disabled>

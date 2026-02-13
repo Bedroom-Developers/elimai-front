@@ -28,3 +28,9 @@ export const downloadPDF = async (pdfDoc: PDFDocument, name: string) => {
     link.click();
     revokePdfUrl(link.href);
 };
+
+export const isTicketCountValid = ({ count, ticketsCount, limit }: { count: number, ticketsCount: number, limit: number }) => {
+    if (count > ticketsCount) return false
+    if (count + limit >= 4) return false
+    return true
+}

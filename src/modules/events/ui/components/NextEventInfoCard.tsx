@@ -5,15 +5,17 @@ import { EventStatus } from "../../constants";
 interface NextEventInfoCardProps {
     ticketsCount: number
     status: string
+    isLoading: boolean
 }
-export const NextEventInfoCard = ({ ticketsCount, status }: NextEventInfoCardProps) => {
+export const NextEventInfoCard = ({ ticketsCount, status, isLoading }: NextEventInfoCardProps) => {
     const t = useTranslations();
 
-    console.log(ticketsCount, status)
+    if (isLoading) return null
 
     if (status == EventStatus.NEXT) {
         return (
             <Alert
+                data-testid="next-event-info-card"
                 variant={'success'}
                 title={t("alert.near.title")}
             >
@@ -31,6 +33,7 @@ export const NextEventInfoCard = ({ ticketsCount, status }: NextEventInfoCardPro
         return (
             <Alert
                 variant="error"
+                data-testid="sold-out-event-info-card"
             >
                 <AlertTriangle />
                 <AlertTitle>{t("alert.soldout.title")}</AlertTitle>

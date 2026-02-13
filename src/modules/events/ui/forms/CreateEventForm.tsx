@@ -24,10 +24,10 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
     }
     return <form onSubmit={form.handleSubmit(onSubmitHandler)} className="flex flex-col gap-2">
         <div className="flex gap-2 w-full">
-            <FormField label="Название (ru)" name="name_ru" error={form.formState.errors.name_ru?.message}>
+            <FormField label="Название (ru)" name="name_ru" error={form.formState.errors.name_ru?.message} dataTestId="name_ru_error">
                 <Input {...form.register("name_ru")} />
             </FormField>
-            <FormField label="Название (kz)" name="name_kz" error={form.formState.errors.name_kz?.message}>
+            <FormField label="Название (kz)" name="name_kz" error={form.formState.errors.name_kz?.message} dataTestId="name_kz_error">
                 <Input {...form.register("name_kz")} />
             </FormField>
         </div>
@@ -36,7 +36,7 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
                 name="event_date"
                 control={form.control}
                 render={({ field: { value, onChange }, formState: { errors } }) => (
-                    <FormField label="Дата" name="event_date" error={errors.event_date?.message}>
+                    <FormField label="Дата" name="event_date" error={errors.event_date?.message} dataTestId="event_date_error">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant={'outline'} className={'justify-start'} >
@@ -66,7 +66,7 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
                                         onChange(next);
                                     }}
                                 />
-                                <FormField label="Время" name="event_time">
+                                <FormField label="Время" name="event_time" >
                                     <Input
                                         type="time"
                                         step="1"
@@ -99,7 +99,7 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
                 name="status"
                 control={form.control}
                 render={({ field: { value, onChange }, formState: { errors } }) => (
-                    <FormField label="Статус" name="status" error={errors.status?.message}>
+                    <FormField label="Статус" name="status" error={errors.status?.message} dataTestId="status_error">
                         <Select
                             value={value}
                             onValueChange={onChange}
@@ -115,7 +115,7 @@ export const CreateEventForm = ({ isPending, onSubmit }: CreateEventFormProps) =
                 )}
             />
         </div>
-        <FormField label="Количество билетов" name="ticket_count" error={form.formState.errors.ticket_count?.message}>
+        <FormField label="Количество билетов" name="ticket_count" error={form.formState.errors.ticket_count?.message} dataTestId="ticket_count_error">
             <Input   {...form.register("ticket_count")} />
         </FormField>
 

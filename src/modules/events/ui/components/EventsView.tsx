@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl"
 import { useMemo } from "react"
 import { TicketsCountWrapper } from "../../../tickets/ui/components/TicketsCountWrapper"
 import { EventStatus } from "../../constants"
+import { getNextEvent } from "../../utils"
 import { EventCalendar } from "./EventCalendar"
 import { EventListSkeleton } from "./EventList.skeleton"
 import { NextEventInfoCard } from "./NextEventInfoCard"
@@ -15,20 +16,8 @@ import { NextEventTable } from "./NextEventTable"
 export const EventsView = () => {
     const t = useTranslations()
     const { data: events, isLoading } = useGetEventsList()
-    console.log(events)
     const nextEvent = useMemo(() => {
-        const matches = events?.filter(
-            (event) => event.status === EventStatus.NEXT || event.status === EventStatus.ACTIVE
-        );
-
-        if (matches?.length && matches.length > 1) {
-            console.warn(
-                `Multiple next/active events found (${matches.length}):`,
-                matches.map((e) => ({ id: e.id, status: e.status }))
-            );
-        }
-
-        return matches?.[0] ?? null;
+        return getNextEvent(events)
     }, [events]);
 
 
@@ -38,7 +27,7 @@ export const EventsView = () => {
 
     if (!events) {
         return (
-            <section className="max-w-4xl mx-auto my-10">
+            <section data-testid="events-view-error" className="max-w-4xl mx-auto my-10">
                 <Alert
                     variant="error"
                 >
@@ -51,7 +40,7 @@ export const EventsView = () => {
     }
     if (events.length === 0) {
         return (
-            <section className="max-w-4xl mx-auto my-10">
+            <section data-testid="events-view-not-found" className="max-w-4xl mx-auto my-10">
                 <Alert
                     variant={'warning'}
                 >
@@ -64,7 +53,7 @@ export const EventsView = () => {
     }
     if (events.every((event) => event.status == EventStatus.INACTIVE)) {
         return (
-            <section className="max-w-4xl mx-auto my-10">
+            <section data-testid="events-view-end-of-season" className="max-w-4xl mx-auto my-10">
 
                 <Alert
                     variant="success"
@@ -89,11 +78,11 @@ export const EventsView = () => {
                     className="min-h-32 flex  justify-center flex-col border rounded-md p-1"
                 >
                     {nextEvent && nextEvent.id && nextEvent.status &&
-                        <TicketsCountWrapper eventId={nextEvent.id} status={nextEvent.status}>
+                        <TicketsCountWrapper eventId={nextEvent.id} enabled={nextEvent.status == EventStatus.ACTIVE}>
                             {
-                                (ticketsCount) =>
+                                ({ ticketsCount, isLoading }) =>
                                     <>
-                                        <NextEventInfoCard status={nextEvent.status} ticketsCount={ticketsCount} />
+                                        <NextEventInfoCard status={nextEvent.status} ticketsCount={ticketsCount} isLoading={isLoading} />
                                         <NextEventTable event={nextEvent} ticketsCount={ticketsCount} />
                                     </>
 

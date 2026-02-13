@@ -22,7 +22,9 @@
       "@/*": ["./src/*", "./*"]
     }
   },
+  "types": ["vitest/globals", "@testing-library/jest-dom"],
   "include": [
+    "./src/test-setup.ts",
     "./src/types/global.d.ts",
     "next-env.d.ts",
     "**/*.ts",
