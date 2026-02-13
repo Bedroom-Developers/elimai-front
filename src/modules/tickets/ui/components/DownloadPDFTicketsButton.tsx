@@ -11,7 +11,7 @@ type DownloadPDFTicketsButtonProps = ComponentProps<typeof Button> & {
 export const DownloadPDFTicketsButton = ({ tickets, ...props }: DownloadPDFTicketsButtonProps) => {
     const t = useTranslations("seeTickets")
     const { downloadTicketsPDF } = useCreatePdf()
-    return <Button {...props} onClick={() => downloadTicketsPDF(tickets)}>
+    return <Button {...props} onClick={() => downloadTicketsPDF(tickets)} role='download-pdf-tickets-button'>
         <DownloadIcon className="w-4 h-4" />
         <span>{t("downloadAction")}</span>
     </Button>

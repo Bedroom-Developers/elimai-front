@@ -70,7 +70,7 @@ const fillTicketTemplate = async (pdfDoc: PDFDocument, page: PDFPage, font: PDFF
     });
 
 }
-const fillTemplate = async (
+const fillCertTemplate = async (
     pdfDoc: PDFDocument,
     page: PDFPage,
     font: PDFFont,
@@ -154,6 +154,7 @@ const fillTemplate = async (
 
 export const useCreatePdf = () => {
     const downloadTicketsPDF = async (tickets: Ticket[]) => {
+        if (tickets.length === 0) return;
         const pdfDoc = await initPdf();
         const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
         for (const ticket of tickets) {
@@ -176,7 +177,7 @@ export const useCreatePdf = () => {
         const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
         const page = await addTemplate(pdfDoc, "/cert-template.png");
         if (!page) return;
-        await fillTemplate(pdfDoc, page, font, cert.code, cert.full_name, cert.count, cert.shareholder_level, cert.id);
+        await fillCertTemplate(pdfDoc, page, font, cert.code, cert.full_name, cert.count, cert.shareholder_level, cert.id);
         downloadPDF(pdfDoc, `Certificate - ${cert.full_name}.pdf`);
     }
     return { downloadTicketsPDF, downloadCertPDF };
