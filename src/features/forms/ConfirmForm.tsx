@@ -21,7 +21,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
   const t = useTranslations();
 
   const router = useRouter();
-  const { mutate: register, isLoading: registerIsLoading } = useMutation({
+  const { mutate: register, isPending: registerIsLoading } = useMutation({
     mutationKey: ["register"],
     mutationFn: rVerifyCode,
     onSuccess: (data) => {
@@ -36,7 +36,7 @@ export const ConfirmForm = ({ mode, userData }: ConfirmFormProps) => {
       });
     },
   });
-  const { mutate: restore, isLoading: restoreIsLoading } = useMutation({
+  const { mutate: restore, isPending: restoreIsLoading } = useMutation({
     mutationKey: ["restore"],
     mutationFn: rRestorePassword,
     onSuccess: (data) => {

@@ -25,6 +25,4 @@ export const HeaderLink = () => {
             </Text>
         </Center>
     </button>
-
-
 }

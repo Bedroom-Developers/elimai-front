@@ -1,5 +1,4 @@
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core"
-import { AdminSidebar } from "./_components/AdminSidebar"
 
 export const metadata = {
 
@@ -22,7 +21,7 @@ export default function AdminLayout({
                 />
             </head>
             <body className="min-h-screen">
-                <AdminSidebar>{children}</AdminSidebar>
+                {children}
             </body>
         </html>
     )

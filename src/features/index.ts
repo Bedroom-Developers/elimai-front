@@ -5,7 +5,7 @@ export { DeleteGameBtn } from './DeleteGameBtn';
 export { DownloadBtn } from './DownloadBtn';
 export { EditGameBtn } from './EditGameBtn';
 export { LogoutBtn } from './LogoutBtn';
-export { QRScanner } from './QRScanner';
+export { QRScannerDialog as QRScanner } from '@/modules/tickets/ui/dialogs/QRScannerDialog';
 export { SelectTicketCount } from './SelectTicketCount';
 export { VolunteerBtn } from './VolunteerBtn';
 

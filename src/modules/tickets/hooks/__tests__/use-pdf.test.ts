@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Ticket } from "../../types";
 import { useCreatePdf } from "../use-pdf";
 
+import { EventStatus } from "@/modules/events/constants";
 import { Certificate } from "@/modules/users/types";
 import * as utils from "../../utils";
 vi.mock("pdf-lib", () => {
@@ -29,9 +30,7 @@ vi.mock("pdf-lib", () => {
         addPage: addPageMock,
         embedPng: vi.fn().mockResolvedValue(imageMock),
         embedJpg: vi.fn().mockResolvedValue(imageMock),
-
     }
-
     return {
         PDFDocument: {
             create: vi.fn().mockResolvedValue(pdfDocMock),
@@ -45,7 +44,6 @@ describe('use-pdf', () => {
         vi.spyOn(global, "fetch" as any).mockResolvedValue({
             arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
         } as any)
-
         vi.spyOn(utils, "downloadPDF").mockImplementation(async () => { })
         vi.spyOn(utils, "generateQrDataUrl").mockResolvedValue("data:image/png;base64,xxx")
     })
@@ -56,7 +54,7 @@ describe('use-pdf', () => {
     it('should download tickets PDF', async () => {
         const { result } = renderHook(() => useCreatePdf())
         const { downloadTicketsPDF } = result.current
-        const tickets = [{ id: 1, code: '123', event_id: 1, user_id: 1, created_at: new Date(), updated_at: new Date() }] as unknown as Ticket[]
+        const tickets: Ticket[] = [{ code: '1', status: EventStatus.ACTIVE, date: new Date().toISOString(), name_kz: "Event1", name_ru: 'Event2' }]
         await downloadTicketsPDF(tickets)
         expect(utils.downloadPDF).toHaveBeenCalledTimes(1)
     })
@@ -64,7 +62,7 @@ describe('use-pdf', () => {
     it("should download cert PDF", async () => {
         const { result } = renderHook(() => useCreatePdf())
         const { downloadCertPDF } = result.current
-        const cert = { code: '123', full_name: 'John Doe', shareholder_level: 'A', position: '1', count: '1', id: '1' } as unknown as Certificate
+        const cert: Certificate = { code: '123', full_name: 'John Doe', shareholder_level: 'A', position: '1', count: '1', id: '1' }
         await downloadCertPDF(cert)
         expect(utils.downloadPDF).toHaveBeenCalledTimes(1)
     })
@@ -76,5 +74,4 @@ describe('use-pdf', () => {
         await downloadTicketsPDF(tickets)
         expect(utils.downloadPDF).not.toHaveBeenCalled()
     })
-
 })

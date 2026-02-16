@@ -22,7 +22,9 @@ async function adminMiddleware(req: NextRequest) {
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
 }
+
 const publicRoutes = ['register', 'login']
+
 const privateRoutes = ['profile']
 
 function authMiddleware(req: NextRequest) {

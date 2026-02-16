@@ -1,11 +1,19 @@
 "use client";
+
 import { rScanCert, rScanSub, rScanTicket } from "@/shared/api/games";
-import { Box, Button, Loader, Modal, Notification, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/components/ui/dialog";
 import { useMutation } from "@tanstack/react-query";
 import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import dayjs from "dayjs";
-import { CheckIcon, XIcon } from "lucide-react";
+import { CheckIcon, Loader2, QrCode, XIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -24,22 +32,63 @@ const resultMsg = {
   certBonusError: "Ошибка: Бонусы не активны.",
   certNotFoundError: "Ошибка: Сертификат не найден.",
 };
-export const QRScanner = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+
+function ResultView({
+  loading,
+  result,
+}: {
+  loading: boolean;
+  result: { status: number; message: string } | null;
+}) {
+  if (loading) {
+    return (
+      <Alert variant="default" className="flex items-center gap-2">
+        <Loader2 className="size-4 animate-spin" />
+        <AlertTitle>Сканирование...</AlertTitle>
+        <AlertDescription>Обработка билета</AlertDescription>
+      </Alert>
+    );
+  }
+  if (result?.status === 200) {
+    return (
+      <Alert variant="success" className="whitespace-pre-line">
+        <CheckIcon className="size-4" />
+        <AlertTitle>Успешно!</AlertTitle>
+        <AlertDescription>{result.message}</AlertDescription>
+      </Alert>
+    );
+  }
+  if (result !== null) {
+    return (
+      <Alert variant="error">
+        <XIcon className="size-4" />
+        <AlertTitle>Ошибка!</AlertTitle>
+        <AlertDescription>{result.message}</AlertDescription>
+      </Alert>
+    );
+  }
+  return (
+    <Alert variant="success">
+      <CheckIcon className="size-4" />
+      <AlertTitle>QR Сканнер готов</AlertTitle>
+      <AlertDescription>Начните сканирование</AlertDescription>
+    </Alert>
+  );
+}
+
+export function QRScannerDialog() {
   const { id } = useParams();
-  const [paused, setPaused] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [res, setRes] = useState<{ status: number; message: string } | null>(
     null
   );
-  const { mutate: scanTicket, isLoading: isLoadingTicket } = useMutation({
+
+  const { mutate: scanTicket, isPending: isLoadingTicket } = useMutation({
     mutationKey: ["scan ticket"],
     mutationFn: rScanTicket,
-    onSettled: () => {
-      setPaused(false);
-    },
-    onSuccess: (data) => {
-      setRes({ status: 200, message: resultMsg.scan });
-    },
+    onSettled: () => setPaused(false),
+    onSuccess: () => setRes({ status: 200, message: resultMsg.scan }),
     onError: (e: {
       status: number;
       message: keyof typeof resultMsg;
@@ -51,21 +100,18 @@ export const QRScanner = () => {
           resultMsg[e.message] +
           (e.time
             ? `Время последнего сканирования: ${dayjs(e.time).format(
-                "YYYY-MM-DD HH:mm"
-              )}`
+              "YYYY-MM-DD HH:mm"
+            )}`
             : ""),
       });
     },
   });
-  const { mutate: scanSub, isLoading: isLoadingSub } = useMutation({
+
+  const { mutate: scanSub, isPending: isLoadingSub } = useMutation({
     mutationKey: ["scan sub"],
     mutationFn: rScanSub,
-    onSettled: () => {
-      setPaused(false);
-    },
-    onSuccess: (data) => {
-      setRes({ status: 200, message: resultMsg.scan });
-    },
+    onSettled: () => setPaused(false),
+    onSuccess: () => setRes({ status: 200, message: resultMsg.scan }),
     onError: (e: {
       message: keyof typeof resultMsg;
       status: number;
@@ -81,52 +127,39 @@ export const QRScanner = () => {
       });
     },
   });
-  const { mutate: scanCert, isLoading: isLoadingCert } = useMutation({
+
+  const { mutate: scanCert, isPending: isLoadingCert } = useMutation({
     mutationKey: ["scan cert"],
     mutationFn: rScanCert,
-    onSettled: () => {
-      setPaused(false);
-    },
+    onSettled: () => setPaused(false),
     onSuccess: (data) => {
-      console.log(data);
       const lvl = Number(data.shareholder_level.split("-")[0]);
       setRes({
         status: 200,
         message:
           resultMsg.scan +
-          `\n${data.full_name}\nУровень: ${data.shareholder_level}\nБонусы: ${
-            data.bonus_status ? "Активны" : "Не активны"
+          `\n${data.full_name}\nУровень: ${data.shareholder_level}\nБонусы: ${data.bonus_status ? "Активны" : "Не активны"
           }\n ${lvl <= 2 ? "Срок действия: 31.12.2026" : ""}`,
       });
     },
     onError: (e: { message: string; time: string; bonusStatus: boolean }) => {
-      if (e.bonusStatus == false) {
-        setRes({
-          status: 400,
-          message: resultMsg.certBonusError,
-        });
+      if (e.bonusStatus === false) {
+        setRes({ status: 400, message: resultMsg.certBonusError });
         return;
       }
-      if (e.message == "used") {
+      if (e.message === "used") {
         setRes({
           status: 400,
           message:
             resultMsg.certUsedError +
             (e.time
-              ? `Время последнего сканирования: ${e.time.replace("+", " ")}
-              `
+              ? `Время последнего сканирования: ${e.time.replace("+", " ")}`
               : ""),
         });
-      } else if (e.message == "not-found") {
-        setRes({
-          status: 400,
-          message: resultMsg.certNotFoundError,
-        });
+      } else if (e.message === "not-found") {
+        setRes({ status: 400, message: resultMsg.certNotFoundError });
       } else {
-        setRes({
-          status: 400,
-          message: resultMsg.finally,
-        });
+        setRes({ status: 400, message: resultMsg.finally });
       }
     },
   });
@@ -134,12 +167,9 @@ export const QRScanner = () => {
   const onScan = (result: IDetectedBarcode[]) => {
     setPaused(true);
     setRes(null);
-    if (!result[0] && !id) {
-      return;
-    }
+    if (!result[0] && !id) return;
     const code = result[0].rawValue;
     const type = code.split("-")[0];
-    console.log(type);
 
     try {
       switch (type) {
@@ -152,7 +182,6 @@ export const QRScanner = () => {
         case "cert":
           scanCert({ event_id: id as string, code });
           break;
-
         default:
           setRes({
             status: 404,
@@ -165,98 +194,45 @@ export const QRScanner = () => {
       console.error(e);
     }
   };
+
+  const handleOpenChange = (next: boolean) => {
+    if (!next) setRes(null);
+    setOpen(next);
+  };
+
   return (
-    <>
-      <Modal
-        fullScreen
-        opened={opened}
-        onClose={() => {
-          setRes(null);
-          close();
-        }}
-        title={"QR Сканнер"}
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <Button variant="default" className="w-full">
+          <QrCode />
+          <span>
+            Скан билета
+          </span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        showCloseButton={true}
       >
-        <Stack align="center">
-          <Box w={358} h={358}>
+        <DialogHeader>
+          <DialogTitle>QR Сканнер</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-1 flex-col items-center justify-center gap-5">
+          <div className="h-[358px] w-[358px] overflow-hidden rounded-lg border">
             <Scanner
               allowMultiple
               scanDelay={2000}
               onScan={onScan}
               paused={paused}
             />
-          </Box>
-
-          <Box mt={20}>
+          </div>
+          <div className="w-full max-w-[358px]">
             <ResultView
               loading={isLoadingTicket || isLoadingSub || isLoadingCert}
               result={res}
             />
-          </Box>
-        </Stack>
-      </Modal>
-      <Button w={"100%"} variant="base" onClick={open}>
-        {" "}
-        Скан билета
-      </Button>
-    </>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
-};
-
-const ResultView = ({
-  loading,
-  result,
-}: {
-  loading: boolean;
-  result: { status: number; message: string } | null;
-}) => {
-  console.log(result);
-  if (loading) {
-    return <Loader />;
-  }
-  if (result?.status == 200) {
-    return (
-      <Notification
-        withCloseButton={false}
-        color="green"
-        icon={<CheckIcon size={20} />}
-        title="Успешно!"
-        style={{ whiteSpace: "pre-line" }}
-      >
-        {result.message}
-      </Notification>
-    );
-  } else if (result !== null) {
-    return (
-      <Notification
-        withCloseButton={false}
-        icon={<XIcon size={20} />}
-        color="red"
-        title="Ошибка!"
-      >
-        {result.message}
-      </Notification>
-    );
-  } else if (result === null) {
-    return (
-      <Notification
-        withCloseButton={false}
-        color="green"
-        icon={<CheckIcon size={20} />}
-        title="QR Сканнер готов"
-      >
-        Начните сканирование
-      </Notification>
-    );
-  } else {
-    return (
-      <Notification
-        withCloseButton={false}
-        icon={<XIcon size={20} />}
-        color="red"
-        title="Ошибка!"
-      >
-        {resultMsg.finally}
-      </Notification>
-    );
-  }
-};
+}
