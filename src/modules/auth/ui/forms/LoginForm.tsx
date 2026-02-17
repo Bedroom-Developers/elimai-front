@@ -1,6 +1,6 @@
 "use client";
 import { Link, useRouter } from "@/i18n/routing";
-import { useLoginCreate } from "@/shared/api/generated";
+import { LoginCreate200, useLoginCreate } from "@/shared/api/generated";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -37,11 +37,14 @@ export const LoginForm = () => {
   const { setIsLogged, setRole } = useAuthStore(state => state);
   const { mutate: login, isPending } = useLoginCreate({
     mutation: {
-      onSuccess: (data) => {
+      onSuccess: (data: LoginCreate200) => {
         setIsLogged(true);
         setRole(data.role as Role);
         setCookie("access", data.access);
         setCookie("refresh", data.refresh);
+        //TODO 
+        // @ts-ignore
+        setCookie("email", data.email);
         router.push("/");
       },
       onError: (error: ErrorType<{ non_field_errors: string[] }>) => {

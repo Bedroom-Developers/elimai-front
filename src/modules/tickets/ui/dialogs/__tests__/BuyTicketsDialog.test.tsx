@@ -11,6 +11,7 @@ import { BuyTicketDialog } from "../BuyTicketsDialog";
 // Mocks
 
 
+const url = "https://example.com/payment";
 const getCookieMock = vi.fn();
 vi.mock("cookies-next/client", () => ({
     getCookie: (...args: unknown[]) => getCookieMock(...args),
@@ -33,7 +34,6 @@ vi.mock("@/shared/api/generated", () => ({
 }));
 
 
-const windowOpenMock = vi.fn();
 
 // Mock формы, чтобы не кликать реальные поля — форма уже покрыта своими тестами
 vi.mock("../../forms/BuyTicketsForm", () => ({
@@ -42,6 +42,7 @@ vi.mock("../../forms/BuyTicketsForm", () => ({
             data-testid="mock-buy-tickets-form-submit"
             onClick={() =>
                 props.onSubmit({
+                    email: "test@example.com",
                     TELEPHONE: "+7-777-777-77-77",
                     count: "1",
                 })
@@ -70,7 +71,12 @@ describe("BuyTicketDialog", () => {
         await act(async () => {
             useAuthStore.setState({ isLogged: true })
         })
-        window.open = windowOpenMock;
+        Object.defineProperty(window, "location", {
+            value: {
+                href: url,
+            },
+            writable: true,
+        });
         getCookieMock.mockReturnValue("test@example.com");
 
         vi.clearAllMocks();
@@ -97,7 +103,6 @@ describe("BuyTicketDialog", () => {
         await user.click(screen.getByTestId("mock-buy-tickets-form-submit"));
 
         expect(mutateMock).toHaveBeenCalledTimes(1);
-        expect(windowOpenMock).not.toHaveBeenCalled();
 
         await act(async () => {
             mutationCallbacks.onSuccess?.({ url: undefined });
@@ -112,12 +117,11 @@ describe("BuyTicketDialog", () => {
         await user.click(screen.getByRole("button", { name: /Купить/i }));
         await user.click(screen.getByTestId("mock-buy-tickets-form-submit"));
 
-        const url = "https://example.com/payment";
         await act(async () => {
             mutationCallbacks.onSuccess?.({ url });
         });
 
-        expect(windowOpenMock).toHaveBeenCalledWith(url, "_blank");
+        expect(window.location.href).toBe(url)
         await waitFor(() => {
             expect(screen.queryByText("Покупка билетов")).not.toBeInTheDocument();
         });

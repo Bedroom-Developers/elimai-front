@@ -3,7 +3,6 @@ import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument, PDFFont, PDFPage, rgb } from "pdf-lib";
 
 
-import "@/shared/lib/Nunito-Bold-normal";
 import { Ticket } from "../types";
 import { downloadPDF, generateQrDataUrl } from "../utils";
 const initPdf = async () => {

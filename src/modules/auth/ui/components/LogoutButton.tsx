@@ -5,7 +5,7 @@ import { deleteCookie } from "cookies-next/client"
 import { LogOutIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
-export const LogoutBtn = () => {
+export const LogoutButton = () => {
     const router = useRouter()
     const logout = useAuthStore(state => state.logout);
     const handleLogout = () => {
@@ -21,3 +21,4 @@ export const LogoutBtn = () => {
         <span>{t('auth.logout')}</span>
     </Button>
 }
+

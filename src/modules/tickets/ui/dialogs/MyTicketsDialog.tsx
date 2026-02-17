@@ -33,7 +33,7 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
                 {t('label')}
             </Button>
         </DialogTrigger>
-        <DialogContent className="md:max-w-2xl  h-[70vh] block space-y-2  md:h-[90vh] overflow-y-auto ">
+        <DialogContent className="md:max-w-2xl  h-[99vh] space-y-2 flex flex-col   ">
             <DialogHeader>
                 <DialogTitle>{t('label')}</DialogTitle>
                 <DialogDescription>
@@ -41,19 +41,15 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
                 </DialogDescription>
 
             </DialogHeader>
-            {tickets ? <section className="flex flex-col gap-2 items-center">{tickets.map((ticket) => (
-                <TicketView ticket={ticket} />
-            ))}
-            </section> :
-                isLoading ?
-                    <Skeleton className="w-full h-full" />
-                    : !data ?
-                        <span className="text-sm text-muted-foreground text-center">
-                            {t("notFoundTickets.title")}</span> :
-                        <section className="flex flex-col gap-2 items-center">{data.map((ticket) => (
-                            <TicketView ticket={ticket} />
-                        ))}
-                        </section>}
+            {isLoading ?
+                <Skeleton className="w-full h-full" />
+                : !data ?
+                    <span className="text-sm text-muted-foreground text-center">
+                        {t("notFoundTickets.title")}</span> :
+                    <section className="flex flex-col gap-2 items-center overflow-y-auto flex-1">{data.map((ticket) => (
+                        <TicketView ticket={ticket} />
+                    ))}
+                    </section>}
         </DialogContent>
     </Dialog>
 }

@@ -1,12 +1,12 @@
 'use client'
 
-import { LogoutBtn } from "@/features"
 import { Link } from "@/i18n/routing"
 import { useAuthStore } from "@/modules/auth/model/auth.store"
 import { Button } from "@/shared/components/ui/button"
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { LogInIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { LogoutButton } from "./LogoutButton"
 
 export const AuthStatusButton = () => {
     const loading = useAuthStore(state => state.loading)
@@ -19,7 +19,7 @@ export const AuthStatusButton = () => {
             <Skeleton className="w-full h-[35px]" />
             :
             isLogged ?
-                <LogoutBtn />
+                <LogoutButton />
                 :
                 <Button variant={'default'} asChild><Link href={'/login'}>
                     <LogInIcon size={14} />{t('auth.login.btn')}</Link>

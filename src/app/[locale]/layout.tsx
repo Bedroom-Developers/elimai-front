@@ -1,11 +1,4 @@
-import { theme } from "@/app/theme";
 import { routing } from "@/i18n/routing";
-import {
-  ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider,
-} from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 import { Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -96,9 +89,8 @@ export default async function RootLayout({
   const messages = await getMessages();
   const t = await getTranslations();
   return (
-    <html lang={locale} className={nunito.className} {...mantineHtmlProps}>
+    <html lang={locale} className={nunito.className}>
       <head>
-        <ColorSchemeScript />
 
         <Script
           defer
@@ -107,12 +99,9 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <NextIntlClientProvider messages={messages}>
-            <Notifications />
-            {children}
-          </NextIntlClientProvider>
-        </MantineProvider>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
