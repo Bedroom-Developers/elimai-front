@@ -14,9 +14,9 @@ export const UserCertificate = () => {
 
     if (isLoading) {
         return (
-            <div className="space-y-4">
-                <Skeleton className="h-8 w-48" />
-                <Skeleton className="h-10 w-40" />
+            <div className="flex flex-col gap-10 items-center justify-center">
+                <Skeleton className="h-16 w-48" />
+                <Skeleton className="h-52 w-full" />
             </div>
         )
     }

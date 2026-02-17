@@ -45,6 +45,7 @@ export const LoginForm = () => {
         //TODO 
         // @ts-ignore
         setCookie("email", data.email);
+        setCookie("role", data.role);
         router.push("/");
       },
       onError: (error: ErrorType<{ non_field_errors: string[] }>) => {

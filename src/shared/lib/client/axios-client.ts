@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/modules/auth";
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
@@ -48,7 +49,6 @@ axiosApi.interceptors.response.use(
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      console.log("401");
       originalRequest._retry = true;
 
       console.log(
@@ -113,7 +113,7 @@ axiosApi.interceptors.response.use(
         deleteCookie("access");
         deleteCookie("refresh");
         refreshPromise = null;
-
+        useAuthStore.getState().logout();
         window.location.pathname = `/${getCookie("NEXT_LOCALE") ?? "ru"}/login`;
         //set zustand store
         return Promise.reject(refreshError);

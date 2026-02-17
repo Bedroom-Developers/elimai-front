@@ -16,11 +16,7 @@ export const formatEventName = (name: string, locale: string) => {
     return locale === "kz" ? `${elimai} — ${name}` : `${elimai} - ${name}`
 }
 
-export const formatEventNameFromEvent = (event: Event, locale: string) => {
-    const elimai = locale === "kz" ? "Елімай" : "Елимай"
-    const enemy = locale === "kz" ? event.name_kz : event.name_ru
-    return <div className="flex flex-col gap-1 md:flex-row w-full justify-center"><span>{elimai}</span> <span className="hidden md:block">—</span> <span>{enemy}</span></div>
-}
+
 export const formatPhoneNumber = (phone: string) => {
     return phone.replace(/[-+\s]/g, "")
 }

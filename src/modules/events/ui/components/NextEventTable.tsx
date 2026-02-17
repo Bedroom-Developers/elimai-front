@@ -2,7 +2,8 @@ import { Event } from "@/shared/api/generated"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table"
 import { useLocale, useTranslations } from "next-intl"
 import { BuyTicketDialog } from "../../../tickets/ui/dialogs/BuyTicketsDialog"
-import { formatEventDate, formatEventNameFromEvent } from "../../utils"
+import { formatEventDate } from "../../utils"
+import { EventTeamsLabel } from "./EventTeamsLabel"
 
 interface NextEventTableProps {
     event: Event
@@ -23,7 +24,7 @@ export const NextEventTable = ({ event, ticketsCount }: NextEventTableProps) => 
             <TableBody>
                 <TableRow>
                     <TableCell>{formatEventDate(event.event_date)}</TableCell>
-                    <TableCell className="text-center">{formatEventNameFromEvent(event, locale)}</TableCell>
+                    <TableCell className="text-center"><EventTeamsLabel event={event} className="justify-center" /></TableCell>
                     <TableCell className="text-right">{event.id && <BuyTicketDialog disabled={ticketsCount <= 0} variant="default" eventId={event.id} />}</TableCell>
                 </TableRow>
             </TableBody>

@@ -2,6 +2,8 @@
 import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument, PDFFont, PDFPage, rgb } from "pdf-lib";
 
+import { getEventTeams } from "@/modules/events/utils";
+import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 
 import { Ticket } from "../types";
 import { downloadPDF, generateQrDataUrl } from "../utils";
@@ -54,21 +56,101 @@ const initFont = async (pdfDoc: PDFDocument, fontPath: string) => {
     );
     return pdfDoc.embedFont(fontBytes);
 }
-const fillTicketTemplate = async (pdfDoc: PDFDocument, page: PDFPage, font: PDFFont, ticket: Ticket) => {
-    const width = page.getWidth();
-    const height = page.getHeight();
-    const QR_DIM = 100;
+const fillTicketTemplate = async (
+    pdfDoc: PDFDocument,
+    page: PDFPage,
+    font: PDFFont,
+    ticket: Ticket
+) => {
+    const pageWidth = page.getWidth();
+    const pageHeight = page.getHeight();
+    const pageHalf = pageWidth / 2;
+
+    // QR‑код по центру билета (как в исходной jsPDF‑версии),
+    // но масштабируем относительно ширины шаблона.
+    const QR_BASE_SIZE = 100;
+    const qrSize = (QR_BASE_SIZE / (pageWidth / 3)) * pageWidth;
+
     const qrUrl = await generateQrDataUrl(ticket.code);
     const qrImageBytes = await fetch(qrUrl).then((res) => res.arrayBuffer());
     const qrPngImage = await pdfDoc.embedPng(qrImageBytes);
     page.drawImage(qrPngImage, {
-        x: (width - QR_DIM) / 2,
-        y: (height - QR_DIM - 12) / 2,
-        width: QR_DIM,
-        height: QR_DIM,
+        x: (pageWidth - qrSize) / 2,
+        y: (pageHeight - qrSize - 12) / 2,
+        width: qrSize,
+        height: qrSize,
     });
 
-}
+    // Команды (Елимай / соперник) — в белой плашке вокруг "VS".
+    const { elimai, enemy } = getEventTeams(
+        { name_kz: ticket.name_kz, name_ru: ticket.name_ru },
+        "ru"
+    );
+
+    const teamFontSize = pageWidth * 0.035;
+    page.setFont(font);
+    page.setFontSize(teamFontSize);
+
+    const titleColor = rgb(0x69 / 255, 0x7b / 255, 0xd3 / 255); // #697BD3
+
+    // В jsPDF координаты шли от верхнего края:
+    //   y = pageHeight / 2 + 65
+    // Для pdf-lib (система координат от нижнего края) инвертируем:
+    const teamCenterYFromTop = pageHeight / 2 + 65;
+    const teamY = pageHeight / 3.55;
+
+    // Элимай — центрируем вокруг x = pageHalf / 1.6
+    const elimaiText = elimai.toUpperCase();
+    const elimaiWidth = font.widthOfTextAtSize(elimaiText, teamFontSize);
+    const elimaiCenterX = pageHalf / 1.6;
+    const elimaiX = elimaiCenterX - elimaiWidth / 2;
+
+    page.drawText(elimaiText, {
+        x: elimaiX,
+        y: teamY,
+        color: titleColor,
+    });
+
+    // Соперник — центрируем вокруг x = pageHalf + pageHalf / 2.8
+    const enemyText = enemy.toUpperCase();
+    const enemyWidth = font.widthOfTextAtSize(enemyText, teamFontSize);
+    const enemyCenterX = pageHalf + pageHalf / 2.8;
+    const enemyX = enemyCenterX - enemyWidth / 2;
+
+    page.drawText(enemyText, {
+        x: enemyX,
+        y: teamY,
+        color: titleColor,
+    });
+
+    // Дата — по центру под линией команд
+    const dateStr = dayjsTZ(ticket.date).tz(tz_5).format("DD.MM.YYYY");
+    const dateFontSize = pageWidth * 0.035;
+    page.setFontSize(dateFontSize);
+    const dateWidth = font.widthOfTextAtSize(dateStr, dateFontSize);
+
+    const dateY = pageHeight / 4.55;
+
+    page.drawText(dateStr, {
+        x: pageHalf - dateWidth / 2,
+        y: dateY,
+        color: rgb(1, 1, 1), // #ffffff
+    });
+
+    // Время — крупным шрифтом чуть ниже даты
+    const timeStr = dayjsTZ(ticket.date).tz(tz_5).format("HH:mm");
+    const timeFontSize = pageWidth * 0.035;
+    page.setFontSize(timeFontSize);
+    const timeWidth = font.widthOfTextAtSize(timeStr, timeFontSize);
+
+    const timeY = pageHeight / 6;
+
+    page.drawText(timeStr, {
+        x: pageHalf - timeWidth / 2,
+        y: timeY,
+        color: rgb(0xec / 255, 0xe7 / 255, 0x20 / 255), // #ECE720
+    });
+};
 const fillCertTemplate = async (
     pdfDoc: PDFDocument,
     page: PDFPage,
@@ -164,6 +246,27 @@ export const useCreatePdf = () => {
 
         downloadPDF(pdfDoc, "tickets");
     }
+    const renderTicketsPDF = async (tickets: Ticket[]) => {
+        if (tickets.length === 0) return null;
+
+        const pdfDoc = await initPdf();
+        const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
+
+        for (const ticket of tickets) {
+            const page = await addTemplate(pdfDoc, "/ticket-template.jpg");
+            if (!page) continue;
+            await fillTicketTemplate(pdfDoc, page, font, ticket);
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([new Uint8Array(pdfBytes)], {
+            type: "application/pdf",
+        });
+
+        const url = URL.createObjectURL(blob);
+        return url;
+    };
+
     const downloadCertPDF = async (cert: {
         code: string;
         full_name: string;
@@ -176,8 +279,17 @@ export const useCreatePdf = () => {
         const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
         const page = await addTemplate(pdfDoc, "/cert-template.png");
         if (!page) return;
-        await fillCertTemplate(pdfDoc, page, font, cert.code, cert.full_name, cert.count, cert.shareholder_level, cert.id);
+        await fillCertTemplate(
+            pdfDoc,
+            page,
+            font,
+            cert.code,
+            cert.full_name,
+            cert.count,
+            cert.shareholder_level,
+            cert.id
+        );
         downloadPDF(pdfDoc, `Certificate - ${cert.full_name}.pdf`);
-    }
-    return { downloadTicketsPDF, downloadCertPDF };
+    };
+    return { downloadTicketsPDF, downloadCertPDF, renderTicketsPDF };
 };

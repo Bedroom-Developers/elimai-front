@@ -1,10 +1,11 @@
-"use client";
+ "use client";
 import { Certificate } from "@/modules/users/types";
 import { useRef } from "react";
 import { Ticket } from "../types";
 import { generateQrDataUrl } from "../utils";
 import { useCacheTemplateImage } from "./useCacheTemplateImage";
-
+import { getEventTeams } from "@/modules/events/utils";
+import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 interface DataProps<T> {
     templateUrl: string;
     kind: string;
@@ -102,6 +103,81 @@ export const useCanvas = <T extends DataProps<CanvasData>>() => {
             if (!ctx) {
                 throw new Error("Failed to get canvas context");
             }
+
+            const pageWidth = width;
+            const pageHeight = height;
+            const pageHalf = pageWidth / 2;
+
+            // QR‑код по центру билета (как в PDF-версии)
+            const QR_BASE_SIZE = 100;
+            const qrSize = (QR_BASE_SIZE / (pageWidth / 3)) * pageWidth;
+
+            const qrUrl = await generateQrDataUrl(data.code);
+            const qrImage = await loadTemplateImage(qrUrl);
+
+            ctx.drawImage(
+                qrImage,
+                (pageWidth - qrSize) / 2,
+                (pageHeight - qrSize - 12) / 2,
+                qrSize,
+                qrSize
+            );
+
+            // Команды (Елимай / соперник)
+            const { elimai, enemy } = getEventTeams(
+                { name_kz: data.name_kz, name_ru: data.name_ru },
+                "ru"
+            );
+
+            const fontFamily = "Helvetica Neue";
+            const teamFontSize = pageWidth * 0.035;
+            ctx.font = `${teamFontSize}px ${fontFamily}`;
+            ctx.fillStyle = "#697BD3"; // #697BD3
+
+            // В PDF координаты считаются от нижнего края,
+            // здесь конвертируем те же значения под систему canvas (от верхнего края).
+            const teamYFromBottom = pageHeight / 3.55;
+            const teamY = pageHeight - teamYFromBottom;
+
+            // Элимай — центрируем вокруг x = pageHalf / 1.6
+            const elimaiText = elimai.toUpperCase();
+            const elimaiWidth = ctx.measureText(elimaiText).width;
+            const elimaiCenterX = pageHalf / 1.6;
+            const elimaiX = elimaiCenterX - elimaiWidth / 2;
+
+            ctx.fillText(elimaiText, elimaiX, teamY);
+
+            // Соперник — центрируем вокруг x = pageHalf + pageHalf / 2.8
+            const enemyText = enemy.toUpperCase();
+            const enemyWidth = ctx.measureText(enemyText).width;
+            const enemyCenterX = pageHalf + pageHalf / 2.8;
+            const enemyX = enemyCenterX - enemyWidth / 2;
+
+            ctx.fillText(enemyText, enemyX, teamY);
+
+            // Дата — по центру под линией команд
+            const dateStr = dayjsTZ(data.date).tz(tz_5).format("DD.MM.YYYY");
+            const dateFontSize = pageWidth * 0.035;
+            ctx.font = `${dateFontSize}px ${fontFamily}`;
+            ctx.fillStyle = "#FFFFFF";
+            const dateWidth = ctx.measureText(dateStr).width;
+
+            const dateYFromBottom = pageHeight / 4.55;
+            const dateY = pageHeight - dateYFromBottom;
+
+            ctx.fillText(dateStr, pageHalf - dateWidth / 2, dateY);
+
+            // Время — крупным шрифтом чуть ниже даты
+            const timeStr = dayjsTZ(data.date).tz(tz_5).format("HH:mm");
+            const timeFontSize = pageWidth * 0.035;
+            ctx.font = `${timeFontSize}px ${fontFamily}`;
+            ctx.fillStyle = "#ECE720"; // #ECE720
+            const timeWidth = ctx.measureText(timeStr).width;
+
+            const timeYFromBottom = pageHeight / 6;
+            const timeY = pageHeight - timeYFromBottom;
+
+            ctx.fillText(timeStr, pageHalf - timeWidth / 2, timeY);
         } catch (e) {
             console.error(e);
         }

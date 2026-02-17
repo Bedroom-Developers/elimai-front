@@ -1,7 +1,7 @@
 import { routing } from "@/i18n/routing";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminList } from "./shared/api/generated";
+import { ROLES } from "./modules/auth";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -11,8 +11,8 @@ export async function adminMiddleware(req: NextRequest) {
         if (!token) {
             throw new Error("No token found")
         }
-        const isAdmin = await isAdminList()
-        if (isAdmin?.role !== 'admin') {
+        const isAdmin = req.cookies.get("role")?.value == ROLES.ADMIN;
+        if (!isAdmin) {
             throw new Error("User is not admin")
         }
         return NextResponse.next()
