@@ -1,7 +1,7 @@
 import { TicketsPurchaseResultView } from "@/modules/tickets";
 
-export default function Page() {
+export default function Page({ searchParams }: { searchParams: { order: string } }) {
     return <section className="min-h-screen flex items-center justify-center">
-        <TicketsPurchaseResultView />
+        <TicketsPurchaseResultView order={searchParams.order} />
     </section>
 }

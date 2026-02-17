@@ -28,7 +28,7 @@ export default function LocaleSwitcher({ ...props }: LocaleSwitcherProps) {
 
     return (
         <Select value={locale} onValueChange={onValueChange}>
-            <SelectTrigger className="w-[80px] text-base" {...props}>
+            <SelectTrigger className="w-[80px] text-base " {...props}>
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>

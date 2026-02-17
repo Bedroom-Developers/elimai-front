@@ -155,6 +155,9 @@
     pointer-events: none;
   }
 }
+@utility no-overlap {
+  @apply whitespace-normal wrap-break-word;
+}
 
 @utility dropdown-item {
   @apply text-sm flex gap-2 items-center  px-2 hover:bg-gray-100 py-1 rounded-md;

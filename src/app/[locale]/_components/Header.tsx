@@ -16,7 +16,7 @@ export const Header = () => {
             </>}
         </LinkList>
         <section className="flex items-center gap-2">
-            <LocaleSwitcher />
+            <LocaleSwitcher className="bg-white" />
             <AuthStatusButton />
             <BurgerMenu />
         </section>
