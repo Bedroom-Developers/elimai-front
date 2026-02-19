@@ -33,7 +33,7 @@ export const PurchaseSuccessView = ({ tickets }: PurchaseSuccessViewProps) => {
                     <DownloadPDFTicketsButton tickets={tickets} className="w-full" />
                 </div>
 
-                {tickets.map(ticket => <TicketView ticket={ticket} />)}
+                {tickets.map(ticket => <TicketView key={ticket.code} ticket={ticket} />)}
             </div>
         </div>
     )

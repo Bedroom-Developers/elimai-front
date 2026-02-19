@@ -1,19 +1,18 @@
 "use client";
 import { Link, useRouter } from "@/i18n/routing";
 import {
-    useResetPasswordCreate,
-    useSendCodeCreate,
+  useResetPasswordCreate,
+  useSendCodeCreate,
 } from "@/shared/api/generated";
 import { Button } from "@/shared/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
 } from "@/shared/components/ui/card";
+import { FormField } from "@/shared/components/ui/form-field";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
-import { ValidationError } from "@/shared/components/ui/validation-error";
 import { ErrorType } from "@/shared/lib/client/custom-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -82,7 +81,7 @@ export const RestoreForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card role="restore-form" className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl text-center">
           {t("auth.restore.title")}
@@ -90,62 +89,58 @@ export const RestoreForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t("auth.email")}</Label>
+          <FormField
+            label={t("auth.email")}
+            name="email"
+            error={form.formState.errors.email?.message ? t(form.formState.errors.email.message) : undefined}
+            dataTestId="email_error"
+          >
             <Input
               id="email"
               type="email"
+              role="email-input"
               placeholder={t("auth.email")}
               aria-invalid={!!form.formState.errors.email}
               {...form.register("email")}
             />
-            <ValidationError
-              error={
-                form.formState.errors.email?.message
-                  ? t(form.formState.errors.email.message)
-                  : undefined
-              }
-            />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="newPassword">{t("auth.newPassword")}</Label>
+          <FormField
+            label={t("auth.newPassword")}
+            name="newPassword"
+            error={form.formState.errors.newPassword?.message ? t(form.formState.errors.newPassword.message) : undefined}
+            dataTestId="newPassword_error"
+          >
             <PasswordInput
               id="newPassword"
               placeholder={t("auth.newPassword")}
+              role="newPassword-input"
               aria-invalid={!!form.formState.errors.newPassword}
               {...form.register("newPassword")}
             />
-            <ValidationError
-              error={
-                form.formState.errors.newPassword?.message
-                  ? t(form.formState.errors.newPassword.message)
-                  : undefined
-              }
-            />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">{t("auth.confirmPassword")}</Label>
+          <FormField
+
+            label={t("auth.confirmPassword")}
+            name="confirmPassword"
+            error={form.formState.errors.confirmPassword?.message ? t(form.formState.errors.confirmPassword.message) : undefined}
+            dataTestId="confirmPassword_error"
+          >
             <PasswordInput
               id="confirmPassword"
               placeholder={t("auth.confirmPassword")}
+              role="confirmPassword-input"
               aria-invalid={!!form.formState.errors.confirmPassword}
               {...form.register("confirmPassword")}
             />
-            <ValidationError
-              error={
-                form.formState.errors.confirmPassword?.message
-                  ? t(form.formState.errors.confirmPassword.message)
-                  : undefined
-              }
-            />
-          </div>
+          </FormField>
 
           <div className="space-y-4">
             <Button
               variant="default"
               type="submit"
+              role="restore-form-submit-button"
               className="w-full"
               disabled={form.formState.isSubmitting || isPending}
             >

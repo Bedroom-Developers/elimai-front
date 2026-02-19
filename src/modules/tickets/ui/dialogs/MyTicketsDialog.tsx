@@ -47,7 +47,7 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
                     <span className="text-sm text-muted-foreground text-center">
                         {t("notFoundTickets.title")}</span> :
                     <section className="flex flex-col gap-2 items-center overflow-y-auto  h-[500px] md:h-[80vh]">{data.map((ticket) => (
-                        <TicketView ticket={ticket} />
+                        <TicketView key={ticket.code} ticket={ticket} />
                     ))}
                     </section>}
         </DialogContent>

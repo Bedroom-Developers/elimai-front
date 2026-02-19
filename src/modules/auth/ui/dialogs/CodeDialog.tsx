@@ -28,16 +28,16 @@ export const CodeDialog = ({
   const t = useTranslations();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} disablePointerDismissal> 
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
+    <Dialog open={open} onOpenChange={onOpenChange} >
+      <DialogContent showCloseButton={false} onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+        <DialogHeader role="code-dialog-header">
           <DialogTitle>{t("auth.confirm.title")}</DialogTitle>
-          <DialogDescription>
+          <DialogDescription role="code-dialog-description">
             {t("auth.confirm.description", { email })}
           </DialogDescription>
         </DialogHeader>
         <CodeForm onSubmit={onSubmit} isPending={isPending} />
-        <ResendCodeTimer email={email} actionType={actionType} />
+        <ResendCodeTimer initialSeconds={60} email={email} actionType={actionType} />
       </DialogContent>
     </Dialog>
   );

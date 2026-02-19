@@ -8,9 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { FormField } from "@/shared/components/ui/form-field";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
-import { ValidationError } from "@/shared/components/ui/validation-error";
 import { ErrorType } from "@/shared/lib/client/custom-instance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setCookie } from "cookies-next/client";
@@ -64,7 +63,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card role="login-form" className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl text-center">
           {t("auth.login.title")}
@@ -72,43 +71,40 @@ export const LoginForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t("auth.email")}</Label>
+          <FormField
+            label={t("auth.email")}
+            name="email"
+            error={form.formState.errors.email?.message ? t(form.formState.errors.email.message) : undefined}
+            dataTestId="email_error"
+          >
             <Input
               id="email"
               type="email"
+              role="email-input"
               placeholder={t("auth.email")}
               aria-invalid={!!form.formState.errors.email}
               {...form.register("email")}
             />
-            <ValidationError
-              error={
-                form.formState.errors.email?.message
-                  ? t(form.formState.errors.email.message)
-                  : undefined
-              }
-            />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">{t("auth.password")}</Label>
+          <FormField
+            label={t("auth.password")}
+            name="password"
+            error={form.formState.errors.password?.message ? t(form.formState.errors.password.message) : undefined}
+            dataTestId="password_error"
+          >
             <PasswordInput
               id="password"
+              role="password-input"
               placeholder={t("auth.password")}
               aria-invalid={!!form.formState.errors.password}
               {...form.register("password")}
             />
-            <ValidationError
-              error={
-                form.formState.errors.password?.message
-                  ? t(form.formState.errors.password.message)
-                  : undefined
-              }
-            />
-          </div>
+          </FormField>
 
           <div className="space-y-4">
             <Button
+              role="login-form-submit-button"
               variant="default"
               type="submit"
               className="w-full"

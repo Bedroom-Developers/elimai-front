@@ -80,9 +80,9 @@ export const EventsView = () => {
                     {nextEvent && nextEvent.id && nextEvent.status &&
                         <TicketsCountWrapper eventId={nextEvent.id} enabled={nextEvent.status == EventStatus.ACTIVE}>
                             {
-                                ({ ticketsCount, isLoading }) =>
+                                ({ ticketsCount, remaining, isLoading }) =>
                                     <>
-                                        <NextEventInfoCard status={nextEvent.status} ticketsCount={ticketsCount} isLoading={isLoading} />
+                                        <NextEventInfoCard remaining={remaining} status={nextEvent.status} ticketsCount={ticketsCount} isLoading={isLoading} />
                                         <NextEventTable event={nextEvent} ticketsCount={ticketsCount} />
                                     </>
 

@@ -1,7 +1,9 @@
 import { TicketsPurchaseResultView } from "@/modules/tickets";
 
-export default function Page({ searchParams }: { searchParams: { order: string } }) {
-    return <section className="min-h-screen flex items-center justify-center">
-        <TicketsPurchaseResultView order={searchParams.order} />
+export default async function Page({ searchParams }: { searchParams: Promise<{ order: string }> }) {
+    const { order } = await searchParams;
+
+    return <section data-testid="result-page" data-order={order} className="min-h-screen flex items-center justify-center">
+        <TicketsPurchaseResultView order={order} />
     </section>
 }

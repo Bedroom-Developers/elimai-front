@@ -14,7 +14,7 @@ export const PurchaseErrorView = ({ refetch }: PurchaseErrorViewProps) => {
     const t = useTranslations()
 
     return (
-        <div className="mx-auto flex max-w-2xl flex-col gap-6 p-4 sm:p-6">
+        <div data-testid="purchase-error-view" className="mx-auto flex max-w-2xl flex-col gap-6 p-4 sm:p-6">
             <Alert variant="error" className="py-4">
                 <AlertCircle className="size-5 shrink-0" />
                 <AlertTitle className="text-base">

@@ -28,6 +28,8 @@
     "./src/types/global.d.ts",
     "next-env.d.ts",
     "**/*.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],

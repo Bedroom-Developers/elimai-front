@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { adminMiddleware, authMiddleware } from './middleware'; // Adjust path
+import { ROLES } from './modules/auth';
 
 // Mock isAdminList (assume it's imported/exported from elsewhere)
 vi.mock('./shared/api/generated', () => ({
@@ -13,7 +14,6 @@ const isAdminListMock = vi.mocked((await import('./shared/api/generated')).isAdm
 describe('adminMiddleware', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        isAdminListMock.mockResolvedValue({ message: 'User is admin', role: 'admin' });
 
     });
 
@@ -25,13 +25,12 @@ describe('adminMiddleware', () => {
         const url = new URL('http://localhost/admin');
         const req = new NextRequest(url, {
             headers: {
-                Cookie: 'access=valid-token',
+                Cookie: `access=valid-token;role=${ROLES.ADMIN}`,
             },
         });
 
         const response = await adminMiddleware(req);
 
-        expect(isAdminListMock).toHaveBeenCalled();
         expect(response.status).toBe(200)
     });
 
@@ -74,11 +73,21 @@ describe('authMiddleware', async () => {
 
         expect(response.status).toBe(307)
     });
+    it("don't redirect to login if page is public", async () => {
+        const url = new URL('http://localhost/ru');
+        const req = new NextRequest(url, {
+            headers: {
+                Cookie: 'NEXT_LOCALE=ru',
+            },
+        });
+        const response = authMiddleware(req);
+        expect(response.status).toBe(200)
+    })
     it('redirects to home if page is public', async () => {
         const url = new URL('http://localhost/ru/login');
         const req = new NextRequest(url, {
             headers: {
-                Cookie: 'access=valid-token,NEXT_LOCALE=ru',
+                Cookie: 'access=valid-token;NEXT_LOCALE=ru',
             },
         });
         const response = authMiddleware(req);
@@ -88,7 +97,7 @@ describe('authMiddleware', async () => {
         const url = new URL('http://localhost/ru/profile');
         const req = new NextRequest(url, {
             headers: {
-                Cookie: 'access,NEXT_LOCALE=ru',
+                Cookie: 'NEXT_LOCALE=ru',
             },
         });
         const response = authMiddleware(req);

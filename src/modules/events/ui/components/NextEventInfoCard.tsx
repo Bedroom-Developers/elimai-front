@@ -6,11 +6,15 @@ interface NextEventInfoCardProps {
     ticketsCount: number
     status: string
     isLoading: boolean
+    remaining: number
 }
-export const NextEventInfoCard = ({ ticketsCount, status, isLoading }: NextEventInfoCardProps) => {
+export const NextEventInfoCard = ({ ticketsCount, status, isLoading, remaining }: NextEventInfoCardProps) => {
     const t = useTranslations();
 
     if (isLoading) return null
+    if (remaining <= 0 && ticketsCount > 0) {
+        return null;
+    }
 
     if (status == EventStatus.NEXT) {
         return (

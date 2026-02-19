@@ -11,7 +11,6 @@ import { LogoutButton } from "./LogoutButton"
 export const AuthStatusButton = () => {
     const loading = useAuthStore(state => state.loading)
     const isLogged = useAuthStore(state => state.isLogged)
-    console.log('loading', loading, new Date().toLocaleString())
 
     const t = useTranslations()
     return <section className="min-w-[103px]">

@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CodeSchema } from "../../schemas/code.schema";
 import { registerSchema, RegisterSchema } from "../../schemas/register.schema";
+import { PasswordInput } from "../components/PasswordInput";
 import { CodeDialog } from "../dialogs/CodeDialog";
 
 export const RegisterForm = () => {
@@ -50,7 +51,7 @@ export const RegisterForm = () => {
       },
     },
   });
-  const {mutate: verifyCode, isPending: isVerifyCodePending} = useVerifyCodeCreate({
+  const { mutate: verifyCode, isPending: isVerifyCodePending } = useVerifyCodeCreate({
     mutation: {
       onSuccess: () => {
         toast.success(t("auth.register.success"));
@@ -64,11 +65,11 @@ export const RegisterForm = () => {
 
   const onCodeSubmit: SubmitHandler<RegisterSchema> = (data) => {
     sendCode({
-      data: { email: data.email, type: "register", cabinet:"" },
+      data: { email: data.email, type: "register", cabinet: "" },
     });
   };
 
-  const onRegisterSubmit= (data:CodeSchema) => {
+  const onRegisterSubmit = (data: CodeSchema) => {
     const email = form.getValues("email");
     const password = form.getValues("password");
     verifyCode({ data: { email, code: data.code, password } });
@@ -88,11 +89,13 @@ export const RegisterForm = () => {
             <Input
               id="email"
               type="email"
+              role="email-input"
               placeholder={t("auth.email")}
               aria-invalid={!!form.formState.errors.email}
               {...form.register("email")}
             />
             <ValidationError
+              dataTestId="email_error"
               error={
                 form.formState.errors.email?.message
                   ? t(form.formState.errors.email.message)
@@ -103,14 +106,16 @@ export const RegisterForm = () => {
 
           <div className="space-y-2">
             <Label htmlFor="password">{t("auth.password")}</Label>
-            <Input
+            <PasswordInput
               id="password"
               type="password"
+              role="password-input"
               placeholder={t("auth.password")}
               aria-invalid={!!form.formState.errors.password}
               {...form.register("password")}
             />
             <ValidationError
+              dataTestId="password_error"
               error={
                 form.formState.errors.password?.message
                   ? t(form.formState.errors.password.message)
@@ -121,14 +126,16 @@ export const RegisterForm = () => {
 
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">{t("auth.confirmPassword")}</Label>
-            <Input
+            <PasswordInput
               id="confirmPassword"
               type="password"
+              role="confirmPassword-input"
               placeholder={t("auth.confirmPassword")}
               aria-invalid={!!form.formState.errors.confirmPassword}
               {...form.register("confirmPassword")}
             />
             <ValidationError
+              dataTestId="confirmPassword_error"
               error={
                 form.formState.errors.confirmPassword?.message
                   ? t(form.formState.errors.confirmPassword.message)
@@ -142,6 +149,7 @@ export const RegisterForm = () => {
               variant="default"
               type="submit"
               className="w-full"
+              role="register-form-submit-button"
               disabled={form.formState.isSubmitting || isPending}
             >
               {form.formState.isSubmitting

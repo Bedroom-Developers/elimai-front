@@ -19,6 +19,7 @@ export const ALLOWED_DOMAINS_FOR_REGISTER = [
   "proton.me",
   "pm.me",
   "ispark.kz",
+  "abai-it.kz"
 ];
 export const ALLOWED_DOMAINS_FOR_RESTORE = [
   ...ALLOWED_DOMAINS_FOR_REGISTER,

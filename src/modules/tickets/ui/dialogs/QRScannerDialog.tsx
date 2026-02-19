@@ -1,6 +1,6 @@
 "use client";
 
-import { rScanCert, rScanSub, rScanTicket } from "@/shared/api/games";
+import { shareholderScanList, ShareholderScanListParams, ticketScanList, TicketScanListParams } from "@/shared/api/generated";
 import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -86,7 +86,7 @@ export function QRScannerDialog() {
 
   const { mutate: scanTicket, isPending: isLoadingTicket } = useMutation({
     mutationKey: ["scan ticket"],
-    mutationFn: rScanTicket,
+    mutationFn: (params: TicketScanListParams) => ticketScanList(params),
     onSettled: () => setPaused(false),
     onSuccess: () => setRes({ status: 200, message: resultMsg.scan }),
     onError: (e: {
@@ -107,33 +107,13 @@ export function QRScannerDialog() {
     },
   });
 
-  const { mutate: scanSub, isPending: isLoadingSub } = useMutation({
-    mutationKey: ["scan sub"],
-    mutationFn: rScanSub,
-    onSettled: () => setPaused(false),
-    onSuccess: () => setRes({ status: 200, message: resultMsg.scan }),
-    onError: (e: {
-      message: keyof typeof resultMsg;
-      status: number;
-      time?: string;
-    }) => {
-      setRes({
-        status: 400,
-        message:
-          resultMsg[e.message] +
-          (e.time
-            ? `Время последнего сканирования: ${e.time.replace("+", " ")}`
-            : ""),
-      });
-    },
-  });
 
   const { mutate: scanCert, isPending: isLoadingCert } = useMutation({
     mutationKey: ["scan cert"],
-    mutationFn: rScanCert,
+    mutationFn: (params: ShareholderScanListParams) => shareholderScanList(params),
     onSettled: () => setPaused(false),
     onSuccess: (data) => {
-      const lvl = Number(data.shareholder_level.split("-")[0]);
+      const lvl = Number(data?.shareholder_level?.split("-")[0]);
       setRes({
         status: 200,
         message:
@@ -175,9 +155,6 @@ export function QRScannerDialog() {
       switch (type) {
         case "ticket":
           scanTicket({ event_id: id as string, code });
-          break;
-        case "aboniment":
-          scanSub({ event_id: id as string, code });
           break;
         case "cert":
           scanCert({ event_id: id as string, code });
@@ -227,7 +204,7 @@ export function QRScannerDialog() {
           </div>
           <div className="w-full max-w-[358px]">
             <ResultView
-              loading={isLoadingTicket || isLoadingSub || isLoadingCert}
+              loading={isLoadingTicket || isLoadingCert}
               result={res}
             />
           </div>

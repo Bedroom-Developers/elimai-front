@@ -10,6 +10,8 @@ const publicRoutes: string[] = [
   "send-code",
   "verify-code",
   "reset-password",
+  'get-events',
+  'get-tickets-count'
 ];
 axiosApi.interceptors.request.use(
   (config) => {

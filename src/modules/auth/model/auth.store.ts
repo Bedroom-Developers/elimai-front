@@ -28,6 +28,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 return
             }
             const res = await isAdminList()
+            console.log('res', res)
             if (res) {
                 set({ isLogged: true, role: res.role as Role ?? null, loading: false });
             }

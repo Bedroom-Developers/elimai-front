@@ -19,7 +19,7 @@ export const BurgerMenu = () => {
         <SheetContent side="right" className="p-4">
             <LinkList className="flex-col  flex items-start">
                 {(links) => <>
-                    {links.map(link => <SheetClose asChild><Navlink key={link.href} href={link.href} label={link.label} withIntl {...link.options} />
+                    {links.map(link => <SheetClose key={link.href} asChild><Navlink href={link.href} label={link.label} withIntl {...link.options} />
                     </SheetClose>
                     )}
                     <AdminNavlink />

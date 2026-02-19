@@ -17,12 +17,11 @@ export async function adminMiddleware(req: NextRequest) {
         }
         return NextResponse.next()
     } catch (e) {
-        console.error(e)
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
 }
 
-const publicRoutes = ['register', 'login']
+const publicRoutes = ['register', 'login', ' ']
 
 const privateRoutes = ['profile']
 
