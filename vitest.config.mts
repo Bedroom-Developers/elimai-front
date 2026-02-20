@@ -11,6 +11,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './src/test-setup.ts',
+    reporters: ['default', 'junit', 'github-actions'],
+    outputFile: {
+      junit: './test-results.xml'
+    },
 
     server: {
       deps: {
