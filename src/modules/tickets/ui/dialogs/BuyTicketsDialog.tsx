@@ -23,7 +23,6 @@ export const BuyTicketDialog = ({ eventId, again = false, ...props }: BuyTicketD
                     toast.error(t("buy.toast.error"))
                     return;
                 }
-                console.log(url)
                 window.location.href = url
                 setOpened(false)
             },

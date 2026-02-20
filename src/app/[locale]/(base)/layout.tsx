@@ -7,7 +7,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     const t = await getTranslations()
     return <section >
         <Header />
-        <main className="px-2 md:px-0 my-5">
+        <main className="px-2 md:px-0 ">
             {children}
         </main>
         <PartnersSection />

@@ -47,7 +47,6 @@ const createStoreUncurried = <T>(
 export const createStore = (<T>(
     stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
-    console.log('zustand createStore mock')
 
     // to support curried version of createStore
     return typeof stateCreator === 'function'

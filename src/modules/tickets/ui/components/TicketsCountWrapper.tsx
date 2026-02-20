@@ -8,7 +8,6 @@ interface TicketsCountWrapperProps {
 export const TicketsCountWrapper = ({ eventId, enabled, children }: TicketsCountWrapperProps) => {
 
     const { data: ticketsCount, isLoading } = useTicketsCountData(eventId, enabled)
-    console.log('ticketsCountWrapper', ticketsCount)
 
 
     return children({ ticketsCount: ticketsCount?.ticketsCount ?? 0, remaining: ticketsCount?.remaining ?? 0, isLoading })

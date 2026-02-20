@@ -28,7 +28,7 @@ export const ResendCodeTimer = ({
         start();
       },
       onError: (e) => {
-        console.log(e);
+        console.error(e);
         toast.error(tErrors("auth.code.message"));
       },
     }

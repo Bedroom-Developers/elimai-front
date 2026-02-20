@@ -1,7 +1,7 @@
 import { Event, exportTicketsList } from "@/shared/api/generated"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/components/ui/alert-dialog"
+import dayjsTZ from "@/shared/dayjs"
 import { useMutation } from "@tanstack/react-query"
-import dayjs from "dayjs"
 import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -28,7 +28,7 @@ export const GetReportDialog = ({ children, event, closeDropdown }: GetReportDia
             const url = window.URL.createObjectURL(data);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `${event.name_ru}-${dayjs(event.event_date).format(
+            a.download = `${event.name_ru}-${dayjsTZ(event.event_date).format(
                 "YYYY-MM-DD HH:mm"
             )}.xlsx`;
             document.body.appendChild(a);
@@ -38,7 +38,7 @@ export const GetReportDialog = ({ children, event, closeDropdown }: GetReportDia
             closeDropdown()
         },
         onError: (e) => {
-            console.log(e);
+            console.error(e);
             toast.error("Ошибка при получении отчета")
         },
     });

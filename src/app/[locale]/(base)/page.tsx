@@ -1,7 +1,7 @@
 import { EventsView } from "@/modules/events/ui/components/EventsView";
 import { MyTicketsDialog } from "@/modules/tickets";
+import dayjsTZ from "@/shared/dayjs";
 import { cn } from "@/shared/lib/utils";
-import dayjs from "dayjs";
 import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
 
@@ -18,7 +18,7 @@ export default async function HomePage() {
                 {t("hero.subtitle")}
               </span>
               <span className="text-xs font-bold text-white md:text-[13px] lg:text-sm">
-                {dayjs(new Date()).format("DD.MM.YYYY")}
+                {dayjsTZ(new Date()).format("DD.MM.YYYY")}
               </span>
             </div>
             <h1 className="text-xl font-bold text-white md:text-2xl lg:text-[28px]">

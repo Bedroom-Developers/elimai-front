@@ -65,7 +65,6 @@ export const useQrScanner = ({ id }: UseQrScannerProps) => {
 
     const onScanCertError = (e: ShareholderScanListQueryError) => {
         if (!e.response) return;
-        console.log(e.response.data);
 
         if (e.response.status == 400) {
             setResult({ status: "error", message: resultMessages.finally });

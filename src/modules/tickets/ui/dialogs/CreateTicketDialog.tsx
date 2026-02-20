@@ -1,6 +1,6 @@
 import { Event, useTicketsCreate } from "@/shared/api/generated"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/components/ui/alert-dialog"
-import dayjs from "dayjs"
+import dayjsTZ from "@/shared/dayjs"
 import { toast } from "sonner"
 import { useCreatePdf } from "../../hooks/use-pdf"
 
@@ -37,7 +37,7 @@ export const CreateTicketDialog = ({ closeDropdown, children, event }: CreateTic
                 event: event.id,
                 email: 'admin',
                 telephone: 'admin',
-                will_deactivate_at: dayjs(event.event_date).format("YYYY-MM-DD"),
+                will_deactivate_at: dayjsTZ(event.event_date).format("YYYY-MM-DD"),
                 status: 'Active',
                 code: 'ticket-' + Date.now(),
                 payment: null

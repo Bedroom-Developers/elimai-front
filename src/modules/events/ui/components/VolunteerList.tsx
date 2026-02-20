@@ -1,7 +1,7 @@
 "use client"
 import { useVolunteerList, VolunteerList200Item } from "@/shared/api/generated"
 import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert"
-import { AlertCircleIcon, AlertTriangleIcon } from "lucide-react"
+import { AlertCircleIcon, AlertTriangleIcon, User } from "lucide-react"
 import { EVENT_QUERY_KEY } from "../../constants"
 import { DeleteVolunteerDialog } from "../dialogs/DeleteVolunteerDialog"
 import { VolunteerListSkeleton } from "./VolunteerList.skeleton"
@@ -11,13 +11,24 @@ interface ListItemProps {
     volunteer: VolunteerList200Item
 }
 const ListItem = ({ id, volunteer }: ListItemProps) => {
-    return <div className="flex justify-between items-center p-2 border border-gray-200 rounded-md bg-slate-50">
-        <div className="flex items-center gap-2">
-            <span >{id}.</span>
-            <p>{volunteer.email}</p>
+    return (
+        <div className="flex items-center justify-between gap-4 rounded-lg border bg-card px-4 py-3 shadow-sm transition-colors hover:bg-muted/50">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <User className="size-4 text-muted-foreground" aria-hidden />
+                </div>
+                <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-foreground">{volunteer.email}</p>
+                    <span className="text-xs text-muted-foreground">#{id}</span>
+                </div>
+            </div>
+            {volunteer.email && (
+                <div className="shrink-0">
+                    <DeleteVolunteerDialog volunteerEmail={volunteer.email} />
+                </div>
+            )}
         </div>
-        {volunteer.email && <DeleteVolunteerDialog volunteerEmail={volunteer.email} />}
-    </div>
+    )
 }
 export const VolunteerList = () => {
     const { data: volunteers, isLoading, error } = useVolunteerList({ query: { queryKey: EVENT_QUERY_KEY.VOLUNTEERS } })
@@ -42,10 +53,11 @@ export const VolunteerList = () => {
             </Alert>
         )
     }
-    return <section>
-        {volunteers.map((volunteer, idx) => (
-            <ListItem key={idx} id={idx + 1} volunteer={volunteer} />
-        ))}
-
-    </section>
+    return (
+        <section className="flex flex-col gap-2">
+            {volunteers.map((volunteer, idx) => (
+                <ListItem key={volunteer.email ?? idx} id={idx + 1} volunteer={volunteer} />
+            ))}
+        </section>
+    )
 }

@@ -25,7 +25,6 @@ export const CreateEventDialog = () => {
         }
     })
     const onSubmit = (data: CreateEventSchema) => {
-        console.log(data);
         createEvent({
             data: {
                 name_ru: data.name_ru,
