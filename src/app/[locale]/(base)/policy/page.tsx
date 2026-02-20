@@ -1,24 +1,40 @@
-import { BackgroundImage, Box, Stack, Text, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
-import styles from './page.module.css';
+
 export async function generateMetadata() {
     const t = await getTranslations();
     return {
-        title: t('policy.title'),
-        description: t('policy.description'),
-    }
+        title: t("policy.title"),
+        description: t("policy.description"),
+    };
 }
 
 export default async function Page() {
     const t = await getTranslations();
-    return (<Box>
-        <BackgroundImage pos={'relative'} w={'100%'} h={'30vh'} src='/policy.jpg' >
-            <Box style={{ zIndex: 1 }} pos={'absolute'} inset={0} bg={'rgba(0,0,0,.4)'} />
-            <Stack pos={'relative'} style={{ zIndex: 2 }} px={{ xs: 10, xl: 0 }} h={'100%'} maw={1200} mx={'auto'} justify='center' gap={10}>
-                <Title order={1} c='white'>{t('policy.title')}</Title>
-            </Stack>
-        </BackgroundImage>
-        <Text px={{ sm: 10, lg: 0 }} my={20} mx={'auto'} maw={800} ta={'center'}>{t.rich('policy.value', { a: (chunk) => <a className={styles.link} href="https://tickets.fcelimai.kz/">{chunk}</a> })}</Text>
-    </Box>
+    return (
+        <div>
+            <div
+                className="relative h-[30vh] w-full bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: "url('/policy.jpg')" }}
+            >
+                <div className="absolute inset-0 z-1 bg-black/40" />
+                <div className="relative z-2 mx-auto flex h-full max-w-[1200px] flex-col justify-center gap-2.5 px-4 xl:px-0">
+                    <h1 className="text-3xl font-bold text-white">
+                        {t("policy.title")}
+                    </h1>
+                </div>
+            </div>
+            <p className="mx-auto my-20 max-w-4xl px-2.5 text-center lg:px-0">
+                {t.rich("policy.value", {
+                    a: (chunk) => (
+                        <a
+                            href="https://tickets.fcelimai.kz/"
+                            className="font-bold hover:underline"
+                        >
+                            {chunk}
+                        </a>
+                    ),
+                })}
+            </p>
+        </div>
     );
 }

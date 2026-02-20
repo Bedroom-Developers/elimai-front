@@ -1,19 +1,37 @@
-import { GamesTable, HeroSection } from "@/widgets";
-import { Box } from "@mantine/core";
+import { EventsView } from "@/modules/events/ui/components/EventsView";
+import { MyTicketsDialog } from "@/modules/tickets";
+import dayjsTZ from "@/shared/dayjs";
+import { cn } from "@/shared/lib/utils";
 import { getTranslations } from "next-intl/server";
+import styles from "./page.module.css";
 
 export default async function HomePage() {
   const t = await getTranslations();
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-
   return (
-    <Box>
-      <HeroSection />
-      <GamesTable />
-    </Box>
+    <section >
+      <div className={cn(styles.image, "w-screen -ml-2 md:ml-0 -mr-2 md:mr-0")}>
+        <div className="absolute inset-0 z-1 bg-black/10" />
+        <div className="relative z-2 flex h-full max-w-[1200px] mx-auto flex-col justify-center gap-2.5 px-4 xl:px-0">
+          <div className="absolute bottom-2.5 bg-black/40 p-4 md:p-8 rounded-lg ">
+            <div className="flex items-center gap-2.5">
+              <span className="mr-2.5 bg-[#ff8700] px-2.5 py-0.75 text-xs font-bold uppercase text-white md:text-[13px] xl:text-sm">
+                {t("hero.subtitle")}
+              </span>
+              <span className="text-xs font-bold text-white md:text-[13px] lg:text-sm">
+                {dayjsTZ(new Date()).format("DD.MM.YYYY")}
+              </span>
+            </div>
+            <h1 className="text-xl font-bold text-white md:text-2xl lg:text-[28px]">
+              {t("hero.title")}
+            </h1>
+          </div>
+        </div>
+      </div>
+      <section className="flex justify-end max-w-4xl mx-auto">
+        <MyTicketsDialog className="my-2" />
+      </section>
+
+      <EventsView />
+    </section>
   );
 }
