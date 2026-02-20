@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
 
       - name: Install dependencies
@@ -32,3 +32,37 @@ jobs:
 
       - name: Run tests
         run: pnpm run test
+        env:
+          CI: true
+
+      - name: Debug test results
+        if: always()
+        run: |
+          ls -la test-results.xml || echo "JUnit XML missing"
+          ls -la || echo "Root dir contents"
+
+      - name: Publish test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: test-results.xml
+          check_name: 'Vitest Tests ${{ github.run_number }}'
+
+      - name: Send Telegram notification
+        if: always()
+        uses: appleboy/telegram-action@v1.0.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            *Build Results*
+
+            📂 Repo: ${{ github.repository }}
+            🆔 Run: ${{ github.run_id }}
+            📊 Status: **${{ job.status }}**
+            🔗 [View Workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            📋 [Test Report](https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks)
+
+            Build: pnpm build ✅
+            Tests: pnpm test ${{ job.status }}
