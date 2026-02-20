@@ -2,7 +2,7 @@ name: Build Test
 
 on:
   pull_request:
-    branches: [canary]
+    branches: [canary, dev]
   workflow_dispatch:
 
 jobs:
