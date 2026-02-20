@@ -7,6 +7,7 @@ import { useState } from "react"
 import { AdminNavlink } from "./AdminNavlink"
 import { LinkList } from "./LinkList"
 import { Navlink } from "./Navlink"
+import { VolunteerNavlink } from "./VolunteerNavlink"
 
 export const BurgerMenu = () => {
     const [open, setOpen] = useState(false)
@@ -23,6 +24,7 @@ export const BurgerMenu = () => {
                     </SheetClose>
                     )}
                     <AdminNavlink />
+                    <VolunteerNavlink />
                 </>}
             </LinkList>
         </SheetContent>

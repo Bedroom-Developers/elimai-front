@@ -5,6 +5,10 @@
  * API documentation for your mobile backend
  * OpenAPI spec version: v1
  */
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,13 +23,9 @@ import type {
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
 
+import { customInstance } from '../lib/client/custom-instance';
 import type { ErrorType } from '../lib/client/custom-instance';
-import customInstance from '../lib/client/custom-instance';
 
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
@@ -283,7 +283,7 @@ export type CreateUserShareholderCreateBody = {
   iin: string;
   phone: string;
   birth_date: string;
-  personal_account_number: string;
+  personal_account_number?: string;
   share_count: number;
 };
 
@@ -405,6 +405,8 @@ export type LoginCreate200 = {
   access: string;
   refresh: string;
   role: string;
+  email?: string;
+  full_name?: string;
 };
 
 export type PurchaseShareCreateBody = {
@@ -531,6 +533,7 @@ export type UpdateUserDataPartialUpdateBody = {
   phone?: string;
   birth_date?: string;
   personal_account_number?: string;
+  email?: string;
 };
 
 export type UpdateUserStocksPartialUpdateBody = {
@@ -566,8 +569,6 @@ export type VerifyCodeCreateBody = {
   email?: string;
   /** Код подтверждения */
   code: string;
-  /** Полное имя пользователя */
-  full_name?: string;
   /** Пароль пользователя */
   password: string;
 };

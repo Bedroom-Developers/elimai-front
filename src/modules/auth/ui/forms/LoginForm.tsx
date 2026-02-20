@@ -37,14 +37,15 @@ export const LoginForm = () => {
   const { mutate: login, isPending } = useLoginCreate({
     mutation: {
       onSuccess: (data: LoginCreate200) => {
+
         setIsLogged(true);
         setRole(data.role as Role);
+
         setCookie("access", data.access);
         setCookie("refresh", data.refresh);
-        //TODO 
-        // @ts-ignore
         setCookie("email", data.email);
         setCookie("role", data.role);
+
         router.push("/");
       },
       onError: (error: ErrorType<{ non_field_errors: string[] }>) => {

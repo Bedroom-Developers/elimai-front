@@ -35,7 +35,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.status === 403) {
-                    set({ isLogged: true, role: 'user', loading: false });
+                    set({ isLogged: true, role: error.response?.data.role as Role ?? 'user', loading: false });
                     return;
                 }
                 if (error.status === 401) {

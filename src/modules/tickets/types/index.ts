@@ -5,3 +5,11 @@ export type Ticket = {
     status: string;
     code: string;
 };
+export type ScanStatus = "idle" | "loading" | "success" | "error";
+
+export type ScanResult =
+    | { status: "idle" }
+    | { status: "loading" }
+    | { status: "success"; message: string }
+    | { status: "error"; message: string };
+

@@ -22,7 +22,7 @@ export const EventActions = ({ event }: EventActionsProps) => {
             <DropdownMenuGroup>
                 <DropdownMenuLabel>Управление событием</DropdownMenuLabel>
                 {event.id && <>
-                    <CreateTicketDialog closeDropdown={closeDropdown} >
+                    <CreateTicketDialog event={event} closeDropdown={closeDropdown} >
                         <DropdownMenuItem>
                             <PlusIcon />
                             Создать билет
