@@ -5,7 +5,7 @@ export const CertView = ({ certData }: { certData: Certificate }) => {
     const { canvasRef } = useResizeObserver({
         data: certData,
         kind: 'certificate',
-        templateUrl: '/cert-template.png'
+        templateUrl: '/cert-template.PNG'
     })
     return (
         <canvas

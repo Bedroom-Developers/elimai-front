@@ -1,5 +1,5 @@
 import { Event } from "@/shared/api/generated"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table"
 import { useLocale, useTranslations } from "next-intl"
 import { BuyTicketDialog } from "../../../tickets/ui/dialogs/BuyTicketsDialog"
 import { formatEventDate } from "../../utils"
@@ -28,6 +28,9 @@ export const NextEventTable = ({ event, ticketsCount }: NextEventTableProps) => 
                     <TableCell className="text-right">{event.id && <BuyTicketDialog disabled={ticketsCount <= 0} variant="default" eventId={event.id} />}</TableCell>
                 </TableRow>
             </TableBody>
+            <TableCaption>
+                {t("gamesTable.caption")}
+            </TableCaption>
         </Table >
     )
 }

@@ -10,7 +10,7 @@ const links = [
 
 export const PartnersSection = () => {
     return (
-        <div className="flex flex-wrap justify-center  items-center gap-2 sm:gap-2.5 pb-2.5 ">
+        <div className="flex flex-wrap justify-center mt-2  items-center gap-2 sm:gap-2.5 pb-2.5 ">
             {links.map((link) => (
                 <Link
                     key={link.href}
