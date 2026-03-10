@@ -1,11 +1,11 @@
- "use client";
+"use client";
+import { getEventTeams } from "@/modules/events/utils";
 import { Certificate } from "@/modules/users/types";
+import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 import { useRef } from "react";
 import { Ticket } from "../types";
 import { generateQrDataUrl } from "../utils";
 import { useCacheTemplateImage } from "./useCacheTemplateImage";
-import { getEventTeams } from "@/modules/events/utils";
-import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 interface DataProps<T> {
     templateUrl: string;
     kind: string;
@@ -109,7 +109,7 @@ export const useCanvas = <T extends DataProps<CanvasData>>() => {
             const pageHalf = pageWidth / 2;
 
             // QR‑код по центру билета (как в PDF-версии)
-            const QR_BASE_SIZE = 100;
+            const QR_BASE_SIZE = 150;
             const qrSize = (QR_BASE_SIZE / (pageWidth / 3)) * pageWidth;
 
             const qrUrl = await generateQrDataUrl(data.code);

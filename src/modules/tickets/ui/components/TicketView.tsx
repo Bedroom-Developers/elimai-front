@@ -8,7 +8,7 @@ export const TicketView = ({ ticket }: TicketViewProps) => {
     const { canvasRef } = useResizeObserver({
         data: ticket,
         kind: 'ticket',
-        templateUrl: '/ticket-template.jpg'
+        templateUrl: '/ticket-template.png'
     })
     return <canvas
         width={564}

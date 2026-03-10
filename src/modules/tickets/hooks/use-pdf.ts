@@ -68,7 +68,7 @@ const fillTicketTemplate = async (
 
     // QR‑код по центру билета (как в исходной jsPDF‑версии),
     // но масштабируем относительно ширины шаблона.
-    const QR_BASE_SIZE = 100;
+    const QR_BASE_SIZE = 150;
     const qrSize = (QR_BASE_SIZE / (pageWidth / 3)) * pageWidth;
 
     const qrUrl = await generateQrDataUrl(ticket.code);
@@ -239,7 +239,7 @@ export const useCreatePdf = () => {
         const pdfDoc = await initPdf();
         const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
         for (const ticket of tickets) {
-            const page = await addTemplate(pdfDoc, "/ticket-template.jpg");
+            const page = await addTemplate(pdfDoc, "/ticket-template.png");
             if (!page) continue;
             await fillTicketTemplate(pdfDoc, page, font, ticket);
         }
@@ -253,7 +253,7 @@ export const useCreatePdf = () => {
         const font = await initFont(pdfDoc, "/fonts/HelveticaNeue-Roman.otf");
 
         for (const ticket of tickets) {
-            const page = await addTemplate(pdfDoc, "/ticket-template.jpg");
+            const page = await addTemplate(pdfDoc, "/ticket-template.png");
             if (!page) continue;
             await fillTicketTemplate(pdfDoc, page, font, ticket);
         }
