@@ -10,7 +10,7 @@ import { VolunteerNavlink } from "./VolunteerNavlink"
 export const Header = () => {
     return <header className="flex items-center justify-between px-4 py-2">
         <Image src={'/logonew.png'} width={50} height={50} alt='e-logo' />
-        <LinkList >
+        <LinkList>
             {(links) => <>
                 {links.map(link => <Navlink key={link.href} href={link.href} label={link.label} withIntl {...link.options} />)}
                 <AdminNavlink />

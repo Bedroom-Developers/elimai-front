@@ -1,4 +1,5 @@
 'use client'
+import { AuthProtectedButton } from "@/modules/auth/ui/components/AuthProtectedButton"
 import { useGetTicketsByUserList } from "@/shared/api/generated"
 import { Button } from "@/shared/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/components/ui/dialog"
@@ -29,9 +30,9 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
 
     return <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-            <Button {...props}>
+            <AuthProtectedButton variant={'default'} onClick={() => setOpen(true)} {...props}>
                 {t('label')}
-            </Button>
+            </AuthProtectedButton >
         </DialogTrigger>
         <DialogContent className="md:max-w-2xl  space-y-2 flex flex-col   ">
             <DialogHeader>

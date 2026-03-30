@@ -4,7 +4,7 @@ import { useCreateTicketCreate } from "@/shared/api/generated"
 import { Button } from "@/shared/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/components/ui/dialog"
 import { getCookie } from "cookies-next/client"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { ComponentProps, useState } from "react"
 import { toast } from "sonner"
 import { BuyTicketsSchema } from "../../../events/schemas/buy.schema"
@@ -16,6 +16,7 @@ type BuyTicketDialogProps = {
 } & ComponentProps<typeof Button>
 export const BuyTicketDialog = ({ eventId, again = false, ...props }: BuyTicketDialogProps) => {
     const t = useTranslations()
+    const locale = useLocale()
     const { mutate: createTicket, isPending } = useCreateTicketCreate({
         mutation: {
             onSuccess: ({ url }) => {
@@ -45,6 +46,7 @@ export const BuyTicketDialog = ({ eventId, again = false, ...props }: BuyTicketD
                 EVENT_ID: eventId,
                 COUNT: Number(data.count),
                 TYPE: "Ticket",
+                LOCALE: locale,
             }
         })
     }
