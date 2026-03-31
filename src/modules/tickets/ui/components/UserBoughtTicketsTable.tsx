@@ -28,7 +28,9 @@ export const UserBoughtTicketsTable = () => {
                 <TableHeader>
                     <TableRow>
                         <TableHead>{t("table.headers.match")}</TableHead>
-                        <TableHead>{t("table.headers.ticketCount")}</TableHead>
+                        <TableHead>
+                            <span className=" no-overlap text-center"> {t("table.headers.ticketCount")}</span>
+                        </TableHead>
                         <TableHead>{t("table.headers.tickets")}</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -71,7 +73,9 @@ export const UserBoughtTicketsTable = () => {
         <TableHeader>
             <TableRow>
                 <TableHead>{t("table.headers.match")}</TableHead>
-                <TableHead>{t("table.headers.ticketCount")}</TableHead>
+                <TableHead >
+                    <span className=" no-overlap text-center"> {t("table.headers.ticketCount")}</span>
+                </TableHead>
                 <TableHead>{t("table.headers.tickets")}</TableHead>
             </TableRow>
         </TableHeader>
