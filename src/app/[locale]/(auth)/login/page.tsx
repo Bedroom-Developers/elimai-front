@@ -1,12 +1,8 @@
-import { LoginForm } from "@/features/forms";
-import { Stack } from "@mantine/core";
-import Image from "next/image";
+import { LoginForm } from "@/modules/auth";
 
 export default function LoginPage() {
-    return <Stack align='center' justify='center' mih={'100vh'}>
-
-        <Image src='/logonew.png' width={100} height={100} alt="fcelimai logo" />
+    return <section className="flex flex-col items-center justify-center min-h-screen px-2 md:px-0">
         <LoginForm />
-    </Stack>
+    </section>
 
 }

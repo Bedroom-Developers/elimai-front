@@ -1,35 +1,34 @@
 import { routing } from "@/i18n/routing";
-import { rIsAdmin } from "@/shared/api/auth";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { ROLES } from "./modules/auth";
 
 const intlMiddleware = createMiddleware(routing);
 
-async function adminMiddleware(req: NextRequest) {
+export async function adminMiddleware(req: NextRequest) {
     try {
         const token = req.cookies.get("access");
-        const { pathname } = req.nextUrl;
         if (!token) {
             throw new Error("No token found")
         }
-
-        const isAdmin = await rIsAdmin(token.value)
-        if (!isAdmin && pathname == '/admin') {
+        const isAdmin = req.cookies.get("role")?.value == ROLES.ADMIN;
+        if (!isAdmin) {
             throw new Error("User is not admin")
         }
         return NextResponse.next()
     } catch (e) {
-        console.error(e)
         return NextResponse.redirect(new URL(`/ru/login`, req.url))
     }
 }
-const publicRoutes = ['register', 'login']
+
+const publicRoutes = ['register', 'login', ' ']
+
 const privateRoutes = ['profile']
 
-function authMiddleware(req: NextRequest) {
+export function authMiddleware(req: NextRequest) {
     const token = req.cookies.get("access");
     const { pathname } = req.nextUrl;
-    const locale = pathname.split("/")[1];
+    const locale = req.cookies.get('NEXT_LOCALE')?.value ?? 'kz';
     const params = pathname.slice(4, pathname.length)
     if ((privateRoutes.includes(params)) && !token) {
         return NextResponse.redirect(new URL(`/${locale}/login`, req.url))
@@ -45,7 +44,6 @@ function authMiddleware(req: NextRequest) {
 export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
-    const locale = pathname.split("/")[1];
     if (pathname.startsWith("/admin")) {
         return adminMiddleware(req);
     }

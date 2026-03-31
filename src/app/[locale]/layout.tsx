@@ -1,11 +1,4 @@
-import { theme } from "@/app/theme";
 import { routing } from "@/i18n/routing";
-import {
-  ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider,
-} from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 import { Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -28,7 +21,7 @@ export const viewport: Viewport = {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
   const t = await getTranslations("meta");
@@ -84,10 +77,9 @@ export default async function RootLayout({
   params,
   children,
 }: {
-  params: { locale: string };
-  children: any;
+  params: Promise<{ locale: string }>;
+  children: React.ReactNode;
 }) {
-  // Ensure that the incoming `locale` is valid
   const { locale } = await params;
   if (!routing.locales.includes(locale as any)) {
     notFound();
@@ -96,9 +88,8 @@ export default async function RootLayout({
   const messages = await getMessages();
   const t = await getTranslations();
   return (
-    <html lang={locale} className={nunito.className} {...mantineHtmlProps}>
+    <html lang={locale} className={nunito.className}>
       <head>
-        <ColorSchemeScript />
 
         <Script
           defer
@@ -107,12 +98,9 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <NextIntlClientProvider messages={messages}>
-            <Notifications />
-            {children}
-          </NextIntlClientProvider>
-        </MantineProvider>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
