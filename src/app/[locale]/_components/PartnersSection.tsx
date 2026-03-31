@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const links = [
+    { img: "/abai.png", href: "#" },
+    { img: "/kaz_logo.svg", href: "https://www.kazminerals.com/ru/" },
     { img: "/logonew.png", href: "/" },
     { img: "/it-hub.png", href: "https://www.instagram.com/abai_it?igsh=MWU3MmIyNTdnMG05aQ==" },
-    { img: "/kaz_logo.svg", href: "https://www.kazminerals.com/ru/" }
-
 
 ];
 
