@@ -1,14 +1,14 @@
-import { useCreatePdf } from "@/modules/tickets/hooks/use-pdf"
 import { useMyShareholderList } from "@/shared/api/generated"
 import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert"
 import { Button } from "@/shared/components/ui/button"
 import { Skeleton } from "@/shared/components/ui/skeleton"
 import { useTranslations } from "next-intl"
+import { useState } from "react"
 import { formatCertificateData } from "../../utils"
 import { CertView } from "./CertView"
 
 export const UserCertificate = () => {
-    const { downloadCertPDF } = useCreatePdf()
+    const [isGenerating, setIsGenerating] = useState(false)
     const { data, isLoading, error } = useMyShareholderList()
     const t = useTranslations("userCertificate")
 
@@ -50,11 +50,22 @@ export const UserCertificate = () => {
             </Alert>
         )
     }
+
+    const onDownload = async () => {
+        setIsGenerating(true)
+        try {
+            const { createPdfActions } = await import("@/modules/tickets/hooks/use-pdf")
+            await createPdfActions().downloadCertPDF(formatCertificateData(data))
+        } finally {
+            setIsGenerating(false)
+        }
+    }
+
     return (
         <section className="flex flex-col items-center justify-center gap-10">
             <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
             <CertView certData={formatCertificateData(data)} />
-            <Button onClick={() => downloadCertPDF(formatCertificateData(data))}>
+            <Button disabled={isGenerating} onClick={onDownload}>
                 {t("download")}
             </Button>
         </section>

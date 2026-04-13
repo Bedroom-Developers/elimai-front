@@ -2,7 +2,6 @@ import { Event, useTicketsCreate } from "@/shared/api/generated"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/components/ui/alert-dialog"
 import dayjsTZ from "@/shared/dayjs"
 import { toast } from "sonner"
-import { useCreatePdf } from "../../hooks/use-pdf"
 
 interface CreateTicketDialogProps {
     closeDropdown: () => void
@@ -11,11 +10,11 @@ interface CreateTicketDialogProps {
 }
 
 export const CreateTicketDialog = ({ closeDropdown, children, event }: CreateTicketDialogProps) => {
-    const { downloadTicketsPDF } = useCreatePdf()
     const { mutate: createTicket, isPending } = useTicketsCreate({
         mutation: {
-            onSuccess: (data) => {
-                downloadTicketsPDF([{
+            onSuccess: async (data) => {
+                const { createPdfActions } = await import("../../hooks/use-pdf")
+                await createPdfActions().downloadTicketsPDF([{
                     code: data.code,
                     status: 'Active',
                     date: new Date().toISOString(),

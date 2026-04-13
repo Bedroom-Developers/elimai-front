@@ -1,4 +1,4 @@
-import { QRScannerDialog } from "@/modules/tickets";
+import { QRScannerDialog } from "@/modules/tickets/ui/dialogs/QRScannerDialog";
 import {
     Card,
     CardContent,

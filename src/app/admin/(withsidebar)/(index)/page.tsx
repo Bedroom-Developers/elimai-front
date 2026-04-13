@@ -1,4 +1,5 @@
-import { CreateEventDialog, EventsManagementTable } from "@/modules/events";
+import { CreateEventDialog } from "@/modules/events/ui/dialogs/CreateEventDialog";
+import { EventsManagementTable } from "@/modules/events/ui/components/EventsManagementTable";
 
 export default function Page() {
     return <section className="flex flex-col gap-5 w-full ">

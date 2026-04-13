@@ -1,5 +1,5 @@
 'use client'
-import { useAuthStore } from "@/modules/auth"
+import { useAuthStore } from "@/modules/auth/model/auth.store"
 import { eventLimitList, getTicketsCountList } from "@/shared/api/generated"
 import { useQuery } from "@tanstack/react-query"
 export const ticketsCountDataQueryFn = async (eventId: number, isLogged: boolean) => {

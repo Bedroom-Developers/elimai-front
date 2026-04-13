@@ -1,5 +1,5 @@
 "use client";
-import { AuthContext } from "@/modules/auth";
+import { AuthContext } from "@/modules/auth/ui/components/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "dayjs/locale/ru";
 import { ReactNode, useState } from "react";

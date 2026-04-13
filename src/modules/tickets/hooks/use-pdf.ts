@@ -6,7 +6,8 @@ import { getEventTeams } from "@/modules/events/utils";
 import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 
 import { Ticket } from "../types";
-import { downloadPDF, generateQrDataUrl } from "../utils";
+import { downloadPDF } from "../utils/pdf";
+import { generateQrDataUrl } from "../utils/qr";
 const initPdf = async () => {
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
@@ -233,7 +234,7 @@ const fillCertTemplate = async (
     });
 };
 
-export const useCreatePdf = () => {
+export const createPdfActions = () => {
     const downloadTicketsPDF = async (tickets: Ticket[]) => {
         if (tickets.length === 0) return;
         const pdfDoc = await initPdf();
@@ -293,3 +294,5 @@ export const useCreatePdf = () => {
     };
     return { downloadTicketsPDF, downloadCertPDF, renderTicketsPDF };
 };
+
+export const useCreatePdf = () => createPdfActions();

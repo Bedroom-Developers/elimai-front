@@ -1,7 +1,7 @@
 import { routing } from "@/i18n/routing";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { ROLES } from "./modules/auth";
+import { ROLES } from "./modules/auth/constants";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -21,21 +21,30 @@ export async function adminMiddleware(req: NextRequest) {
     }
 }
 
-const publicRoutes = ['register', 'login', ' ']
+const publicRoutes = new Set(["register", "login", "restore"]);
+const privateRoutes = new Set(["profile"]);
 
-const privateRoutes = ['profile']
+const getRouteSegment = (pathname: string) => {
+    const [, locale, segment] = pathname.split("/");
+    if (!locale || !routing.locales.includes(locale as any)) {
+        return "";
+    }
+
+    return segment ?? "";
+};
 
 export function authMiddleware(req: NextRequest) {
     const token = req.cookies.get("access");
     const { pathname } = req.nextUrl;
     const locale = req.cookies.get('NEXT_LOCALE')?.value ?? 'kz';
-    const params = pathname.slice(4, pathname.length)
-    if ((privateRoutes.includes(params)) && !token) {
+    const routeSegment = getRouteSegment(pathname);
+
+    if (privateRoutes.has(routeSegment) && !token) {
         return NextResponse.redirect(new URL(`/${locale}/login`, req.url))
     }
 
-    if ((publicRoutes.includes(params)) && token) {
-        return NextResponse.redirect(new URL(`/`, req.url))
+    if (publicRoutes.has(routeSegment) && token) {
+        return NextResponse.redirect(new URL(`/${locale}`, req.url))
     }
 
     return intlMiddleware(req);

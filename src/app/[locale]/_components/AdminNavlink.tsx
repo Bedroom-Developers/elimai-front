@@ -1,6 +1,7 @@
 'use client'
 
-import { ROLES, useAuthStore } from "@/modules/auth"
+import { ROLES } from "@/modules/auth/constants"
+import { useAuthStore } from "@/modules/auth/model/auth.store"
 import { Navlink } from "./Navlink"
 
 export const AdminNavlink = () => {

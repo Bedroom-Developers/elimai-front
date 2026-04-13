@@ -20,6 +20,7 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
     const [open, setOpen] = useState(false)
 
     const t = useTranslations("gamesTable.myTickets");
+    const tGamesTable = useTranslations("gamesTable");
     const { data, isLoading, error } = useGetTicketsByUserList({
         query: {
             enabled: isEnabled(open, tickets)
@@ -46,7 +47,7 @@ export const MyTicketsDialog = ({ tickets, ...props }: MyTicketsDialogProps) => 
                 <Skeleton className="w-full h-full" />
                 : !data ?
                     <span className="text-sm text-muted-foreground text-center">
-                        {t("notFoundTickets.title")}</span> :
+                        {tGamesTable("notFoundTickets.title")}</span> :
                     <section className="flex flex-col gap-2 items-center overflow-y-auto  h-[500px] md:h-[80vh]">{data.map((ticket) => (
                         <TicketView key={ticket.code} ticket={ticket} />
                     ))}

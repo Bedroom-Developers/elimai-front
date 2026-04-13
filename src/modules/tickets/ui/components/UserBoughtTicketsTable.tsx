@@ -1,6 +1,6 @@
 'use client'
 
-import { formatEventName } from "@/modules/events"
+import { formatEventName } from "@/modules/events/utils"
 import { useGetTicketsByUserList } from "@/shared/api/generated"
 import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert"
 import { Skeleton } from "@/shared/components/ui/skeleton"

@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/modules/auth";
+import { useAuthStore } from "@/modules/auth/model/auth.store";
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 

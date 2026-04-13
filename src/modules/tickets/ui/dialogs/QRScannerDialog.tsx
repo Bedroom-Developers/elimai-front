@@ -9,11 +9,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/components/ui/dialog";
-import { Scanner } from "@yudiel/react-qr-scanner";
 import { CheckIcon, Loader2, QrCode, XIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useQrScanner } from "../../hooks/use-qr-scanner";
 import { ScanResult } from "../../types";
+
+const Scanner = dynamic(
+  () => import("@yudiel/react-qr-scanner").then((mod) => mod.Scanner),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[250px] items-center justify-center text-sm text-muted-foreground">
+        Инициализация камеры...
+      </div>
+    ),
+  }
+);
 
 
 

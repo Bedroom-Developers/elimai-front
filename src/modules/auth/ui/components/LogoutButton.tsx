@@ -1,5 +1,5 @@
 import { useRouter } from "@/i18n/routing"
-import { useAuthStore } from "@/modules/auth"
+import { useAuthStore } from "@/modules/auth/model/auth.store"
 import { Button } from "@/shared/components/ui/button"
 import { deleteCookie } from "cookies-next/client"
 import { LogOutIcon } from "lucide-react"

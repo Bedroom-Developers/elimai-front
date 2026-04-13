@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const links = [
-    { img: "/abai.png", href: "#" },
-    { img: "/kaz_logo.svg", href: "https://www.kazminerals.com/ru/" },
-    { img: "/logonew.png", href: "/" },
-    { img: "/it-hub.png", href: "https://www.instagram.com/abai_it?igsh=MWU3MmIyNTdnMG05aQ==" },
+    { img: "/abai.png", href: "#", alt: "Abai" },
+    { img: "/kaz_logo.svg", href: "https://www.kazminerals.com/ru/", alt: "Kaz Minerals" },
+    { img: "/logonew.png", href: "/", alt: "FC Elimai" },
+    { img: "/it-hub.png", href: "https://www.instagram.com/abai_it?igsh=MWU3MmIyNTdnMG05aQ==", alt: "IT Hub" },
 
 ];
 
@@ -15,11 +16,15 @@ export const PartnersSection = () => {
                 <Link
                     key={link.href}
                     href={link.href}
-                    target="_blank"
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
-                    <img
+                    <Image
                         src={link.img}
-                        alt="logo"
+                        alt={link.alt}
+                        width={100}
+                        height={100}
+                        sizes="(max-width: 640px) 60px, (max-width: 768px) 75px, 100px"
                         className="w-[60px] sm:w-[75px] md:w-[100px] h-auto"
                     />
                 </Link>

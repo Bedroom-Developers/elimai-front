@@ -1,5 +1,6 @@
 'use client'
-import { CreateTicketDialog, GetReportDialog } from "@/modules/tickets"
+import { CreateTicketDialog } from "@/modules/tickets/ui/dialogs/CreateTicketDialog"
+import { GetReportDialog } from "@/modules/tickets/ui/dialogs/GetReportDialog"
 import { Event } from "@/shared/api/generated"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/components/ui/dropdown-menu"
 import { EllipsisIcon, FileIcon, PlusIcon, SquarePen, Trash } from "lucide-react"

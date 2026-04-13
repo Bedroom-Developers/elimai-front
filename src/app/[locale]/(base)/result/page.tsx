@@ -1,4 +1,4 @@
-import { TicketsPurchaseResultView } from "@/modules/tickets";
+import { TicketsPurchaseResultView } from "@/modules/tickets/ui/components/TicketsPurchaseResultView";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ order: string }> }) {
     const { order } = await searchParams;

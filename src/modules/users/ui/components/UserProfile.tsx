@@ -1,6 +1,6 @@
 'use client'
 
-import { UserBoughtTicketsTable } from "@/modules/tickets";
+import { UserBoughtTicketsTable } from "@/modules/tickets/ui/components/UserBoughtTicketsTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { useTranslations } from "next-intl";
 import { UserCertificate } from "./UserCertificate";

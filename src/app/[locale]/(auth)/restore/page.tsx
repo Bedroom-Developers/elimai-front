@@ -1,4 +1,4 @@
-import { RestoreForm } from "@/modules/auth";
+import { RestoreForm } from "@/modules/auth/ui/forms/RestoreForm";
 
 
 

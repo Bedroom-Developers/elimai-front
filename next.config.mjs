@@ -7,8 +7,12 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   reactStrictMode: false,
   output: "standalone",
-};
-export default withSentryConfig(withNextIntl(nextConfig), {
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       {
@@ -17,6 +21,8 @@ export default withSentryConfig(withNextIntl(nextConfig), {
       },
     ];
   },
+};
+export default withSentryConfig(withNextIntl(nextConfig), {
   org: "sentry",
   project: "fc-elimai-ui",
   sentryUrl: "https://sentry.ispark.kz/",

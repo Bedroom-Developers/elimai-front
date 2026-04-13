@@ -4,7 +4,7 @@ import { Certificate } from "@/modules/users/types";
 import dayjsTZ, { tz_5 } from "@/shared/dayjs";
 import { useRef } from "react";
 import { Ticket } from "../types";
-import { generateQrDataUrl } from "../utils";
+import { generateQrDataUrl } from "../utils/qr";
 import { useCacheTemplateImage } from "./useCacheTemplateImage";
 interface DataProps<T> {
     templateUrl: string;

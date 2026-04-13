@@ -1,4 +1,4 @@
-import { AuthStatusButton } from "@/modules/auth"
+import { AuthStatusButton } from "@/modules/auth/ui/components/AuthStatusButton"
 import Image from "next/image"
 import { AdminNavlink } from "./AdminNavlink"
 import { BurgerMenu } from "./BurgerMenu"

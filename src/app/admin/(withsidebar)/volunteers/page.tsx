@@ -1,4 +1,5 @@
-import { CreateVolunteerDialog, VolunteerList } from "@/modules/events";
+import { CreateVolunteerDialog } from "@/modules/events/ui/dialogs/CreateVolunteerDialog";
+import { VolunteerList } from "@/modules/events/ui/components/VolunteerList";
 
 export default function VolunteersPage() {
   return (
