@@ -20,6 +20,11 @@ export const EventsView = () => {
         return getNextEvent(events)
     }, [events]);
 
+    const prevEvents = useMemo(() => {
+        if (!events) return [];
+        return events.filter((event) => event.status === EventStatus.INACTIVE)
+    }, [events]);
+
 
     if (isLoading) {
         return <EventListSkeleton />
@@ -71,7 +76,7 @@ export const EventsView = () => {
             >
                 <TabsList className=" w-full gap-1  ">
                     <TabsTrigger value="next">{t("gamesTable.tabs.next")}</TabsTrigger>
-                    <TabsTrigger value="prev">{t("gamesTable.tabs.prev")}</TabsTrigger>
+                    <TabsTrigger disabled={prevEvents.length === 0} value="prev">{t("gamesTable.tabs.prev")}</TabsTrigger>
                 </TabsList>
                 <TabsContent
                     value="next"
@@ -90,10 +95,11 @@ export const EventsView = () => {
                         </TicketsCountWrapper>}
                 </TabsContent>
                 <TabsContent
+
                     value="prev"
                     className="min-h-40 flex  justify-center border rounded-md p-1"
                 >
-                    <EventCalendar events={events.filter((event) => event.status === EventStatus.INACTIVE)} />
+                    <EventCalendar events={prevEvents} />
                 </TabsContent>
 
             </Tabs>
